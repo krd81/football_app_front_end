@@ -4,18 +4,37 @@
 }
 
 body {
+    background-image: url('../assets/backgrounds/grass-background.jpg');
+    background-position: center ;
+    background-size: 95%;
+    background-repeat: repeat;
+    background-attachment: fixed;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .homepage {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
     margin: 1rem;
     align-items: center;
 }
 
 
-/* h1, h2 {
-    font-size: small ;
+/* Tablet */
+@media only screen and (min-width: 600px) {
+    body {
+        background-size: 100%;
+        background-position: initial ;
 
-} */
+    }
+}
+
+
+/* Desktop */
+@media only screen and (min-width: 1200px) {
+    body {
+        background-size: 50%;
+        background-attachment: fixed;
+    }
+}

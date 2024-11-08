@@ -4,7 +4,7 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: rgb(0, 0, 0);
   background-color: #242424;
 
   font-synthesis: none;
@@ -12,6 +12,26 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.paytone-one-h1 {
+  line-height: 1.5;
+  font-family: "Paytone One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 3em;
+  text-align: center;
+}
+
+
+
+.paytone-one-h2 {
+  font-family: "Paytone One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 3em;
+  text-align: center;
+}
+
 
 a {
   font-weight: 500;
@@ -30,10 +50,7 @@ body {
   min-height: 100vh;
 }
 
-h1 {
-  font-size: xx-large;
-  line-height: 2vh;
-}
+
 
 button {
   border-radius: 8px;
@@ -54,36 +71,31 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+
+
+/* Tablet */
+@media only screen and (min-width: 600px) {
+  .paytone-one-h1 {
+    font-size: 6em;
   }
-  a:hover {
-    color: #747bff;
+
+  .paytone-one-h2 {
+    font-size: 5em;
   }
-  button {
-    background-color: #f9f9f9;
-  }
+
 }
+
 
 
 /* Desktop */
 @media only screen and (min-width: 1280px) {
-  h1 {
-    font-size: 3.2em;
+  .paytone-one-h1 {
+    font-size: 5em;
+    line-height: 1;
   }
 
-}
-
-/* Tablet */
-@media only screen and (min-width: 600px) {
-  h1 {
-    font-size: 3.2em;
-  }
-
-  h2 {
-    font-size: 2.5em;
+  .paytone-one-h2 {
+    font-size: 3.5em;
   }
 
 }
