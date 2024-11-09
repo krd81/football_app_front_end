@@ -1,0 +1,152 @@
+{
+    "success": true,
+     "data": {
+        "match": [{
+            "country": {
+                "is_real": true,
+                "id": 71,
+                "uefa_code": "",
+                "name": "Australia",
+                "fifa_code": "AUS",
+                "flag": "AUS.png"
+                },
+            "last_changed": "2023-12-18 08:42:53",
+            "home": {
+                "stadium": "Campbelltown Stadium",
+                "id": 6581,
+                "logo": "https://cdn.live-score-api.com/teams/b9d463b08c43de617618f7ec65a54cc3.png",
+                "name": "Macarthur",
+                "country_id": "71"
+                },
+            "added": "2023-12-18 07:45:06",
+            "status": "IN PLAY",
+            "federation": null,
+            "location": "Campbelltown Stadium",
+            "scheduled": "08:00",
+            "competition": {
+                "tier": 1,
+                "is_cup": false,
+                "has_groups": true,
+                "id": 67,
+                "active": true,
+                "name": "Hyundai A-League",
+                "is_league": true,
+                "national_teams_only": false
+                },
+            "id": 483252,
+            "time": "43",
+            "fixture_id": 1657338,
+            "odds": {
+                "live": {
+                    "1": 5.6,
+                    "2": 1.61,
+                    "X": 3.55
+                    },
+                "pre": {
+                    "1": 2,
+                    "2": 3.45,
+                    "X": 3.85
+                    }
+                },
+            "away": {
+                "stadium": "Westpac Stadium",
+                "id": 202,
+                "logo": "https://cdn.live-score-api.com/teams/004d52954bd4936cc14e30b4511073ab.png",
+                "name": "Wellington Phoenix",
+                "country_id": "71"
+                },
+            "outcomes": {
+                "half_time": null,
+                "full_time": null,
+                "extra_time": null,
+                "penalty_shootout": null
+                },
+            "scores": {
+                "score": "0 - 1",
+                "ht_score": "",
+                "ft_score": "",
+                "et_score": "",
+                "ps_score": ""
+                },
+            "urls": {
+                "events": "https://livescore-api.com/api-client/scores/events.json?id=483252",
+                "statistics": "https://livescore-api.com/api-client/matches/stats.json?match_id=483252",
+                "lineups": "https://livescore-api.com/api-client/matches/lineups.json?match_id=483252",
+                "head2head": "https://livescore-api.com/api-client/teams/head2head.json?team1_id=6581&team2_id=202"
+                }
+            },
+            {
+                "country": {
+                    "is_real": true,
+                    "id": 90,
+                    "uefa_code": "",
+                    "name": "Indonesia",
+                    "fifa_code": "IDN",
+                    "flag": "IDN.png"
+                    },
+                "last_changed": "2023-12-18 08:42:52",
+                "home": {
+                    "stadium": "Stadion Brawijaya",
+                    "id": 5746,
+                    "logo": "https://cdn.live-score-api.com/teams/ee2fd3a662dc351faf3b6fa4e1b57074.png",
+                    "name": "Persik Kediri",
+                    "country_id": "90"
+                    },
+                "added": "2023-12-18 07:45:07",
+                "status": "IN PLAY",
+                "federation": null,
+                "location": "Stadion Brawijaya",
+                "scheduled": "08:00",
+                "competition": {
+                    "tier": 1,
+                    "is_cup": false,
+                    "has_groups": true,
+                    "id": 27,
+                    "active": true,
+                    "name": "GO-JEK Liga 1",
+                    "is_league": true,
+                    "national_teams_only": false
+                    },
+                "id": 483253,
+                "time": "43",
+                "fixture_id": 1624810,
+                "odds": {
+                    "live": {
+                        "1": 2.38,
+                        "2": 3.6,
+                        "X": 2.43
+                        },
+                    "pre": {
+                        "1": 1.98,
+                        "2": 3.3,
+                        "X": 3.15
+                        }
+                    },
+                "away": {
+                    "stadium": "Stadion Andi Mattalatta",
+                    "id": 204,
+                    "logo": "https://cdn.live-score-api.com/teams/d39724be7ff1da90678b25cf3be6e6f1.png",
+                    "name": "PSM Makassar",
+                    "country_id": "90"
+                    },
+                "outcomes": {
+                    "half_time": null,
+                    "full_time": null,
+                    "extra_time": null,
+                    "penalty_shootout": null
+                    },
+                "scores": {
+                    "score": "0 - 0",
+                    "ht_score": "",
+                    "ft_score": "",
+                    "et_score": "",
+                    "ps_score": ""
+                    },
+                "urls": {"events": "https://livescore-api.com/api-client/scores/events.json?id=483253",
+                    "statistics": "https://livescore-api.com/api-client/matches/stats.json?match_id=483253",
+                    "lineups": "https://livescore-api.com/api-client/matches/lineups.json?match_id=483253",
+                    "head2head": "https://livescore-api.com/api-client/teams/head2head.json?team1_id=5746&team2_id=204"
+                    }
+            }]
+        }
+    }
