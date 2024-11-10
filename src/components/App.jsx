@@ -2,6 +2,7 @@ import '../css/app.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import NavBar from './NavBar'
 import Homepage from './Homepage'
+import Fixtures from './Fixtures'
 
 function App() {
 
@@ -17,18 +18,15 @@ function App() {
     <>
     <BrowserRouter>
     <div>
-
         <NavBar>
-
-        <Routes>
-        <Route path='/' />
-        {/* <Route path='/home' element={<HomePage />} /> */}
-      </Routes>
-      </NavBar>
-
+          <Routes>
+            <Route path='/' element={<Homepage />} />
+            <Route path='/fixtures' element={<Fixtures />} />
+          </Routes>
+        </NavBar>
       </div>
     </BrowserRouter>
-    <Homepage />
+
 
     </>
   )
