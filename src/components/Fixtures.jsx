@@ -28,7 +28,7 @@ const Fixtures = () => {
   return (
     <>
     <div>
-      <h1>Hello!</h1>
+      <h1>Hello everyone!</h1>
       <p>{`${matches[0].homeName} vs ${matches[0].awayName}`}</p>
     </div>
     </>
