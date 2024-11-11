@@ -22,7 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-.envelope*
+.env*
 
 miscellaneous.md
 miscellaneous2.json

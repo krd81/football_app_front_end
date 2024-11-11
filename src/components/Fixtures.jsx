@@ -29,7 +29,10 @@ const Fixtures = () => {
     <>
     <div>
       <h1>Hello everyone!</h1>
-      <p>{`${matches[0].homeName} vs ${matches[0].awayName}`}</p>
+      {matches[0]?
+        <p>{`${matches[0].homeName} vs ${matches[0].awayName}`}</p>
+        :
+        null }
     </div>
     </>
   )
