@@ -1,4 +1,5 @@
 import { React, useState, useEffect } from 'react'
+import '../css/Fixtures.css'
 
 const Fixtures = () => {
   const [matches, setMatches] = useState([])
@@ -22,17 +23,28 @@ const Fixtures = () => {
         console.error(error.message);
       }
     }
+
     fetchData();
   }, []);
 
   return (
     <>
     <div>
-      <h1>Hello everyone!</h1>
-      {matches[0]?
-        <p>{`${matches[0].homeName} vs ${matches[0].awayName}`}</p>
-        :
-        null }
+      <h1>Fixtures:</h1>
+    </div>
+    <div>
+     {matches?.map((match, index) => {
+        return (
+          <>
+          <div className='match-list'>
+            <p>{`${index+1}. ${match.homeName} vs ${match.awayName}`}</p>
+            <p>{`Kick-off: ${match.time}`}</p>
+            <p>{`${match.location}`}</p>
+            </div>
+          </>
+        )
+      })
+    }
     </div>
     </>
   )
