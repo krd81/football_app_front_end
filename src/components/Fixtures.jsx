@@ -3,15 +3,17 @@ import { React, useState, useEffect } from 'react'
 const Fixtures = () => {
   const [matches, setMatches] = useState([])
 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const apiUrl = import.meta.env.VITE_API_URL;
+        // const apiUrl = import.meta.env.VITE_API_URL;
+        const apiUrl = 'http://127.0.0.1:8002';
         const fixtures = await fetch(`${apiUrl}/fixtures/`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+            'Authorization': `null`
           }
         })
         const fixtureData = await fixtures.json();
@@ -26,7 +28,8 @@ const Fixtures = () => {
   return (
     <>
     <div>
-      <p>${matches[0].homeName} vs ${matches[0].awayName}</p>
+      <h1>Hello!</h1>
+      <p>{`${matches[0].homeName} vs ${matches[0].awayName}`}</p>
     </div>
     </>
   )

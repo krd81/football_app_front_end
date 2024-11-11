@@ -17,14 +17,15 @@ function App() {
   return (
     <>
     <BrowserRouter>
+    <NavBar />
     <div>
-        <NavBar>
           <Routes>
+
             <Route path='/' element={<Homepage />} />
             <Route path='/fixtures' element={<Fixtures />} />
+
           </Routes>
-        </NavBar>
-      </div>
+          </div>
     </BrowserRouter>
 
 
