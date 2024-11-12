@@ -1,0 +1,14 @@
+@keyframes title-effect {
+    0% {color: rgb(0, 128, 0);}
+    25% {color: rgb(44, 255, 44);}
+    50% {color: rgb(0, 128, 0);}
+    75% {color: rgb(44, 255, 44);}
+    100% {color: rgb(0, 128, 0);}
+
+}
+
+.title-hero {
+    animation-name: title-effect;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}

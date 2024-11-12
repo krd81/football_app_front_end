@@ -15,7 +15,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.train-one-regular-h1 {
+.title-hero {
   font-family: "Train One", system-ui;
   font-weight: 400;
   font-style: normal;
@@ -89,7 +89,7 @@ button:focus-visible {
 
 /* Tablet */
 @media only screen and (min-width: 600px) {
-  .train-one-regular-h1, .paytone-one-h1 {
+  .title-hero, .paytone-one-h1 {
     font-size: 6em;
   }
 
@@ -103,7 +103,7 @@ button:focus-visible {
 
 /* Desktop */
 @media only screen and (min-width: 1280px) {
-  .train-one-regular-h1, .paytone-one-h1 {
+  .title-hero, .paytone-one-h1 {
     font-size: 5em;
     line-height: 1;
   }
