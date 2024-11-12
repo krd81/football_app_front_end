@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import NavBar from './NavBar'
 import Homepage from './Homepage'
 import Fixtures from './Fixtures'
+import Predictions from './Predictions'
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
 
             <Route path='/' element={<Homepage />} />
             <Route path='/fixtures' element={<Fixtures />} />
+            <Route path='/predictions' element={<Predictions />} />
 
           </Routes>
           </div>

@@ -1,0 +1,43 @@
+.match-card {
+    background-color: rgb(183, 230, 246, 0.5);
+    border: 1px solid grey;
+    border-radius: 12px;
+    margin: 1rem 0;
+    padding: 10px 20px;
+    width: 65vw;
+    text-align: center;
+}
+
+.match-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.predictions-text {
+    font-size: normal;
+}
+
+.score-input {
+    height: 20px;
+    border: 2.5px black solid;
+    border-radius: 5px;
+}
+
+/* Tablet */
+@media only screen and (min-width: 600px) {
+
+}
+
+
+/* Desktop */
+@media only screen and (min-width: 1280px) {
+    .match-card {
+    margin: 1rem 10rem;
+    width: 500px;
+    }
+
+    .predictions-text {
+        font-size: 1.5em;
+    }
+}

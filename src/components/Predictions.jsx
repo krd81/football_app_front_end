@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react'
 import '../css/Scores.css'
 
-const Fixtures = () => {
+const Predictions = () => {
   const [matches, setMatches] = useState([])
 
 
@@ -30,24 +30,34 @@ const Fixtures = () => {
   return (
     <>
     <div>
-      <h1>Fixtures:</h1>
+      <h1>Predictions:</h1>
     </div>
-    <div>
+    <div className='match-list'>
+      <form action="">
+
      {matches?.map((match, index) => {
         return (
           <>
           <div className='match-card'>
-            <p>{`${index+1}. ${match.homeName} vs ${match.awayName}`}</p>
-            <p>{`Kick-off: ${match.time}`}</p>
-            <p>{`${match.location}`}</p>
+            <span className='predictions-text'>
+            <label htmlFor='score-predictions'>{`${match.homeName} `}</label>
+            <input className='score-input' id={`${match.homeName}`} name='score-predictions' type='text' size="1"></input>
+            &nbsp;-&nbsp;
+            <input className='score-input' id={`${match.awayName}`} name='score-predictions' type='text' size="1"></input>
+            <label htmlFor='score-predictions'>{` ${match.awayName}`}</label>
+
+            </span>
+            <p className='predictions-text'>{`Kick-off: ${match.time}`}</p>
+            <p className='predictions-text'>{`${match.location}`}</p>
             </div>
           </>
         )
       })
     }
-    </div>
+      </form>
+      </div>
     </>
   )
 }
 
-export default Fixtures
+export default Predictions
