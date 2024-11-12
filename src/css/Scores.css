@@ -26,18 +26,24 @@
 
 /* Tablet */
 @media only screen and (min-width: 600px) {
+    .match-card {
+        margin: 1rem 10rem;
+        width: 500px;
+        }
 
+    .predictions-text {
+        font-size: 1.5em;
+    }
+
+    .score-input {
+        height: 30px;
+        width: 27px;
+        border: 2.5px black solid;
+    }
 }
 
 
 /* Desktop */
 @media only screen and (min-width: 1280px) {
-    .match-card {
-    margin: 1rem 10rem;
-    width: 500px;
-    }
 
-    .predictions-text {
-        font-size: 1.5em;
-    }
 }
