@@ -39,17 +39,29 @@ const Predictions = () => {
         return (
           <>
           <div className='match-card'>
-            <span className='predictions-text'>
-            <label htmlFor='score-predictions'>{`${match.homeName} `}</label>
-            <input className='score-input' id={`${match.homeName}`} name='score-predictions' type='text' size="1"></input>
+            <div className='predictions-text'>
+              <div className='grid-container'>
+              <div className='grid-item1'>
+                <label htmlFor='score-predictions'>{`${match.homeName} `}</label>
+
+              </div>
+              <div className='grid-item2'>
+              <input className='score-input' id={`${match.homeName}`} name='score-predictions' type='text' size="1"></input>
             &nbsp;-&nbsp;
             <input className='score-input' id={`${match.awayName}`} name='score-predictions' type='text' size="1"></input>
-            <label htmlFor='score-predictions'>{` ${match.awayName}`}</label>
+              </div>
+              <div className='grid-item1'>
 
-            </span>
-            <p className='predictions-text'>{`Kick-off: ${match.time}`}</p>
-            <p className='predictions-text'>{`${match.location}`}</p>
+              <label htmlFor='score-predictions'>{` ${match.awayName}`}</label>
             </div>
+            </div>
+
+            </div>
+              <p className='predictions-text'>{`Kick-off: ${match.time}`}</p>
+              <p className='predictions-text'>{`${match.location}`}</p>
+            </div>
+
+
           </>
         )
       })

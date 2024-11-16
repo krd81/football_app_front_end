@@ -18,6 +18,25 @@
     font-size: normal;
 }
 
+.grid-container {
+    display: grid;
+    grid-template-columns: 80px auto 80px;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    column-gap: 10px;
+}
+
+.grid-item1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.grid-item1:hover {
+    overflow: visible;
+}
+
+
 .score-input {
     height: 20px;
     border: 2.5px black solid;
@@ -33,6 +52,19 @@
 
     .predictions-text {
         font-size: 1.5em;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: 170px auto 170px;
+        overflow: hidden;
+        align-items: center;
+        justify-content: center;
+        column-gap: 10px;
+    }
+
+    .grid-item1 {
+        overflow: hidden;
     }
 
     .score-input {
