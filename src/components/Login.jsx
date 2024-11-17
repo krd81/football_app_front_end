@@ -1,6 +1,8 @@
 import { React, useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AppContext } from '../authentication/AppContext';
+import FlashTitle from '../common/FlashTitle';
+import '../css/Login.css'
 
 
 const Login = () => {
@@ -74,29 +76,30 @@ const Login = () => {
 
     return (
         <>
-            <div>
+                <div>< FlashTitle/></div>
+
                 <div>
-                    <div>
-                        <form action='' onSubmit={checkCredentials} onInput={() => setUserNotFound('no')}>
-                            <span>
-                                <label htmlFor='username' className=''>Username: </label>
-                                <input className='' id='username' type='text' value={username} onInput={(e) => setUsername(e.target.value)} />
+                    <div className=''>
+                        <form className='login-form' onSubmit={checkCredentials} onInput={() => setUserNotFound('no')}>
+                            <span className='form-item'>
+                                <label htmlFor='username' className='form-item-label'>Username: </label>
+                                <input className='input-box' id='username' type='text' value={username} onInput={(e) => setUsername(e.target.value)} />
                             </span>
-                            <span>
-                                <label htmlFor='password' className='m-1'>Password: </label>
-                                <input className='' id='password' type='password' value={password} onInput={(e) => setPassword(e.target.value)} />
+                            <span className='form-item'>
+                                <label htmlFor='password' className='form-item-label'>Password: </label>
+                                <input className='input-box' id='password' type='password' value={password} onInput={(e) => setPassword(e.target.value)} />
                             </span>
                             <button
                                 type='submit'
                                 title='login-btn'
-                                className=''
+                                className='login-button'
                             >
                                 Login
                             </button>
                         </form>
                     </div>
                 </div>
-            </div>
+
         </>
     )
 
