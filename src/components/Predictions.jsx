@@ -38,7 +38,7 @@ const Predictions = () => {
      {matches?.map((match, index) => {
         return (
           <>
-          <div className='match-card'>
+          <div className='match-card' key={index} >
             <div className='predictions-text'>
               <div className='grid-container'>
               <div className='grid-item1'>

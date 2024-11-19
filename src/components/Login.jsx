@@ -38,7 +38,7 @@ const Login = () => {
                   // Store the token in sessionStorage (AuthContext manages this)
                   login(response.token);
                   // Redirect to homepage
-                  nav('/home');
+                  nav('/');
 
                   // Call fetch request to get all users and listings
               } else {
