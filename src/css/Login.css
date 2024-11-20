@@ -7,13 +7,20 @@
 }
 
 .form-item {
-    align-items: end;
-    margin: 20px 0px
+    display: inline-block;
+    width: 90vw;
+    margin: 20px 0px;
 }
 
 .form-item-label {
     color: rgb(83, 83, 83);
     margin-right: 10px;
+}
+
+label {
+    display: inline-block;
+    width: 30vw;
+    text-align: right;
 }
 
 .input-box {

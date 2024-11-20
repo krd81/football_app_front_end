@@ -81,14 +81,14 @@ const Login = () => {
                 <div>
                     <div className=''>
                         <form className='login-form' onSubmit={checkCredentials} onInput={() => setUserNotFound('no')}>
-                            <span className='form-item'>
+                            <div className='form-item'>
                                 <label htmlFor='username' className='form-item-label'>Username: </label>
                                 <input className='input-box' id='username' type='text' value={username} onInput={(e) => setUsername(e.target.value)} />
-                            </span>
-                            <span className='form-item'>
+                            </div>
+                            <div className='form-item'>
                                 <label htmlFor='password' className='form-item-label'>Password: </label>
                                 <input className='input-box' id='password' type='password' value={password} onInput={(e) => setPassword(e.target.value)} />
-                            </span>
+                            </div>
                             <button
                                 type='submit'
                                 title='login-btn'
