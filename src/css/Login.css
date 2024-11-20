@@ -28,12 +28,20 @@ label {
     width: 200px;
     border: rgb(83, 83, 83) solid 2px;
     border-radius: 8px;
+    outline: none;
     font-size: large;
+    padding: 0px 5px;
+}
+
+.input-box:focus {
+    border: 2px solid greenyellow;
+    box-shadow: 0 0 10px greenyellow;
+
 }
 
 .login-button {
     margin-top: 30px;
-    min-width: 75vw;
+    min-width: auto;
     background-color: rgb(44, 225, 44);
     border: black solid 2px;
 }
@@ -52,11 +60,46 @@ label {
 
 /* Tablet */
 @media only screen and (min-width: 600px) {
+    .login-form {
+        font-size: 2.5em;
 
+    }
+
+    .form-item {
+        margin: 35px 0px;
+    }
+
+    .input-box {
+        height: 50px;
+        width: 400px;
+        font-size: 1.1em;
+    }
+
+
+    .login-button {
+        margin-top: 50px;
+        width: 400px;
+    }
+
+    .forgot-password {
+        font-size: 27px;
+    }
 }
 
 
 /* Desktop */
 @media only screen and (min-width: 1280px) {
+    .login-form {}
 
+    .form-item {}
+
+    .form-item-label {}
+
+    label {}
+
+    .input-box {}
+
+    .login-button {}
+
+    .forgot-password {}
 }
