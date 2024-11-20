@@ -76,29 +76,32 @@ const Login = () => {
 
     return (
         <>
-                <div>< FlashTitle/></div>
+            <div>< FlashTitle/></div>
 
-                <div>
-                    <div className=''>
-                        <form className='login-form' onSubmit={checkCredentials} onInput={() => setUserNotFound('no')}>
-                            <div className='form-item'>
-                                <label htmlFor='username' className='form-item-label'>Username: </label>
-                                <input className='input-box' id='username' type='text' value={username} onInput={(e) => setUsername(e.target.value)} />
-                            </div>
-                            <div className='form-item'>
-                                <label htmlFor='password' className='form-item-label'>Password: </label>
-                                <input className='input-box' id='password' type='password' value={password} onInput={(e) => setPassword(e.target.value)} />
-                            </div>
-                            <button
-                                type='submit'
-                                title='login-btn'
-                                className='login-button'
-                            >
-                                Login
-                            </button>
-                        </form>
+            <div>
+                <form className='login-form' onSubmit={checkCredentials} onInput={() => setUserNotFound('no')}>
+                    <div className='form-item'>
+                        <label htmlFor='username' className='form-item-label'>Username: </label>
+                        <input className='input-box' id='username' type='text' value={username} onInput={(e) => setUsername(e.target.value)} />
                     </div>
-                </div>
+                    <div className='form-item'>
+                        <label htmlFor='password' className='form-item-label'>Password: </label>
+                        <input className='input-box' id='password' type='password' value={password} onInput={(e) => setPassword(e.target.value)} />
+                    </div>
+                    <div>
+                        <a href='' target='' className='forgot-password'>Forgot password?</a>
+                    </div>
+                    <div>
+                        <button
+                            type='submit'
+                            title='login-btn'
+                            className='login-button'
+                        >
+                            Login
+                        </button>
+                    </div>
+                </form>
+            </div>
 
         </>
     )

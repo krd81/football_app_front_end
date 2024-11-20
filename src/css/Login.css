@@ -44,6 +44,11 @@ label {
     color: rgb(44, 225, 44);
 }
 
+.forgot-password {
+    font-size: large;
+    text-decoration: underline;
+}
+
 
 /* Tablet */
 @media only screen and (min-width: 600px) {
