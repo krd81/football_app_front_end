@@ -8,14 +8,6 @@ import Predictions from './Predictions'
 
 function App() {
 
-//   const Layout = () => {
-
-
-//   return (
-//     <NavBar />
-//   )
-// }
-
   return (
     <>
     <BrowserRouter>

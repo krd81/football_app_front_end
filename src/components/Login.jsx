@@ -34,9 +34,10 @@ const Login = () => {
             const response = await res.json() // This is token or server response
             // If token is present in the response, redirect to homepage
             if (response.token) {
-              // This function needs to set the logged in user in the UserContext
-                  // Store the token in sessionStorage (AuthContext manages this)
+              // This function needs to set the logged in user in the AppContext
+                  // Store the token in sessionStorage (AppContext manages this)
                   login(response.token);
+
                   // Redirect to homepage
                   nav('/');
 
