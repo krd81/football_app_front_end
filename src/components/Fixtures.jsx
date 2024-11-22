@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from 'react'
 import '../css/Scores.css'
+import DateFormatter from '../common/DateFormatter'
 
 const Fixtures = () => {
   const [matches, setMatches] = useState([])
@@ -36,8 +37,9 @@ const Fixtures = () => {
      {matches?.map((match, index) => {
         return (
           <>
-          <div className='match-card'>
+          <div className='match-card' key={index}>
             <p>{`${index+1}. ${match.homeName} vs ${match.awayName}`}</p>
+            <p>{`Date: ${DateFormatter(match.date)}`}</p>
             <p>{`Kick-off: ${match.time}`}</p>
             <p>{`${match.location}`}</p>
             </div>
