@@ -13,11 +13,19 @@ const Homepage = () => {
 
         <div>< FlashTitle/></div>
         <div><CompetitionSelection /></div>
+        <div><CompetitionPanel></CompetitionPanel></div>
         <div><h1 className='paytone-one-h1'>2024/2025 Season</h1></div>
         <div><h2 className='paytone-one-h2'>{user.firstName}</h2></div>
         <div><h2 className='paytone-one-h2'>Current game week</h2></div>
         <div><h2> </h2></div>
     </div>
+    </>
+  )
+}
+
+function CompetitionPanel() {
+  return (
+    <>
     </>
   )
 }
