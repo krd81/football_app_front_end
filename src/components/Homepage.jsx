@@ -8,6 +8,7 @@ const Homepage = () => {
   const { competitions } = useContext(AppContext);
   const [selectedCompetition, setSelectedCompetition] = useState(competitions[0][0]); // Sets the first element of competitions[0] i.e. "Premier League" as the default competition
   document.title = 'Home';
+  console.log(competitions[0][0].name);
 
   return (
     <>
@@ -18,13 +19,16 @@ const Homepage = () => {
           <CompetitionSelection
             // competition = {selectedCompetition}
             onSelect={e => {
-              setSelectedCompetition(e.target)
-              console.log(selectedCompetition)
+              setSelectedCompetition(e.target.value)
+              console.log({selectedCompetition})
             }}
             >
           </CompetitionSelection>
         </div>
-        <div><CompetitionPanel></CompetitionPanel></div>
+        <div>
+          <CompetitionPanel>
+          </CompetitionPanel>
+        </div>
         <div><h2> </h2></div>
     </div>
     </>

@@ -2,7 +2,7 @@ import { React, useContext } from 'react';
 import { AppContext } from '../authentication/AppContext';
 
 
-const CompetitionSelection = ({ competition, onSelect }) => {
+const CompetitionSelection = ({ onSelect }) => {
     const { competitions } = useContext(AppContext);
 
   return (
@@ -13,7 +13,7 @@ const CompetitionSelection = ({ competition, onSelect }) => {
         <select
           name='competition'
           id='competition'
-          value={competition}
+          
           onChange={e => onSelect(e)}
         >
             {competitions[0].map((comp, i) =>
