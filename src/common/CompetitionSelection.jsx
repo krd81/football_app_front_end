@@ -2,17 +2,23 @@ import { React, useContext } from 'react';
 import { AppContext } from '../authentication/AppContext';
 
 
-const CompetitionSelection = () => {
+const CompetitionSelection = ({ competition, onSelect }) => {
     const { competitions } = useContext(AppContext);
 
   return (
     <>
     <div className='compDropDown'>
-        <label htmlFor='competition'>Choose Competition: </label>
-        <select name='competition' id='competition'>
-            {competitions[0].map((competition, i) =>
-                competition.active?
-                    <option value={competition.name} key={i}>{competition.name}</option>
+        {/* <label htmlFor='competition'>Choose Competition: </label> */}
+        <label>Choose Competition: </label>
+        <select
+          name='competition'
+          id='competition'
+          value={competition}
+          onChange={e => onSelect(e)}
+        >
+            {competitions[0].map((comp, i) =>
+                comp.active?
+                    <option value={comp} key={i}>{comp.name}</option>
                     :
                     null
             )};

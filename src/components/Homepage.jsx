@@ -1,22 +1,30 @@
-import { React, useContext } from 'react'
+import { React, useContext, useState } from 'react'
 import FlashTitle from '../common/FlashTitle'
 import CompetitionSelection from '../common/CompetitionSelection'
 import { AppContext } from '../authentication/AppContext';
 
 
 const Homepage = () => {
-  const { user } = useContext(AppContext);
+  const { competitions } = useContext(AppContext);
+  const [selectedCompetition, setSelectedCompetition] = useState(competitions[0][0]); // Sets the first element of competitions[0] i.e. "Premier League" as the default competition
+  document.title = 'Home';
 
   return (
     <>
     <div className='homepage'>
 
         <div>< FlashTitle/></div>
-        <div><CompetitionSelection /></div>
+        <div>
+          <CompetitionSelection
+            // competition = {selectedCompetition}
+            onSelect={e => {
+              setSelectedCompetition(e.target)
+              console.log(selectedCompetition)
+            }}
+            >
+          </CompetitionSelection>
+        </div>
         <div><CompetitionPanel></CompetitionPanel></div>
-        <div><h1 className='paytone-one-h1'>2024/2025 Season</h1></div>
-        <div><h2 className='paytone-one-h2'>{user.firstName}</h2></div>
-        <div><h2 className='paytone-one-h2'>Current game week</h2></div>
         <div><h2> </h2></div>
     </div>
     </>
@@ -26,6 +34,8 @@ const Homepage = () => {
 function CompetitionPanel() {
   return (
     <>
+      <div><h1 className='paytone-one-h1'>2024/2025 Season</h1></div>
+      <div><h2 className='paytone-one-h2'>Current game week</h2></div>
     </>
   )
 }
