@@ -3,7 +3,14 @@ import { AppContext } from '../authentication/AppContext';
 
 
 const CompetitionSelection = ({ onSelect }) => {
-    const { competitions } = useContext(AppContext);
+  const { competitions } = useContext(AppContext);
+
+
+  competitions[0].map((comp, i) =>
+    console.log(i+" "+comp.name)
+  )
+
+
 
   return (
     <>
@@ -18,7 +25,7 @@ const CompetitionSelection = ({ onSelect }) => {
         >
             {competitions[0].map((comp, i) =>
                 comp.active?
-                    <option value={comp} key={i}>{comp.name}</option>
+                    <option value={comp.name} key={i}>{comp.name}</option>
                     :
                     null
             )};

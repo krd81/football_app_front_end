@@ -8,7 +8,7 @@ const Homepage = () => {
   const { competitions } = useContext(AppContext);
   const [selectedCompetition, setSelectedCompetition] = useState(competitions[0][0]); // Sets the first element of competitions[0] i.e. "Premier League" as the default competition
   document.title = 'Home';
-  console.log(competitions[0][0].name);
+  console.log(selectedCompetition.name);
 
   return (
     <>
@@ -19,8 +19,15 @@ const Homepage = () => {
           <CompetitionSelection
             // competition = {selectedCompetition}
             onSelect={e => {
-              setSelectedCompetition(e.target.value)
-              console.log({selectedCompetition})
+              let compName = e.target.value;
+              let selectedComp;
+              competitions[0].map((comp) =>
+                comp.name === compName ?
+                  selectedComp = comp : null
+              )
+              setSelectedCompetition(selectedComp)
+              console.log(e.target.value)
+              console.log(selectedCompetition)
             }}
             >
           </CompetitionSelection>
