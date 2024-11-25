@@ -13,8 +13,8 @@ const CompetitionSelection = ({ onSelect }) => {
         <select
           name='competition'
           id='competition'
-          
-          onChange={e => onSelect(e)}
+
+          onChange={onSelect}
         >
             {competitions[0].map((comp, i) =>
                 comp.active?
