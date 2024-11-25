@@ -3,7 +3,7 @@ import '../css/Scores.css'
 
 const Predictions = () => {
   const [matches, setMatches] = useState([])
-
+  
 
   useEffect(() => {
     const fetchData = async () => {

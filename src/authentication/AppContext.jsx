@@ -7,6 +7,7 @@ export const AppContextProvider = ({ children }) => {
     const [users, setUsers] = useState([]);
     const [currentUser, setCurrentUser] = useState({});
     const [competitions, setCompetitions] = useState([]);
+    const [selectedCompetition, setSelectedCompetition] = useState({});
     const [token, setToken] = useState(null);
 
     // Fetch call to manage all external data required for the app
@@ -40,6 +41,9 @@ export const AppContextProvider = ({ children }) => {
                 });
                 const competitions = await result.json();
                 setCompetitions(competitions);
+                // Sets the first element of competitions[0]
+                // i.e. "Premier League" as the default competition
+                setSelectedCompetition(competitions[0][0]);
             } catch (error) {
                 console.error(error.message);
             }
@@ -47,6 +51,9 @@ export const AppContextProvider = ({ children }) => {
         }
     fetchData();
     }, []);
+
+
+
 
     function showDatabaseEntries () {
         console.log(users)
@@ -80,6 +87,7 @@ export const AppContextProvider = ({ children }) => {
             user: [currentUser, setCurrentUser],
             competitions: [competitions, setCompetitions],
             userToken: [token, setToken],
+            competition: [selectedCompetition, setSelectedCompetition],
             login,
             logout
             })}

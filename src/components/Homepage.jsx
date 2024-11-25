@@ -5,7 +5,7 @@ import { AppContext } from '../authentication/AppContext';
 
 
 const Homepage = () => {
-  const { competitions } = useContext(AppContext);
+  const { competitions, competition } = useContext(AppContext);
   const [selectedCompetition, setSelectedCompetition] = useState(competitions[0][0]); // Sets the first element of competitions[0] i.e. "Premier League" as the default competition
   document.title = 'Home';
 
