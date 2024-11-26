@@ -80,6 +80,11 @@ export const AppContextProvider = ({ children }) => {
         setCurrentUser(null);
     }
 
+    const setComp = (comp) => {
+        setCompetitions(comp);
+    }
+
+
 
     return (
         <AppContext.Provider
@@ -89,7 +94,8 @@ export const AppContextProvider = ({ children }) => {
             userToken: [token, setToken],
             competition: [selectedCompetition, setSelectedCompetition],
             login,
-            logout
+            logout,
+            setComp
             })}
         >
             { children }
