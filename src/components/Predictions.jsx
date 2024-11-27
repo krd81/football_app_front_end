@@ -3,7 +3,7 @@ import '../css/Scores.css'
 
 const Predictions = () => {
   const [matches, setMatches] = useState([])
-  
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,27 +38,28 @@ const Predictions = () => {
      {matches?.map((match, index) => {
         return (
           <>
-          <div className='match-card' key={index} >
-            <div className='predictions-text'>
-              <div className='grid-container'>
-              <div className='grid-item1'>
-                <label htmlFor='score-predictions'>{`${match.homeName} `}</label>
+
+          <div className='match-card' key={`1`+index} >
+            <div className='predictions-text' key={`2`+index}>
+              <div className='grid-container' key={`3`+index}>
+              <div className='grid-item1' key={`4`+index}>
+                <label htmlFor='score-predictions' key={`5`+index}>{`${match.homeName} `}</label>
 
               </div>
-              <div className='grid-item2'>
-              <input className='score-input' id={`${match.homeName}`} name='score-predictions' type='text' size="1"></input>
+              <div className='grid-item2' key={`6`+index}>
+              <input className='score-input' key={`7`+index} id={`${match.homeName}`} name='score-predictions' type='text' size="1"></input>
             &nbsp;-&nbsp;
-            <input className='score-input' id={`${match.awayName}`} name='score-predictions' type='text' size="1"></input>
+            <input className='score-input' key={`8`+index} id={`${match.awayName}`} name='score-predictions' type='text' size="1"></input>
               </div>
-              <div className='grid-item1'>
+              <div className='grid-item1' key={`9`+index}>
 
-              <label htmlFor='score-predictions'>{` ${match.awayName}`}</label>
+              <label htmlFor='score-predictions' key={`10`+index}>{` ${match.awayName}`}</label>
             </div>
             </div>
 
             </div>
-              <p className='predictions-text'>{`Kick-off: ${match.time}`}</p>
-              <p className='predictions-text'>{`${match.location}`}</p>
+              <p className='predictions-text' key={`11`+index}>{`Kick-off: ${match.time}`}</p>
+              <p className='predictions-text' key={`12`+index}>{`${match.location}`}</p>
             </div>
 
 
