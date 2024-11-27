@@ -50,15 +50,15 @@ function App({ children }) {
               setCompetitions(competitions);
               // Sets the first element of competitions[0]
               // i.e. "Premier League" as the default competition
-              setSelectedCompetition(competitions[0][0]);
+              setSelectedCompetition(competitions['0']);
           } catch (error) {
               console.error(error.message);
           }
 
       }
   fetchData();
-  }, []);
 
+}, []);
 
 
 
@@ -66,6 +66,7 @@ function App({ children }) {
       console.log(users)
       console.log(currentUser)
       console.log(competitions)
+      console.log(selectedCompetition)
 
   }
 
@@ -88,7 +89,7 @@ function App({ children }) {
   }
 
   const setComp = (comp) => {
-      setCompetitions(comp);
+    setSelectedCompetition(comp);
   }
 
 
@@ -97,9 +98,11 @@ function App({ children }) {
      <AppContext.Provider
         value={({
             user: [currentUser, setCurrentUser],
-            competitions: [competitions, setCompetitions],
+            comps: [competitions, setCompetitions],
             userToken: [token, setToken],
-            competition: [selectedCompetition, setSelectedCompetition],
+            comp: [selectedCompetition, setSelectedCompetition],
+            competitions,
+            selectedCompetition,
             login,
             logout,
             setComp

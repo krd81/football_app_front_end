@@ -3,8 +3,8 @@ import { AppContext } from '../authentication/AppContext';
 
 // Manages the selection of competition and sets this value in state
 // Parent component (Homepage) manages the selectedCompetition state
-const CompetitionSelection = ({ onSelect }) => {
-  const { competitions } = useContext(AppContext);
+const CompetitionSelection = () => {
+  const { comps, setComp } = useContext(AppContext);
 
   return (
     <>
@@ -13,9 +13,17 @@ const CompetitionSelection = ({ onSelect }) => {
         <select
           name='competition'
           id='competition'
-          onChange={onSelect}
+          onChange={e => {
+            let compName = e.target.value;
+            let selectedComp;
+            comps[0].map((comp) =>
+              comp.name === compName ?
+                selectedComp = comp : null
+            )
+            setComp(selectedComp)
+          }}
         >
-            {competitions[0].map((comp, i) =>
+            {comps[0].map((comp, i) =>
                 comp.active?
                     <option value={comp.name} key={i}>{comp.name}</option>
                     :
