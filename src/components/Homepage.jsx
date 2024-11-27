@@ -1,12 +1,13 @@
-import { React, useContext, useState } from 'react'
+import { React, useContext } from 'react'
 import FlashTitle from '../common/FlashTitle'
 import CompetitionSelection from '../common/CompetitionSelection'
 import { AppContext } from '../authentication/AppContext';
 
 
 const Homepage = () => {
-  const { competitions, competition } = useContext(AppContext);
-  const [selectedCompetition, setSelectedCompetition] = useState(competitions[0][0]); // Sets the first element of competitions[0] i.e. "Premier League" as the default competition
+  const { selectedCompetition } = useContext(AppContext);
+
+
   document.title = 'Home';
 
   return (
@@ -17,15 +18,6 @@ const Homepage = () => {
         <div>
           <CompetitionSelection
             // competition = {selectedCompetition}
-            onSelect={e => {
-              let compName = e.target.value;
-              let selectedComp;
-              competitions[0].map((comp) =>
-                comp.name === compName ?
-                  selectedComp = comp : null
-              )
-              setSelectedCompetition(selectedComp)
-            }}
             >
           </CompetitionSelection>
         </div>
@@ -40,6 +32,7 @@ const Homepage = () => {
 }
 
 function CompetitionPanel({ comp }) {
+
   return (
     <>
       <div><h1 className='paytone-one-h1'>{comp}</h1></div>
