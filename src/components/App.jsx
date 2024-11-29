@@ -15,6 +15,7 @@ function App({ children }) {
   const [currentUser, setCurrentUser] = useState({});
   const [competitions, setCompetitions] = useState([]);
   const [selectedCompetition, setSelectedCompetition] = useState({});
+  const [fixtures, setFixtures] = useState([]);
   const [token, setToken] = useState(null);
 
   // Fetch call to manage all external data required for the app
@@ -54,6 +55,21 @@ function App({ children }) {
           } catch (error) {
               console.error(error.message);
           }
+          try {
+            // const apiUrl = import.meta.env.VITE_API_URL;
+            const apiUrl = 'http://127.0.0.1:8002';
+            const fixtures = await fetch(`${apiUrl}/fixtures/`, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `null`
+              }
+            })
+            const fixtureData = await fixtures.json();
+            setFixtures(fixtureData);
+          } catch (error) {
+            console.error(error.message);
+          }
 
       }
   fetchData();
@@ -67,6 +83,7 @@ function App({ children }) {
       console.log(currentUser)
       console.log(competitions)
       console.log(selectedCompetition)
+      console.log(fixtures)
 
   }
 
@@ -103,6 +120,7 @@ function App({ children }) {
             comp: [selectedCompetition, setSelectedCompetition],
             competitions,
             selectedCompetition,
+            fixtures,
             login,
             logout,
             setComp
@@ -127,4 +145,4 @@ function App({ children }) {
   )
 }
 
-export default App
+export default App;

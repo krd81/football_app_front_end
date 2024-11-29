@@ -1,32 +1,11 @@
-import { React, useState, useEffect } from 'react'
+import { React, useContext } from 'react'
 import '../css/Scores.css'
 import DateFormatter from '../common/DateFormatter'
+import { AppContext } from '../authentication/AppContext';
 
 const Fixtures = () => {
-  const [matches, setMatches] = useState([])
+  const { fixtures } = useContext(AppContext);
 
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // const apiUrl = import.meta.env.VITE_API_URL;
-        const apiUrl = 'http://127.0.0.1:8002';
-        const fixtures = await fetch(`${apiUrl}/fixtures/`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `null`
-          }
-        })
-        const fixtureData = await fixtures.json();
-        setMatches(fixtureData);
-      } catch (error) {
-        console.error(error.message);
-      }
-    }
-
-    fetchData();
-  }, []);
 
   return (
     <>
@@ -34,7 +13,7 @@ const Fixtures = () => {
       <h1>Fixtures:</h1>
     </div>
     <div>
-     {matches?.map((match, index) => {
+     {fixtures?.map((match, index) => {
         return (
           <>
           <div className='match-card' key={index}>
@@ -52,4 +31,4 @@ const Fixtures = () => {
   )
 }
 
-export default Fixtures
+export default Fixtures;
