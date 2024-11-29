@@ -84,6 +84,7 @@ function App({ children }) {
       console.log(competitions)
       console.log(selectedCompetition)
       console.log(fixtures)
+      console.log("Fixtures data type: " + typeof(fixtures))
 
   }
 
