@@ -6,25 +6,6 @@ import { AppContext } from '../authentication/AppContext';
 const Fixtures = () => {
   const { fixtures } = useContext(AppContext);
 
-  let rounds = [];
-
-  for (let fixture in fixtures) {
-    for (let match in fixtures[fixture]) {
-      for (let round in fixtures[fixture][match]) {
-      console.log(match)
-      console.log(round)
-      if (rounds.includes(fixtures[fixture][match][round])) {
-        continue;
-      } else {
-        [...rounds, fixtures[fixture][match][round]];
-      }
-      // Splitting words down to individual elements (letters)
-      console.log(fixtures[fixture][match][round])
-    }
-  }
-}
-
-  console.log(rounds);
 
   return (
     <>
