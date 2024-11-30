@@ -1,8 +1,8 @@
 import '../css/app.css'
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { AppContext } from '../authentication/AppContext'
-import { CompRoundContext } from '../common/GameWeekContext';
+import { CompRoundContext } from '../common/CompRoundContext';
 
 
 function Play ({ children }) {
