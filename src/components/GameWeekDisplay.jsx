@@ -8,7 +8,6 @@ import { AppContext } from '../authentication/AppContext';
 const GameWeekSelection = () => {
     const { selectedCompetition } = useContext(AppContext);
 
-
     return (
         <>
             <Play>
@@ -16,7 +15,7 @@ const GameWeekSelection = () => {
                     <h1>{selectedCompetition.name}</h1>
                     <h2>Select round:</h2>
                 </div>
-                <GameWeekSelect />
+                {/* <GameWeekSelect /> */}
             </Play>
         </>
     )

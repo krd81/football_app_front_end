@@ -8,18 +8,18 @@ import { CompRoundContext } from '../common/CompRoundContext';
 function Play ({ children }) {
     const { fixtures } = useContext(AppContext);
     const [rounds, setRounds] = useState([]);
-    const [selectedRound, setSelectedRound] = useState('');
+    const [selectedRound, setSelectedRound] = useState([]);
 
 
     for (let fixture in fixtures) {
         for (let matchElement in fixtures[fixture]) {
             if (matchElement === 'round' &&
                 !(rounds.includes(fixtures[fixture][matchElement]))) {
-                // console.log(fixtures[fixture][matchElement])
-                setRounds(...rounds, fixtures[fixture][matchElement]);
+                setRounds([...rounds, fixtures[fixture][matchElement]]);
             }
         }
     }
+
 
     const setRound = (round) => {
         setSelectedRound(round);
