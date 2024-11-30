@@ -1,4 +1,4 @@
-import { React, Fragment, useContext} from 'react'
+import { useContext} from 'react'
 import '../css/Scores.css'
 import Play from './Play';
 import GameWeekSelect from './GameWeekSelect';
@@ -15,7 +15,7 @@ const GameWeekSelection = () => {
                     <h1>{selectedCompetition.name}</h1>
                     <h2>Select round:</h2>
                 </div>
-                {/* <GameWeekSelect /> */}
+                <GameWeekSelect />
             </Play>
         </>
     )

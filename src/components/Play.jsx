@@ -1,6 +1,5 @@
 import '../css/app.css'
 import { useContext, useState } from "react";
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { AppContext } from '../authentication/AppContext'
 import { CompRoundContext } from '../common/CompRoundContext';
 
@@ -20,6 +19,11 @@ function Play ({ children }) {
         }
     }
 
+    const sortRounds = () => {
+        let sortedArray = rounds.toSorted();
+        setRounds([...sortedArray]);
+    }
+
 
     const setRound = (round) => {
         setSelectedRound(round);
@@ -30,6 +34,7 @@ function Play ({ children }) {
             <CompRoundContext.Provider value={({
                 rounds,
                 selectedRound,
+                sortRounds,
                 setRound
                 })}
             >

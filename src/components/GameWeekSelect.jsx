@@ -3,7 +3,10 @@ import { CompRoundContext } from '../common/CompRoundContext';
 
 
 const GameWeekSelect = () => {
-    const { rounds, setRound } = useContext(CompRoundContext);
+    const { rounds, setRound, sortRounds } = useContext(CompRoundContext);
+
+    // sort function causing infinite loop
+    // sortRounds();
 
     const handleClick = (selectedRound) => {
         console.log(selectedRound);

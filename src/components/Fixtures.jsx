@@ -1,4 +1,4 @@
-import { React, Fragment, useContext } from 'react'
+import { Fragment, useContext } from 'react'
 import '../css/Scores.css'
 import DateFormatter from '../common/DateFormatter'
 import { AppContext } from '../authentication/AppContext';
