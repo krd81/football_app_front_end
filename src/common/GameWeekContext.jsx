@@ -2,4 +2,4 @@ import { createContext } from "react";
 
 
 // Create context for App
-export const GameWeekContext = createContext();
+export const CompRoundContext = createContext();
