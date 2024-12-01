@@ -2,7 +2,6 @@ import '../css/app.css'
 import { useContext, useState, useRef } from "react";
 import { AppContext } from '../authentication/AppContext'
 import { CompRoundContext } from '../common/CompRoundContext';
-// import GameWeekDisplay from './GameWeekDisplay';
 import GameWeekSelect from './GameWeekSelect';
 
 

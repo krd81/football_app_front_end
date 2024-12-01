@@ -16,7 +16,6 @@ function App({ children }) {
   const [competitions, setCompetitions] = useState([]);
   const [selectedCompetition, setSelectedCompetition] = useState({});
   const [fixtures, setFixtures] = useState([]);
-  const [rounds, setRounds] = useState([]);
   const [token, setToken] = useState(null);
 
   // Fetch call to manage all external data required for the app
@@ -108,24 +107,6 @@ function App({ children }) {
 
   const setComp = (comp) => {
     setSelectedCompetition(comp);
-
-
-    let tempRounds = [];
-    if (fixtures) {
-      for (let fixture in fixtures) {
-        for (let matchElement in fixtures[fixture]) {
-            if (matchElement === 'round' &&
-                !(rounds.includes(fixtures[fixture][matchElement]))) {
-                setRounds([...rounds, fixtures[fixture][matchElement]]);
-            }
-        }
-      }
-    }
-
-  }
-
-  function setupRounds () {
-
   }
 
 
