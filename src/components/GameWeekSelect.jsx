@@ -3,13 +3,13 @@ import { CompRoundContext } from '../common/CompRoundContext';
 
 
 const GameWeekSelect = () => {
-    const { rounds, setRound, sortRounds } = useContext(CompRoundContext);
+    const { rounds, setRound } = useContext(CompRoundContext);
 
     // sort function causing infinite loop
     // sortRounds();
 
     const handleClick = (selectedRound) => {
-        console.log(selectedRound);
+        // console.log(selectedRound);
         setRound(selectedRound);
     }
 
@@ -17,7 +17,7 @@ const GameWeekSelect = () => {
         <>
             <div>
                 {rounds.map((round) => {
-                    console.log(round);
+                    // console.log(round);
                     return (
                         <Fragment key={round}>
                             <div onClick={handleClick(round)}>

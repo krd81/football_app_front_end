@@ -1,4 +1,4 @@
-import { React, useContext } from 'react';
+import { useContext } from 'react';
 import { AppContext } from '../authentication/AppContext';
 
 // Manages the selection of competition and sets this value in state

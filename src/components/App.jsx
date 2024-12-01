@@ -5,7 +5,7 @@ import { AppContext } from '../authentication/AppContext'
 import NavBar from './NavBar'
 import Login from './Login'
 import Homepage from './Homepage'
-import GameWeekDisplay from './GameWeekDisplay'
+import Play from './Play'
 import Fixtures from './Fixtures'
 import Predictions from './Predictions'
 import TokenDecoder from '../authentication/TokenDecoder'
@@ -16,6 +16,7 @@ function App({ children }) {
   const [competitions, setCompetitions] = useState([]);
   const [selectedCompetition, setSelectedCompetition] = useState({});
   const [fixtures, setFixtures] = useState([]);
+  const [rounds, setRounds] = useState([]);
   const [token, setToken] = useState(null);
 
   // Fetch call to manage all external data required for the app
@@ -88,7 +89,6 @@ function App({ children }) {
 
   }
 
-
   const login = (newToken) => {
       sessionStorage.setItem('token', newToken)
       setToken(newToken)
@@ -108,6 +108,24 @@ function App({ children }) {
 
   const setComp = (comp) => {
     setSelectedCompetition(comp);
+
+
+    let tempRounds = [];
+    if (fixtures) {
+      for (let fixture in fixtures) {
+        for (let matchElement in fixtures[fixture]) {
+            if (matchElement === 'round' &&
+                !(rounds.includes(fixtures[fixture][matchElement]))) {
+                setRounds([...rounds, fixtures[fixture][matchElement]]);
+            }
+        }
+      }
+    }
+
+  }
+
+  function setupRounds () {
+
   }
 
 
@@ -133,7 +151,7 @@ function App({ children }) {
           <Routes>
             <Route path='/login' element={<Login />} />
             <Route path='/' element={<Homepage />} />
-            <Route path='/play' element={<GameWeekDisplay />} />
+            <Route path='/play' element={<Play />} />
             <Route path='/fixtures' element={<Fixtures />} />
             <Route path='/predictions' element={<Predictions />} />
 
