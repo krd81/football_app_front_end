@@ -1,0 +1,34 @@
+.main {
+    display: flex;
+    justify-content: center;
+    margin: 0 4em;
+}
+
+
+.game-week-tile {
+    background-color: cornflowerblue;
+    text-align: center;
+    width: 5em;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    transition: transform 300ms;
+    font-size: larger;
+}
+
+.game-week-tile:hover {
+    background-color: rgb(167, 194, 244);
+    transform: scale(1.05);
+
+}
+
+/* Tablet */
+@media only screen and (min-width: 600px) {
+
+}
+
+
+/* Desktop */
+@media only screen and (min-width: 1280px) {
+
+}

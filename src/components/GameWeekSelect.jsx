@@ -1,6 +1,6 @@
 import { Fragment, useContext } from 'react'
 import { CompRoundContext } from '../common/CompRoundContext';
-
+import '../css/GameWeekSelect.css'
 
 const GameWeekSelect = () => {
     const { rounds, setRound } = useContext(CompRoundContext);
@@ -20,9 +20,11 @@ const GameWeekSelect = () => {
                     // console.log(round);
                     return (
                         <Fragment key={round}>
-                            <div onClick={handleClick(round)}>
-                                <p>{round}</p>
+                            <div className='main'>
+                                <div className='game-week-tile' onClick={handleClick(round)}>
+                                    <p>{round}</p>
 
+                                </div>
                             </div>
                         </Fragment>
                     )

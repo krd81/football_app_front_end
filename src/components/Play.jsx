@@ -10,7 +10,7 @@ function Play ({ children }) {
     const { fixtures, selectedCompetition } = useContext(AppContext);
     const [rounds, setRounds] = useState([]);
     const [selectedRound, setSelectedRound] = useState([]);
-    // let sortedRounds = useRef([]);
+    let sortedRounds = useRef([]);
 
 
     for (let fixture in fixtures) {
@@ -22,13 +22,11 @@ function Play ({ children }) {
         }
     }
 
-    // points.sort(function(a, b){return a - b});
-    // const sortRounds = () => {
-        // const sortedArray = rounds.sort();
-        // setRounds(sortedArray);
-        // sortedRounds.current = sortedArray;
-        // console.log(sortedRounds.current);
-    // }
+    // Sort round numbers numerically
+    const sortedArray = rounds.sort();
+    sortedRounds.current = sortedArray;
+
+
 
 
     const setRound = (round) => {
