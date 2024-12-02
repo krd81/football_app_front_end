@@ -8,7 +8,7 @@ import Login from './Login'
 import Homepage from './Homepage'
 import Play from './Play'
 import Fixtures from './Fixtures'
-// import Predictions from './Predictions'
+import Predictions from './Predictions'
 import TokenDecoder from '../authentication/TokenDecoder'
 
 function App({ children }) {
@@ -18,6 +18,7 @@ function App({ children }) {
   const [selectedCompetition, setSelectedCompetition] = useState({});
   const [fixtures, setFixtures] = useState([]);
   const [token, setToken] = useState(null);
+  const [round, setRound] = useState('');
   // const { selectedRound } = useContext(CompRoundContext);
 
 
@@ -112,6 +113,10 @@ function App({ children }) {
     setSelectedCompetition(comp);
   }
 
+  const setCompRound = (round) => {
+    setRound(round);
+  }
+
 
   return (
     <>
@@ -135,9 +140,9 @@ function App({ children }) {
           <Routes>
             <Route path='/login' element={<Login />} />
             <Route path='/' element={<Homepage />} />
-            <Route path='/play' element={<Play />} />
+            <Route path='/play' element={<Play setCompRound={setCompRound}/>} />
             <Route path='/fixtures' element={<Fixtures />} />
-            {/* <Route path='/predictions' element={<Predictions round={selectedRound}/>} /> */}
+            <Route path='/predictions' element={<Predictions round={round}/>} />
 
           </Routes>
         </div>

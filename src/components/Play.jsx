@@ -5,7 +5,7 @@ import { CompRoundContext } from '../common/CompRoundContext';
 import GameWeekSelect from './GameWeekSelect';
 
 
-function Play ({ children }) {
+function Play ({ children, setCompRound }) {
     const { fixtures, selectedCompetition } = useContext(AppContext);
     const [rounds, setRounds] = useState([]);
     const [selectedRound, setSelectedRound] = useState([]);
@@ -43,7 +43,7 @@ function Play ({ children }) {
             >
                 {children}
                 <GameWeekDisplay comp={selectedCompetition.name}/>
-                <GameWeekSelect />
+                <GameWeekSelect setCompRound={setCompRound}/>
             </CompRoundContext.Provider>
         </>
     )

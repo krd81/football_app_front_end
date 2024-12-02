@@ -5,25 +5,28 @@ import Predictions from './Predictions';
 import { CompRoundContext } from '../common/CompRoundContext';
 import '../css/GameWeekSelect.css'
 
-const GameWeekSelect = () => {
-    const { rounds, setRound } = useContext(CompRoundContext);
+const GameWeekSelect = ({ setCompRound }) => {
+    const { rounds } = useContext(CompRoundContext);
     const nav = useNavigate();
 
     // sort function causing infinite loop
     // sortRounds();
 
-    const handleClick = (selectedRound) => {
+    const handleClick = (e) => {
         // console.log(selectedRound);
-        setRound(selectedRound);
+        const selectedRound = e.target.value;
+        setCompRound(selectedRound);
+        console.log(selectedRound);
+
         // Navigate to Predictions component
-        // nav('/predictions')
-        return (
-            <>
-                <Routes>
-                    <Route path='/predictions' element={<Predictions round={selectedRound}/>}/>
-                </Routes>
-          </>
-        )
+        nav('/predictions')
+        // return (
+        //     <>
+        //         <Routes>
+        //             <Route path='/predictions' element={<Predictions round={selectedRound}/>}/>
+        //         </Routes>
+        //   </>
+        // )
     }
 
     return (
@@ -34,7 +37,7 @@ const GameWeekSelect = () => {
                     return (
                         <Fragment key={round}>
                             <div className='main'>
-                                <div className='game-week-tile' onClick={handleClick}>
+                                <div className='game-week-tile' onClick={() => handleClick(round)}>
                                     <p>{round}</p>
 
                                 </div>
