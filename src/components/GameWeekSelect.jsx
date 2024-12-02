@@ -1,4 +1,5 @@
 import { Fragment, useContext } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom'
 import Predictions from './Predictions';
 import { CompRoundContext } from '../common/CompRoundContext';
@@ -18,8 +19,10 @@ const GameWeekSelect = () => {
         // nav('/predictions')
         return (
             <>
-                <Predictions round={selectedRound}/>
-            </>
+                <Routes>
+                    <Route path='/predictions' element={<Predictions round={selectedRound}/>}/>
+                </Routes>
+          </>
         )
     }
 

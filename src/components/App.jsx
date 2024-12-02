@@ -1,13 +1,14 @@
 import '../css/app.css'
-import { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { AppContext } from '../authentication/AppContext'
+import { useState, useEffect, useContext } from "react";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AppContext } from '../authentication/AppContext';
+// import { CompRoundContext } from '../common/CompRoundContext';
 import NavBar from './NavBar'
 import Login from './Login'
 import Homepage from './Homepage'
 import Play from './Play'
 import Fixtures from './Fixtures'
-import Predictions from './Predictions'
+// import Predictions from './Predictions'
 import TokenDecoder from '../authentication/TokenDecoder'
 
 function App({ children }) {
@@ -17,6 +18,8 @@ function App({ children }) {
   const [selectedCompetition, setSelectedCompetition] = useState({});
   const [fixtures, setFixtures] = useState([]);
   const [token, setToken] = useState(null);
+  // const { selectedRound } = useContext(CompRoundContext);
+
 
   // Fetch call to manage all external data required for the app
   useEffect(() => {
@@ -134,7 +137,7 @@ function App({ children }) {
             <Route path='/' element={<Homepage />} />
             <Route path='/play' element={<Play />} />
             <Route path='/fixtures' element={<Fixtures />} />
-            <Route path='/predictions' element={<Predictions />} />
+            {/* <Route path='/predictions' element={<Predictions round={selectedRound}/>} /> */}
 
           </Routes>
         </div>
