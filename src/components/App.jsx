@@ -115,6 +115,7 @@ function App({ children }) {
 
   const setCompRound = (round) => {
     setRound(round);
+    console.log(round);
   }
 
 
@@ -134,6 +135,7 @@ function App({ children }) {
             setComp
             })}
             >
+              {children}
       <BrowserRouter>
         <NavBar />
         <div>

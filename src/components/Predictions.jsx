@@ -5,7 +5,7 @@ import { CompRoundContext } from '../common/CompRoundContext';
 
 const Predictions = ({ round }) => {
   const { fixtures } = useContext(AppContext);
-  const {selectedRound } = useContext(CompRoundContext);
+  // const {selectedRound } = useContext(CompRoundContext);
   const [currentFixtures, setCurrentFixtures] = useState([]);
 
   for (let fixture in fixtures) {
@@ -25,7 +25,7 @@ const Predictions = ({ round }) => {
       <h1>Predictions:</h1>
     </div>
     <div className='match-list'>
-      <form action="">
+      <form action="prediction-form">
 
      {currentFixtures?.map((match) => {
         return (
