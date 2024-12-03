@@ -130,6 +130,7 @@ function App({ children }) {
             competitions,
             selectedCompetition,
             fixtures,
+            round,
             login,
             logout,
             setComp

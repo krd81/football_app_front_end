@@ -1,4 +1,4 @@
-import { Fragment, useContext, useState } from 'react'
+import { Fragment, useContext } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom'
 import Predictions from './Predictions';
@@ -7,7 +7,6 @@ import '../css/GameWeekSelect.css'
 
 const GameWeekSelect = ({ setCompRound }) => {
     const { rounds } = useContext(CompRoundContext);
-    const [value, setValue] = useState('');
     const nav = useNavigate();
 
     // sort function causing infinite loop
@@ -21,7 +20,7 @@ const GameWeekSelect = ({ setCompRound }) => {
         // console.log(value);
 
         // Navigate to Predictions component
-        nav('/predictions')
+        nav('/predictions');
         // return (
         //     <>
         //         <Routes>
@@ -44,7 +43,6 @@ const GameWeekSelect = ({ setCompRound }) => {
                                 className='game-week-tile'
                                 value={round}
                                 onClick={(e) => {
-                                    setValue(e.target.value)
                                     setCompRound(e.target.value)
                                     handleClick()
                                 }}

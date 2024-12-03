@@ -1,15 +1,16 @@
 import '../css/app.css'
 import { useContext, useState, useRef } from "react";
+import { useNavigate } from 'react-router-dom'
 import { AppContext } from '../authentication/AppContext'
 import { CompRoundContext } from '../common/CompRoundContext';
 import GameWeekSelect from './GameWeekSelect';
 
 
 function Play ({ children, setCompRound }) {
-    const { fixtures, selectedCompetition } = useContext(AppContext);
+    const { round, fixtures, selectedCompetition } = useContext(AppContext);
     const [rounds, setRounds] = useState([]);
-    const [selectedRound, setSelectedRound] = useState([]);
     let sortedRounds = useRef([]);
+    const nav = useNavigate();
 
 
     for (let fixture in fixtures) {
@@ -26,19 +27,17 @@ function Play ({ children, setCompRound }) {
     sortedRounds.current = sortedArray;
 
 
-
-
-    const setRound = (round) => {
-        setSelectedRound(round);
+    const showPredictionsComponent = () => {
+        console.log(round);
+        nav('/predictions');
     }
+
+
 
     return (
         <>
             <CompRoundContext.Provider value={({
-                rounds,
-                selectedRound,
-                // sortedRounds,
-                setRound
+                rounds
                 })}
             >
                 {children}
