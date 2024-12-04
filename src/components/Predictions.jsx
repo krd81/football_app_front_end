@@ -1,4 +1,4 @@
-import { Fragment, useState, useContext } from 'react'
+import { Fragment, useState, useEffect, useContext } from 'react'
 import '../css/Scores.css'
 import { AppContext } from '../authentication/AppContext';
 import { CompRoundContext } from '../common/CompRoundContext';
@@ -8,14 +8,27 @@ const Predictions = ({ round }) => {
   // const {selectedRound } = useContext(CompRoundContext);
   const [currentFixtures, setCurrentFixtures] = useState([]);
 
-  for (let fixture in fixtures) {
-    for (let matchElement in fixtures[fixture]) {
-        if (matchElement === 'round' &&
-            fixtures[fixture][matchElement] === round) {
-            setCurrentFixtures([...currentFixtures, fixtures[fixture]]);
+  // for (let fixture in fixtures) {
+  //   for (let matchElement in fixtures[fixture]) {
+  //       if (matchElement === 'round' &&
+  //           fixtures[fixture][matchElement] === round) {
+  //           setCurrentFixtures([...currentFixtures, fixtures[fixture]]);
+  //       }
+  //   }
+  // }
+
+  useEffect(() => {
+    const newFixtures = [];
+    for (let fixture in fixtures) {
+        for (let matchElement in fixtures[fixture]) {
+            if (matchElement === 'round' &&
+                  fixtures[fixture][matchElement] === round) {
+                    newFixtures.push(fixtures[fixture]);
+            }
         }
     }
-  }
+    setCurrentFixtures(newFixtures);
+  }, [fixtures, round]);
 
 
 
