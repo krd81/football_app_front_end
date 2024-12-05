@@ -7,6 +7,7 @@ import GameWeekSelect from './GameWeekSelect';
 
 function Play ({ setCompRound }) {
     const { fixtures, selectedCompetition } = useContext(AppContext);
+
     const [rounds, setRounds] = useState([]);
 
 
@@ -22,7 +23,22 @@ function Play ({ setCompRound }) {
         setRounds(newRounds);
     }, [fixtures]);
 
+ /*
+    function getRounds (fixtures) {
+        const newRounds = [];
+        for (let fixture in fixtures) {
+            for (let matchElement in fixtures[fixture]) {
+                if (matchElement === 'round' && !newRounds.includes(fixtures[fixture][matchElement])) {
+                    return newRounds.push(fixtures[fixture][matchElement]);
+                }
+            }
+        }
+    }
 
+    const rounds = useMemo(() => {
+        return getRounds(fixtures);
+    }, [fixtures]);
+*/
     // Sort round numbers numerically
     // const sortedArray = rounds.sort();
     // sortedRounds.current = sortedArray;
