@@ -1,5 +1,6 @@
 import { Fragment, useContext, useMemo } from 'react'
 import '../css/Scores.css'
+import shortName from '../common/TeamAbbreviation';
 import { AppContext } from '../authentication/AppContext';
 
 
@@ -39,7 +40,7 @@ const Predictions = ({ round }) => {
                       <div className='predictions-text'>
                         <div className='grid-container'>
                           <div className='grid-item1'>
-                            <label className='team-name' htmlFor='score-predictions'>{`${match.homeName} `}</label>
+                            <label className='team-name' htmlFor='score-predictions'>{`${shortName(match.homeName)} `}</label>
                           </div>
                           <div className='grid-item2'>
                             <input className='score-input' id={`${match.homeName}`} name='score-predictions' type='text' size="1"></input>
@@ -47,7 +48,7 @@ const Predictions = ({ round }) => {
                             <input className='score-input' id={`${match.awayName}`} name='score-predictions' type='text' size="1"></input>
                           </div>
                           <div className='grid-item1'>
-                            <label className='team-name' htmlFor='score-predictions'>{` ${match.awayName}`}</label>
+                            <label className='team-name' htmlFor='score-predictions'>{` ${shortName(match.awayName)}`}</label>
                           </div>
                         </div>
                       </div>
