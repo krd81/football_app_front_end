@@ -15,9 +15,6 @@
 .form-item-label {
     color: rgb(83, 83, 83);
     margin-right: 10px;
-}
-
-label {
     display: inline-block;
     width: 30vw;
     text-align: right;
