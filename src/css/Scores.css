@@ -36,6 +36,11 @@
     overflow: visible;
 }
 
+.team-name {
+    display: flex;
+    text-align: center;
+}
+
 
 .score-input {
     height: 20px;

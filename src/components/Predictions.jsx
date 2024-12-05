@@ -39,7 +39,7 @@ const Predictions = ({ round }) => {
                       <div className='predictions-text'>
                         <div className='grid-container'>
                           <div className='grid-item1'>
-                            <label htmlFor='score-predictions'>{`${match.homeName} `}</label>
+                            <label className='team-name' htmlFor='score-predictions'>{`${match.homeName} `}</label>
                           </div>
                           <div className='grid-item2'>
                             <input className='score-input' id={`${match.homeName}`} name='score-predictions' type='text' size="1"></input>
@@ -47,7 +47,7 @@ const Predictions = ({ round }) => {
                             <input className='score-input' id={`${match.awayName}`} name='score-predictions' type='text' size="1"></input>
                           </div>
                           <div className='grid-item1'>
-                            <label htmlFor='score-predictions'>{` ${match.awayName}`}</label>
+                            <label className='team-name' htmlFor='score-predictions'>{` ${match.awayName}`}</label>
                           </div>
                         </div>
                       </div>
