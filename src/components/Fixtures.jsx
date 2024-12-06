@@ -1,7 +1,7 @@
 import { Fragment, useContext } from 'react'
 import '../css/Scores.css'
-import DateFormatter1 from '../common/DateFormatter'
-import shortName from '../common/TeamAbbreviation';
+import DateFormatter1 from '../functions/dateFormatter'
+import shortName from '../functions/nameAbbreviation';
 import { AppContext } from '../authentication/AppContext';
 
 const Fixtures = () => {

@@ -1,3 +1,5 @@
+// Function to shorten long team names
+
 const shortName = (teamName) => {
     let updatedName;
     switch (teamName) {
