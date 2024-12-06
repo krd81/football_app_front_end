@@ -1,6 +1,6 @@
 // Helper function to convert date/time objects
 
-export function dateFormatter1 (dateToFormat) {
+export default function dateFormatter1 (dateToFormat) {
     const date = new Date(dateToFormat);
   const day = date.toISOString().slice(8,10);
   const month = date.toISOString().slice(5,7);
