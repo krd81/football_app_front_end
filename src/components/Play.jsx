@@ -1,12 +1,21 @@
 import '../css/app.css'
-import { useContext, useMemo } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { AppContext } from '../authentication/AppContext'
 import { CompRoundContext } from '../common/CompRoundContext';
 import GameWeekSelect from './GameWeekSelect';
 
 
-function Play ({ setCompRound }) {
+function Play ({ setCompRound, setRoutePath, route }) {
     const { fixtures, selectedCompetition } = useContext(AppContext);
+
+    // Memoize the setRoutePath function
+    const memoizedSetRoutePath = useMemo(() => {
+        return () => setRoutePath();
+    }, [setRoutePath]);
+
+    // Call the memoized function
+    memoizedSetRoutePath();
+
 
     function getRounds (fixtures) {
         const newRounds = [];
@@ -35,7 +44,7 @@ function Play ({ setCompRound }) {
                 }}
             >
                 <GameWeekDisplay comp={selectedCompetition.name}/>
-                <GameWeekSelect setCompRound={setCompRound}/>
+                <GameWeekSelect setCompRound={setCompRound} route={route}/>
             </CompRoundContext.Provider>
         </>
     )

@@ -1,5 +1,5 @@
 import '../css/app.css'
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppContext } from '../authentication/AppContext';
 // import { CompRoundContext } from '../common/CompRoundContext';
@@ -19,7 +19,7 @@ function App({ children }) {
   const [fixtures, setFixtures] = useState([]);
   const [token, setToken] = useState(null);
   const [round, setRound] = useState('');
-  // const { selectedRound } = useContext(CompRoundContext);
+  const [route, setRoute] = useState(''); // Use to store whether to display predictions or fixtures
 
 
   // Fetch call to manage all external data required for the app
@@ -81,7 +81,6 @@ function App({ children }) {
 }, []);
 
 
-
   function showDatabaseEntries () {
       console.log(users)
       console.log(currentUser)
@@ -119,6 +118,11 @@ function App({ children }) {
   }
 
 
+  const setRoutePath = (path) => {
+    setRoute(path);
+  };
+
+
   return (
     <>
      <AppContext.Provider
@@ -143,8 +147,9 @@ function App({ children }) {
           <Routes>
             <Route path='/login' element={<Login />} />
             <Route path='/' element={<Homepage />} />
-            <Route path='/play' element={<Play setCompRound={setCompRound}/>} />
-            <Route path='/fixtures' element={<Fixtures />} />
+            <Route path='/play' element={<Play setCompRound={setCompRound} setRoutePath={() => setRoutePath('play')} route={route}/>} />
+            <Route path='/viewfixtures' element={<Play setCompRound={setCompRound} setRoutePath={() => setRoutePath('fixtures')} route={route}/>} />
+            <Route path='/fixtures' element={<Fixtures round={round}/>} />
             <Route path='/predictions' element={<Predictions round={round}/>} />
 
           </Routes>
