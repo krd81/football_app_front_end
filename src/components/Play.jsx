@@ -44,8 +44,6 @@ function Play ({ setCompRound, setRoutePath, route }) {
                 }}
             >
                 <GameWeekDisplay comp={selectedCompetition.name}/>
-                <h2>Route path info:</h2>
-                <h2>{route}</h2>
                 <GameWeekSelect setCompRound={setCompRound} route={route}/>
             </CompRoundContext.Provider>
         </>

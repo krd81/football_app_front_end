@@ -10,7 +10,6 @@ const GameWeekSelect = ({ setCompRound, route }) => {
 
 
     const handleClick = (round) => {
-        console.log(route);
         setCompRound(round);
         switch (route) {
             case 'play':

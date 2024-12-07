@@ -1,5 +1,5 @@
 import '../css/app.css'
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppContext } from '../authentication/AppContext';
 // import { CompRoundContext } from '../common/CompRoundContext';
@@ -117,25 +117,11 @@ function App({ children }) {
     console.log(round);
   }
 
-  // const setRoutePath = (path) => {
-  //   switch (path) {
-  //     case 'play':
-  //       setRoute('play');
-  //       break;
-  //     case 'fixtures':
-  //       setRoute('fixtures');
-  //       break;
-  //     default:
-  //       setRoute('');
-  //   }
-  // }
 
   const setRoutePath = (path) => {
-    console.log(`Setting route to: ${path}`);
     setRoute(path);
   };
 
-  console.log(`Current route: ${route}`);
 
   return (
     <>
