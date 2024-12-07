@@ -1,14 +1,18 @@
-import { Fragment, useContext, useMemo } from 'react'
+import { Fragment, useContext, useEffect, useState, useMemo } from 'react'
 import '../css/Scores.css'
 import getDates from '../functions/getDates';
 import { dateFormatter2 } from '../functions/dateFormatter'
 import shortName from '../functions/nameAbbreviation';
 import { AppContext } from '../authentication/AppContext';
-
+import { CompRoundContext } from '../common/CompRoundContext';
+import { PredictionContext } from '../common/PredictionContext';
 
 
 const Predictions = ({ round }) => {
-  const { fixtures } = useContext(AppContext);
+  const { fixtures, currentUser } = useContext(AppContext);
+  const { predictions } = useContext(CompRoundContext);
+  const [userPredictions, setUserPredictions] = useState({});
+  const [editMode, setEditMode] = useState(false);
 
   const currentFixtures = useMemo(() => {
     return getRoundFixtures(fixtures, round);
@@ -27,14 +31,62 @@ const Predictions = ({ round }) => {
     return newFixtures;
   }
 
+  /*
+  const roundPredictions = useMemo(() => {
+    const getRoundPredictions = () => {
+      const filteredPredictions = [];
+      for (let prediction in predictions) {
+        for (let predictionElement in prediction) {
+          if (predictionElement === 'user' &&
+            predictions[prediction][predictionElement] === currentUser) {
+              filteredPredictions.push(predictions[prediction]);
+            }
+        }
+      }
+      return filteredPredictions;
+    };
+    return getRoundPredictions();
+  }, [predictions, currentUser]);
+*/
+
+  // Predictions stored in context are for the selected competition/round
+  // This useEffect filters those belonging to the current user
+  useEffect(() => {
+    const filteredPredictions = [];
+    for (let prediction in predictions) {
+      for (let predictionElement in prediction) {
+        if (predictionElement === 'user' &&
+          predictions[prediction][predictionElement] === currentUser) {
+            filteredPredictions.push(predictions[prediction]);
+          }
+      }
+    }
+    setUserPredictions(filteredPredictions);
+  }, [predictions, currentUser]);
+
+
   const fixtureDates = getDates(currentFixtures);
 
+  const handleEditButton = () => {
+    editMode ? setEditMode(false) : setEditMode(true);
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget)
+    const formDataObj = Object.fromEntries(formData.entries())
+
+  }
 
 
   return (
     <>
+      <PredictionContext.Provider></PredictionContext.Provider>
       <div>
         <h1>Predictions  - Matchweek {round}:</h1>
+      </div>
+      <div>
+        <button className='edit-mode-btn' onClick={handleEditButton}>{editMode ? `View` : `Edit`}</button>
       </div>
       <div className='match-list'>
         {fixtureDates?.map((fixtureDate) => {
@@ -44,12 +96,12 @@ const Predictions = ({ round }) => {
                 {/* Displays date */}
                 <h3 className='date-text'>{dateFormatter2(fixtureDate)}</h3>
               </div>
-              <form action="prediction-form" key={fixtureDate}>
+              <form onSubmit={handleSubmit} key={fixtureDate}>
                 {currentFixtures?.map((match) => {
                   if (match.date === fixtureDate) {
                     return (
                       <>
-                        <Fragment key={match._id + fixtureDate}>
+                        <Fragment key={match.fixture_id + fixtureDate}>
                           <div className='match-card' >
                             <div className='predictions-text'>
                               <div className='grid-container'>
@@ -57,9 +109,15 @@ const Predictions = ({ round }) => {
                                   <label className='team-name' htmlFor='score-predictions'>{`${shortName(match.homeName)} `}</label>
                                 </div>
                                 <div className='grid-item2'>
-                                  <input className='score-input' id={`${match.homeName}`} name='score-predictions' type='text' size="1"></input>
-                                  &nbsp;-&nbsp;
-                                  <input className='score-input' id={`${match.awayName}`} name='score-predictions' type='text' size="1"></input>
+                                  {editMode ? (
+                                    <>
+                                      <input className='score-input' id={`${match.homeName}`} name='score-predictions' type='text' size="1" value={userPredictions[match.fixture_id]?.homePrediction}></input>
+                                      &nbsp;-&nbsp;
+                                      <input className='score-input' id={`${match.awayName}`} name='score-predictions' type='text' size="1" value={userPredictions[match.fixture_id]?.awayPrediction}></input>
+                                    </>
+                                  ) : (
+                                    <p className='score-prediction'>{`${userPredictions[match.fixture_id]?.homePrediction} - ${userPredictions[match.fixture_id]?.awayPrediction}`}</p>
+                                    )}
                                 </div>
                                 <div className='grid-item1'>
                                   <label className='team-name' htmlFor='score-predictions'>{` ${shortName(match.awayName)}`}</label>

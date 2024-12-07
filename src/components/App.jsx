@@ -23,6 +23,8 @@ function App({ children }) {
 
 
   // Fetch call to manage all external data required for the app
+  // i.e. users/predictions from user database and
+  // football fixtures/scores/results from football database
   useEffect(() => {
       const fetchData = async () => {
           try {
