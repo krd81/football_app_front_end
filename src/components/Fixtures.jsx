@@ -1,7 +1,7 @@
 import { Fragment, useContext, useMemo } from 'react'
 import '../css/Scores.css'
 import getDates from '../functions/getDates';
-import dateFormatter2 from '../functions/dateFormatter'
+import { dateFormatter2 } from '../functions/dateFormatter'
 import shortName from '../functions/nameAbbreviation';
 import { AppContext } from '../authentication/AppContext';
 
@@ -33,7 +33,7 @@ const Fixtures = ({ round }) => {
       <div>
         <h1>Fixtures - Matchweek {round}:</h1>
       </div>
-      <div>
+      <div className='match-list'>
         {fixtureDates?.map((fixtureDate) => {
           return (
             <Fragment key={fixtureDate}>
