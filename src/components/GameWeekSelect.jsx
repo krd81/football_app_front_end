@@ -4,14 +4,24 @@ import { useNavigate } from 'react-router-dom'
 import { CompRoundContext } from '../common/CompRoundContext';
 import '../css/GameWeekSelect.css'
 
-const GameWeekSelect = ({ setCompRound }) => {
+const GameWeekSelect = ({ setCompRound, route }) => {
     const { rounds } = useContext(CompRoundContext);
     const nav = useNavigate();
 
 
     const handleClick = (round) => {
+        console.log(route);
         setCompRound(round);
-        nav('/predictions');
+        switch (route) {
+            case 'play':
+                nav('/predictions');
+                break;
+            case 'fixtures':
+                nav('/fixtures');
+                break;
+            default:
+                nav('/predictions');
+        }
     }
 
     return (

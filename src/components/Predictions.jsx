@@ -38,7 +38,7 @@ const Predictions = ({ round }) => {
       </div>
       <div className='match-list'>
         {fixtureDates?.map((fixtureDate) => {
-          return(
+          return (
             <Fragment key={fixtureDate}>
               <div className='date-header'>
                 {/* Displays date */}
