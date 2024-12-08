@@ -1,4 +1,4 @@
-import { Fragment, useContext, useEffect, useState, useMemo } from 'react'
+import { Fragment, useContext, useEffect, useState, useMemo, useRef } from 'react'
 import '../css/Scores.css'
 import getDates from '../functions/getDates';
 import { dateFormatter2 } from '../functions/dateFormatter'
@@ -11,10 +11,11 @@ import { PredictionContext } from '../common/PredictionContext';
 const Predictions = ({ round }) => {
   const { selectedCompetition, fixtures, currentUser } = useContext(AppContext);
   // const { predictions } = useContext(CompRoundContext);
-    const [predictions, setPredictions] = useState({});
-    const [userPredictions, setUserPredictions] = useState({});
+  const [predictions, setPredictions] = useState({});
+  const [userPredictions, setUserPredictions] = useState({});
   const [inputFields, setInputFields] = useState({});
   const [editMode, setEditMode] = useState(false);
+  const hasFetchedData = useRef(false);
 
   useEffect(() => {
       let roundPredictions;
@@ -22,7 +23,7 @@ const Predictions = ({ round }) => {
       try {
         // const apiUrl = import.meta.env.VITE_API_URL;
         const apiUrl = 'http://127.0.0.1:8005';
-        const result = await fetch(`${apiUrl}/competition/${selectedCompetition.id}/round/${round}`, {
+        const result = await fetch(`${apiUrl}/predictions/competition/${selectedCompetition.id}/round/${round}`, {
           method: 'GET',
           headers: {
               'Content-Type': 'application/json',
@@ -30,12 +31,15 @@ const Predictions = ({ round }) => {
           }
         });
         roundPredictions = await result.json();
-      } catch (error) {
-          console.error(error.message);
+        setPredictions(roundPredictions);
+  } catch (error) {
+          console.error('Error fetching predictions:', error);
       }
     };
-    setPredictions(roundPredictions);
-    fetchData();
+    if (selectedCompetition.id && round && !hasFetchedData.current) {
+      fetchData();
+      hasFetchedData.current = true;
+    }
 }, [round, selectedCompetition.id]);
 
 
@@ -136,7 +140,7 @@ const Predictions = ({ round }) => {
                   if (match.date === fixtureDate) {
                     return (
                       <>
-                        <Fragment key={match.fixture_id + fixtureDate}>
+                        <Fragment key={match.fixtureId + fixtureDate}>
                           <div className='match-card' >
                             <div className='predictions-text'>
                               <div className='grid-container'>

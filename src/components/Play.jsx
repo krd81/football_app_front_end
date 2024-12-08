@@ -16,7 +16,7 @@ function Play ({ children, setCompRound, setRoutePath, route }) {
             try {
               // const apiUrl = import.meta.env.VITE_API_URL;
               const apiUrl = 'http://127.0.0.1:8005';
-              const result = await fetch(`${apiUrl}/competition/${selectedCompetition.id}/round/${round}`, {
+              const result = await fetch(`${apiUrl}/predictions/competition/${selectedCompetition.id}/round/${round}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
