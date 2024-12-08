@@ -9,10 +9,36 @@ import { PredictionContext } from '../common/PredictionContext';
 
 
 const Predictions = ({ round }) => {
-  const { fixtures, currentUser } = useContext(AppContext);
-  const { predictions } = useContext(CompRoundContext);
-  const [userPredictions, setUserPredictions] = useState({});
+  const { selectedCompetition, fixtures, currentUser } = useContext(AppContext);
+  // const { predictions } = useContext(CompRoundContext);
+    const [predictions, setPredictions] = useState({});
+    const [userPredictions, setUserPredictions] = useState({});
+  const [inputFields, setInputFields] = useState({});
   const [editMode, setEditMode] = useState(false);
+
+  useEffect(() => {
+      let roundPredictions;
+      const fetchData = async () => {
+      try {
+        // const apiUrl = import.meta.env.VITE_API_URL;
+        const apiUrl = 'http://127.0.0.1:8005';
+        const result = await fetch(`${apiUrl}/competition/${selectedCompetition.id}/round/${round}`, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `null`
+          }
+        });
+        roundPredictions = await result.json();
+      } catch (error) {
+          console.error(error.message);
+      }
+    };
+    setPredictions(roundPredictions);
+    fetchData();
+}, [round, selectedCompetition.id]);
+
+
 
   const currentFixtures = useMemo(() => {
     return getRoundFixtures(fixtures, round);
@@ -64,6 +90,14 @@ const Predictions = ({ round }) => {
     setUserPredictions(filteredPredictions);
   }, [predictions, currentUser]);
 
+  const setPredictionInputs = (fixtureId) => (
+    setInputFields({
+      homePrediction: userPredictions[fixtureId] ? userPredictions[fixtureId].homePrediction : '',
+      awayPrediction: userPredictions[fixtureId] ? userPredictions[fixtureId].awayPrediction : '',
+    }
+  ));
+
+
 
   const fixtureDates = getDates(currentFixtures);
 
@@ -98,6 +132,7 @@ const Predictions = ({ round }) => {
               </div>
               <form onSubmit={handleSubmit} key={fixtureDate}>
                 {currentFixtures?.map((match) => {
+                  setPredictionInputs(match);
                   if (match.date === fixtureDate) {
                     return (
                       <>
@@ -106,21 +141,25 @@ const Predictions = ({ round }) => {
                             <div className='predictions-text'>
                               <div className='grid-container'>
                                 <div className='grid-item1'>
-                                  <label className='team-name' htmlFor='score-predictions'>{`${shortName(match.homeName)} `}</label>
+                                  <label className='team-name' htmlFor='homePrediction'>{`${shortName(match.homeName)} `}</label>
                                 </div>
                                 <div className='grid-item2'>
                                   {editMode ? (
                                     <>
-                                      <input className='score-input' id={`${match.homeName}`} name='score-predictions' type='text' size="1" value={userPredictions[match.fixture_id]?.homePrediction}></input>
+                                      <input className='score-input' id={`${match.homeName}`} name='homePrediction' type='text' size="1" value={inputFields.homePrediction}></input>
                                       &nbsp;-&nbsp;
-                                      <input className='score-input' id={`${match.awayName}`} name='score-predictions' type='text' size="1" value={userPredictions[match.fixture_id]?.awayPrediction}></input>
+                                      <input className='score-input' id={`${match.awayName}`} name='awayPrediction' type='text' size="1" value={inputFields.awayPrediction}></input>
                                     </>
                                   ) : (
-                                    <p className='score-prediction'>{`${userPredictions[match.fixture_id]?.homePrediction} - ${userPredictions[match.fixture_id]?.awayPrediction}`}</p>
+                                    <>
+                                      <input className='score-input' id={`${match.homeName}`} name='homePrediction' type='text' size="1" value={inputFields.homePrediction} readOnly></input>
+                                      &nbsp;-&nbsp;
+                                      <input className='score-input' id={`${match.awayName}`} name='awayPrediction' type='text' size="1" value={inputFields.awayPrediction} readOnly></input>
+                                    </>
                                     )}
                                 </div>
                                 <div className='grid-item1'>
-                                  <label className='team-name' htmlFor='score-predictions'>{` ${shortName(match.awayName)}`}</label>
+                                  <label className='team-name' htmlFor='awayPrediction'>{` ${shortName(match.awayName)}`}</label>
                                 </div>
                               </div>
                             </div>

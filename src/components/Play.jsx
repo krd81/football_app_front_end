@@ -10,6 +10,7 @@ function Play ({ children, setCompRound, setRoutePath, route }) {
     const { fixtures, selectedCompetition, round } = useContext(AppContext);
     const [predictions, setPredictions] = useState({});
 
+    /*
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -30,7 +31,7 @@ function Play ({ children, setCompRound, setRoutePath, route }) {
         };
         fetchData();
     }, [round, selectedCompetition.id]);
-
+*/
     // Memoize the setRoutePath function
     const memoizedSetRoutePath = useMemo(() => {
         return () => setRoutePath();
@@ -64,7 +65,7 @@ function Play ({ children, setCompRound, setRoutePath, route }) {
         <>
             <CompRoundContext.Provider value={{
                 rounds,
-                predictions
+                // predictions
                 }}
             >
                 {children}
