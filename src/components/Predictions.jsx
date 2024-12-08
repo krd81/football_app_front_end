@@ -10,39 +10,14 @@ import { PredictionContext } from '../common/PredictionContext';
 
 const Predictions = ({ round }) => {
   const { selectedCompetition, fixtures, currentUser } = useContext(AppContext);
-  // const { predictions } = useContext(CompRoundContext);
-  const [predictions, setPredictions] = useState({});
+  const { predictions } = useContext(CompRoundContext);
+  // const [predictions, setPredictions] = useState({});
   const [userPredictions, setUserPredictions] = useState({});
   const [inputFields, setInputFields] = useState({});
   const [editMode, setEditMode] = useState(false);
-  const hasFetchedData = useRef(false);
-
-  useEffect(() => {
-      let roundPredictions;
-      const fetchData = async () => {
-      try {
-        // const apiUrl = import.meta.env.VITE_API_URL;
-        const apiUrl = 'http://127.0.0.1:8005';
-        const result = await fetch(`${apiUrl}/predictions/competition/${selectedCompetition.id}/round/${round}`, {
-          method: 'GET',
-          headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `null`
-          }
-        });
-        roundPredictions = await result.json();
-        setPredictions(roundPredictions);
-  } catch (error) {
-          console.error('Error fetching predictions:', error);
-      }
-    };
-    if (selectedCompetition.id && round && !hasFetchedData.current) {
-      fetchData();
-      hasFetchedData.current = true;
-    }
-}, [round, selectedCompetition.id]);
 
 
+  console.log(predictions);
 
   const currentFixtures = useMemo(() => {
     return getRoundFixtures(fixtures, round);
@@ -61,7 +36,7 @@ const Predictions = ({ round }) => {
     return newFixtures;
   }
 
-  /*
+/*
   const roundPredictions = useMemo(() => {
     const getRoundPredictions = () => {
       const filteredPredictions = [];

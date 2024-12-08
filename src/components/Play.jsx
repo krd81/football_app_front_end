@@ -10,13 +10,13 @@ function Play ({ children, setCompRound, setRoutePath, route }) {
     const { fixtures, selectedCompetition, round } = useContext(AppContext);
     const [predictions, setPredictions] = useState({});
 
-    /*
+
     useEffect(() => {
         const fetchData = async () => {
             try {
               // const apiUrl = import.meta.env.VITE_API_URL;
               const apiUrl = 'http://127.0.0.1:8005';
-              const result = await fetch(`${apiUrl}/predictions/competition/${selectedCompetition.id}/round/${round}`, {
+              const result = await fetch(`${apiUrl}/predictions/competition/${selectedCompetition.id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -31,7 +31,9 @@ function Play ({ children, setCompRound, setRoutePath, route }) {
         };
         fetchData();
     }, [round, selectedCompetition.id]);
-*/
+
+
+
     // Memoize the setRoutePath function
     const memoizedSetRoutePath = useMemo(() => {
         return () => setRoutePath();
@@ -65,7 +67,7 @@ function Play ({ children, setCompRound, setRoutePath, route }) {
         <>
             <CompRoundContext.Provider value={{
                 rounds,
-                // predictions
+                predictions
                 }}
             >
                 {children}
