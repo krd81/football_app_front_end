@@ -13,7 +13,7 @@ const Predictions = ({ round }) => {
   // const [predictions, setPredictions] = useState({});
   const [userPredictions, setUserPredictions] = useState({});
   const [inputFields, setInputFields] = useState({});
-  const [editMode, setEditMode] = useState(false);
+  const [editMode, setEditMode] = useState(true);
 
 
   // This is causing a 'too many re-renders' error
@@ -35,6 +35,32 @@ const Predictions = ({ round }) => {
     return newFixtures;
   }
 
+  // Update this function to map the predictions to find only those belonging to the user
+  // then if the fixture_id matches the fixture shown - populate the prediction
+
+  useEffect(() => {
+    const initialPredictions = {};
+    currentFixtures.forEach(match => {
+      initialPredictions[match.fixture_id] = {
+        homePrediction: match.homePrediction || '',
+        awayPrediction: match.awayPrediction || ''
+      };
+    });
+    setUserPredictions(initialPredictions);
+  }, [currentFixtures]);
+
+  const handleInputChange = (e, fixtureId) => {
+    const { name, value } = e.target;
+    setUserPredictions(prevState => ({
+      ...prevState,
+      [fixtureId]: {
+        ...prevState[fixtureId],
+        [name]: value
+      }
+    }));
+  };
+
+
 
 
   // Predictions stored in context are for the selected competition/round
@@ -52,12 +78,7 @@ const Predictions = ({ round }) => {
     setUserPredictions(filteredPredictions);
   }, [predictions, currentUser]);
 
-  const setPredictionInputs = (fixtureId) => (
-    setInputFields({
-      homePrediction: userPredictions[fixtureId] ? userPredictions[fixtureId].homePrediction : '',
-      awayPrediction: userPredictions[fixtureId] ? userPredictions[fixtureId].awayPrediction : '',
-    }
-  ));
+
 
 
 
@@ -82,62 +103,66 @@ const Predictions = ({ round }) => {
         <h1>Predictions  - Matchweek {round}:</h1>
       </div>
       <div>
-        <button className='edit-mode-btn' onClick={handleEditButton}>{editMode ? `View` : `Edit`}</button>
-      </div>
+      <button className='edit-mode-btn' onClick={handleEditButton}>{editMode ? `View` : `Edit`}</button>
       <div className='match-list'>
-        {fixtureDates?.map((fixtureDate) => {
-          return (
-            <Fragment key={fixtureDate}>
-              <div className='date-header'>
-                {/* Displays date */}
-                <h3 className='date-text'>{dateFormatter2(fixtureDate)}</h3>
-              </div>
-              <form onSubmit={handleSubmit} key={fixtureDate}>
-                {currentFixtures?.map((match) => {
-                  setPredictionInputs(match);
-                  if (match.date === fixtureDate) {
-                    return (
-                      <>
-                        <Fragment key={match.fixtureId + fixtureDate}>
-                          <div className='match-card' >
-                            <div className='predictions-text'>
-                              <div className='grid-container'>
-                                <div className='grid-item1'>
-                                  <label className='team-name' htmlFor='homePrediction'>{`${shortName(match.homeName)} `}</label>
-                                </div>
-                                <div className='grid-item2'>
-                                  {editMode ? (
-                                    <>
-                                      <input className='score-input' id={`${match.homeName}`} name='homePrediction' type='text' size="1" value={inputFields.homePrediction}></input>
-                                      &nbsp;-&nbsp;
-                                      <input className='score-input' id={`${match.awayName}`} name='awayPrediction' type='text' size="1" value={inputFields.awayPrediction}></input>
-                                    </>
-                                  ) : (
-                                    <>
-                                      <input className='score-input' id={`${match.homeName}`} name='homePrediction' type='text' size="1" value={inputFields.homePrediction} readOnly></input>
-                                      &nbsp;-&nbsp;
-                                      <input className='score-input' id={`${match.awayName}`} name='awayPrediction' type='text' size="1" value={inputFields.awayPrediction} readOnly></input>
-                                    </>
-                                    )}
-                                </div>
-                                <div className='grid-item1'>
+        {fixtureDates?.map((fixtureDate) => (
+          <Fragment key={fixtureDate}>
+            <div className='date-header'>
+              <h3 className='date-text'>{dateFormatter2(fixtureDate)}</h3>
+            </div>
+            <form onSubmit={handleSubmit} key={fixtureDate}>
+              {currentFixtures?.map((match) => (
+                match.date === fixtureDate && (
+                  <Fragment key={match.fixture_id + fixtureDate}>
+                    <div className='match-card'>
+                      <div className='predictions-text'>
+                        <div className='grid-container'>
+                          <div className='grid-item1'>
+                            <label className='team-name' htmlFor='homePrediction'>{`${shortName(match.homeName)} `}</label>
+                          </div>
+                          <div className='grid-item2'>
+                            {editMode ? (
+                              <>
+                                <input
+                                  className='score-input'
+                                  id={`${match.homeName}`}
+                                  name='homePrediction'
+                                  type='text'
+                                  size="1"
+                                  value={predictions[match.fixture_id]?.homePrediction || ''}
+                                  onChange={(e) => handleInputChange(e, match.fixture_id)}
+                                />
+                                &nbsp;-&nbsp;
+                                <input
+                                  className='score-input'
+                                  id={`${match.awayName}`}
+                                  name='awayPrediction'
+                                  type='text'
+                                  size="1"
+                                  value={predictions[match.fixture_id]?.awayPrediction || ''}
+                                  onChange={(e) => handleInputChange(e, match.fixture_id)}
+                                />
+                              </>
+                            ) : (
+                              <span>{`${predictions[match.fixture_id]?.homePrediction || ''} - ${predictions[match.fixture_id]?.awayPrediction || ''}`}</span>
+                            )}
+                          </div>
+                          <div className='grid-item1'>
                                   <label className='team-name' htmlFor='awayPrediction'>{` ${shortName(match.awayName)}`}</label>
                                 </div>
-                              </div>
-                            </div>
-                              <p className='predictions-text'>{`Kick-off: ${match.time}`}</p>
+                        </div>
+                      </div>
+                      <p className='predictions-text'>{`Kick-off: ${match.time}`}</p>
                               <p className='predictions-text'>{`${match.location}`}</p>
-                          </div>
+                      </div>
+                  </Fragment>
+                )
+              ))}
+            </form>
+          </Fragment>
 
-                        </Fragment>
-                      </>
-                    )
-                  };
-                })};
-              </form>
-            </Fragment>
-          )
-        })};
+        ))};
+      </div>
       </div>
     </>
   )
