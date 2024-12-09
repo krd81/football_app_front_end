@@ -36,24 +36,6 @@ const Predictions = ({ round }) => {
     return newFixtures;
   }
 
-/*
-  const roundPredictions = useMemo(() => {
-    const getRoundPredictions = () => {
-      const filteredPredictions = [];
-      for (let prediction in predictions) {
-        for (let predictionElement in prediction) {
-          if (predictionElement === 'user' &&
-            predictions[prediction][predictionElement] === currentUser) {
-              filteredPredictions.push(predictions[prediction]);
-            }
-        }
-      }
-      return filteredPredictions;
-    };
-    return getRoundPredictions();
-  }, [predictions, currentUser]);
-*/
-
   // Predictions stored in context are for the selected competition/round
   // This useEffect filters those belonging to the current user
   useEffect(() => {
