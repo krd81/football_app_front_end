@@ -9,16 +9,14 @@ import { PredictionContext } from '../common/PredictionContext';
 
 
 const Predictions = ({ round }) => {
-  const { selectedCompetition, fixtures, currentUser } = useContext(AppContext);
-  const { predictions } = useContext(CompRoundContext);
+  const { selectedCompetition, fixtures, currentUser, predictions } = useContext(AppContext);
   // const [predictions, setPredictions] = useState({});
   const [userPredictions, setUserPredictions] = useState({});
   const [inputFields, setInputFields] = useState({});
   const [editMode, setEditMode] = useState(false);
 
 
-  console.log(predictions);
-
+  // This is causing a 'too many re-renders' error
   const currentFixtures = useMemo(() => {
     return getRoundFixtures(fixtures, round);
   }, [fixtures, round]);
@@ -28,7 +26,8 @@ const Predictions = ({ round }) => {
     for (let fixture in fixtures) {
         for (let matchElement in fixtures[fixture]) {
             if (matchElement === 'round' &&
-                  fixtures[fixture][matchElement] === round) {
+                  fixtures[fixture][matchElement] === round &&
+                !newFixtures.includes(fixtures[fixture])) {
                     newFixtures.push(fixtures[fixture]);
             }
         }
@@ -36,23 +35,7 @@ const Predictions = ({ round }) => {
     return newFixtures;
   }
 
-/*
-  const roundPredictions = useMemo(() => {
-    const getRoundPredictions = () => {
-      const filteredPredictions = [];
-      for (let prediction in predictions) {
-        for (let predictionElement in prediction) {
-          if (predictionElement === 'user' &&
-            predictions[prediction][predictionElement] === currentUser) {
-              filteredPredictions.push(predictions[prediction]);
-            }
-        }
-      }
-      return filteredPredictions;
-    };
-    return getRoundPredictions();
-  }, [predictions, currentUser]);
-*/
+
 
   // Predictions stored in context are for the selected competition/round
   // This useEffect filters those belonging to the current user

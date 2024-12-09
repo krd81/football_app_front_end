@@ -17,6 +17,7 @@ function App({ children }) {
   const [competitions, setCompetitions] = useState([]);
   const [selectedCompetition, setSelectedCompetition] = useState({});
   const [fixtures, setFixtures] = useState([]);
+  const [predictions, setPredictions] = useState({});
   const [token, setToken] = useState(null);
   const [round, setRound] = useState('');
   const [route, setRoute] = useState(''); // Use to store whether to display predictions or fixtures
@@ -76,11 +77,35 @@ function App({ children }) {
           } catch (error) {
             console.error(error.message);
           }
-
       }
   fetchData();
-
 }, []);
+
+// Separate effect for fetching predictions info since it is dependent upon selectedCompetition
+// and will need to be called each time the competition changes
+useEffect(() => {
+  const fetchData = async () => {
+      try {
+        // const apiUrl = import.meta.env.VITE_API_URL;
+        const apiUrl = 'http://127.0.0.1:8005';
+        const result = await fetch(`${apiUrl}/predictions/competition/${selectedCompetition.id}`, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `null`
+          }
+        });
+        const selectedCompPredictions = await result.json();
+        setPredictions(selectedCompPredictions);
+      } catch (error) {
+          console.error(error.message);
+      }
+  };
+  if (selectedCompetition.id) {
+    fetchData();
+  }
+}, [selectedCompetition.id]);
+
 
 
   function showDatabaseEntries () {
@@ -135,6 +160,7 @@ function App({ children }) {
             comp: [selectedCompetition, setSelectedCompetition],
             competitions,
             selectedCompetition,
+            predictions,
             fixtures,
             round,
             login,
