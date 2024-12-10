@@ -51,6 +51,7 @@ const Predictions = ({ round }) => {
 
 
 
+
   // Predictions stored in context are for the selected competition/round
   // This useEffect filters those belonging to the current user
   useEffect(() => {
