@@ -9,16 +9,14 @@ import { PredictionContext } from '../common/PredictionContext';
 
 
 const Predictions = ({ round }) => {
-  const { selectedCompetition, fixtures, currentUser } = useContext(AppContext);
-  const { predictions } = useContext(CompRoundContext);
+  const { selectedCompetition, fixtures, user, predictions } = useContext(AppContext);
   // const [predictions, setPredictions] = useState({});
   const [userPredictions, setUserPredictions] = useState({});
   const [inputFields, setInputFields] = useState({});
-  const [editMode, setEditMode] = useState(false);
+  const [editMode, setEditMode] = useState(true);
 
 
-  console.log(predictions);
-
+  // This is causing a 'too many re-renders' error
   const currentFixtures = useMemo(() => {
     return getRoundFixtures(fixtures, round);
   }, [fixtures, round]);
@@ -28,13 +26,31 @@ const Predictions = ({ round }) => {
     for (let fixture in fixtures) {
         for (let matchElement in fixtures[fixture]) {
             if (matchElement === 'round' &&
-                  fixtures[fixture][matchElement] === round) {
+                  fixtures[fixture][matchElement] === round &&
+                !newFixtures.includes(fixtures[fixture])) {
                     newFixtures.push(fixtures[fixture]);
             }
         }
     }
     return newFixtures;
   }
+
+
+
+  const handleInputChange = (e, fixtureId) => {
+    const { name, value } = e.target;
+    setUserPredictions(prevState => ({
+      ...prevState,
+      [fixtureId]: {
+        ...prevState[fixtureId],
+        [name]: value
+      }
+    }));
+  };
+
+
+
+
 
   // Predictions stored in context are for the selected competition/round
   // This useEffect filters those belonging to the current user
@@ -43,20 +59,15 @@ const Predictions = ({ round }) => {
     for (let prediction in predictions) {
       for (let predictionElement in prediction) {
         if (predictionElement === 'user' &&
-          predictions[prediction][predictionElement] === currentUser) {
+          predictions[prediction][predictionElement] === user) {
             filteredPredictions.push(predictions[prediction]);
           }
       }
     }
     setUserPredictions(filteredPredictions);
-  }, [predictions, currentUser]);
+  }, [predictions, user]);
 
-  const setPredictionInputs = (fixtureId) => (
-    setInputFields({
-      homePrediction: userPredictions[fixtureId] ? userPredictions[fixtureId].homePrediction : '',
-      awayPrediction: userPredictions[fixtureId] ? userPredictions[fixtureId].awayPrediction : '',
-    }
-  ));
+
 
 
 
@@ -77,66 +88,74 @@ const Predictions = ({ round }) => {
   return (
     <>
       <PredictionContext.Provider></PredictionContext.Provider>
+      {console.log(fixtures)}
+      {console.log(JSON.stringify(user))}
+      {console.log(JSON.stringify(selectedCompetition))}
+      {console.log(userPredictions)}
       <div>
         <h1>Predictions  - Matchweek {round}:</h1>
       </div>
       <div>
-        <button className='edit-mode-btn' onClick={handleEditButton}>{editMode ? `View` : `Edit`}</button>
-      </div>
+      <button className='edit-mode-btn' onClick={handleEditButton}>{editMode ? `View` : `Edit`}</button>
       <div className='match-list'>
-        {fixtureDates?.map((fixtureDate) => {
-          return (
-            <Fragment key={fixtureDate}>
-              <div className='date-header'>
-                {/* Displays date */}
-                <h3 className='date-text'>{dateFormatter2(fixtureDate)}</h3>
-              </div>
-              <form onSubmit={handleSubmit} key={fixtureDate}>
-                {currentFixtures?.map((match) => {
-                  setPredictionInputs(match);
-                  if (match.date === fixtureDate) {
-                    return (
-                      <>
-                        <Fragment key={match.fixtureId + fixtureDate}>
-                          <div className='match-card' >
-                            <div className='predictions-text'>
-                              <div className='grid-container'>
-                                <div className='grid-item1'>
-                                  <label className='team-name' htmlFor='homePrediction'>{`${shortName(match.homeName)} `}</label>
-                                </div>
-                                <div className='grid-item2'>
-                                  {editMode ? (
-                                    <>
-                                      <input className='score-input' id={`${match.homeName}`} name='homePrediction' type='text' size="1" value={inputFields.homePrediction}></input>
-                                      &nbsp;-&nbsp;
-                                      <input className='score-input' id={`${match.awayName}`} name='awayPrediction' type='text' size="1" value={inputFields.awayPrediction}></input>
-                                    </>
-                                  ) : (
-                                    <>
-                                      <input className='score-input' id={`${match.homeName}`} name='homePrediction' type='text' size="1" value={inputFields.homePrediction} readOnly></input>
-                                      &nbsp;-&nbsp;
-                                      <input className='score-input' id={`${match.awayName}`} name='awayPrediction' type='text' size="1" value={inputFields.awayPrediction} readOnly></input>
-                                    </>
-                                    )}
-                                </div>
-                                <div className='grid-item1'>
+        {fixtureDates?.map((fixtureDate) => (
+          <Fragment key={fixtureDate}>
+            <div className='date-header'>
+              <h3 className='date-text'>{dateFormatter2(fixtureDate)}</h3>
+            </div>
+            <form onSubmit={handleSubmit} key={fixtureDate}>
+              {currentFixtures?.map((match) => (
+                match.date === fixtureDate && (
+                  <Fragment key={match.fixture_id + fixtureDate}>
+                    <div className='match-card'>
+                      <div className='predictions-text'>
+                        <div className='grid-container'>
+                          <div className='grid-item1'>
+                            <label className='team-name' htmlFor='homePrediction'>{`${shortName(match.homeName)} `}</label>
+                          </div>
+                          <div className='grid-item2'>
+                            {editMode ? (
+                              <>
+                                <input
+                                  className='score-input'
+                                  id={`${match.homeName}`}
+                                  name='homePrediction'
+                                  type='text'
+                                  size="1"
+                                  value={userPredictions[match.fixture_id]?.homePrediction || ''}
+                                  onChange={(e) => handleInputChange(e, match.fixture_id)}
+                                />
+                                &nbsp;-&nbsp;
+                                <input
+                                  className='score-input'
+                                  id={`${match.awayName}`}
+                                  name='awayPrediction'
+                                  type='text'
+                                  size="1"
+                                  value={userPredictions[match.fixture_id]?.awayPrediction || ''}
+                                  onChange={(e) => handleInputChange(e, match.fixture_id)}
+                                />
+                              </>
+                            ) : (
+                              <span>{`${userPredictions[match.fixture_id]?.homePrediction || ''} - ${userPredictions[match.fixture_id]?.awayPrediction || ''}`}</span>
+                            )}
+                          </div>
+                          <div className='grid-item1'>
                                   <label className='team-name' htmlFor='awayPrediction'>{` ${shortName(match.awayName)}`}</label>
                                 </div>
-                              </div>
-                            </div>
-                              <p className='predictions-text'>{`Kick-off: ${match.time}`}</p>
+                        </div>
+                      </div>
+                      <p className='predictions-text'>{`Kick-off: ${match.time}`}</p>
                               <p className='predictions-text'>{`${match.location}`}</p>
-                          </div>
+                      </div>
+                  </Fragment>
+                )
+              ))}
+            </form>
+          </Fragment>
 
-                        </Fragment>
-                      </>
-                    )
-                  };
-                })};
-              </form>
-            </Fragment>
-          )
-        })};
+        ))};
+      </div>
       </div>
     </>
   )

@@ -7,33 +7,9 @@ import GameWeekSelect from './GameWeekSelect';
 //'/competition/:comp_id/round/:round_id'
 
 function Play ({ children, setCompRound, setRoutePath, route }) {
-    const { fixtures, selectedCompetition, round } = useContext(AppContext);
-    const [predictions, setPredictions] = useState({});
+    const { fixtures, selectedCompetition } = useContext(AppContext);
 
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-              // const apiUrl = import.meta.env.VITE_API_URL;
-              const apiUrl = 'http://127.0.0.1:8005';
-              const result = await fetch(`${apiUrl}/predictions/competition/${selectedCompetition.id}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `null`
-                }
-              });
-              const roundPredictions = await result.json();
-              setPredictions(roundPredictions);
-            } catch (error) {
-                console.error(error.message);
-            }
-        };
-        fetchData();
-    }, [round, selectedCompetition.id]);
-
-
-
+    /*
     // Memoize the setRoutePath function
     const memoizedSetRoutePath = useMemo(() => {
         return () => setRoutePath();
@@ -41,6 +17,7 @@ function Play ({ children, setCompRound, setRoutePath, route }) {
 
     // Call the memoized function
     memoizedSetRoutePath();
+    */
 
 
     function getRounds (fixtures) {
@@ -65,10 +42,7 @@ function Play ({ children, setCompRound, setRoutePath, route }) {
 
     return (
         <>
-            <CompRoundContext.Provider value={{
-                rounds,
-                predictions
-                }}
+            <CompRoundContext.Provider value={{ rounds }}
             >
                 {children}
                 <GameWeekDisplay comp={selectedCompetition.name}/>
