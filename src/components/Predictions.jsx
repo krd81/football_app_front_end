@@ -9,7 +9,7 @@ import { PredictionContext } from '../common/PredictionContext';
 
 
 const Predictions = ({ round }) => {
-  const { selectedCompetition, fixtures, currentUser, predictions } = useContext(AppContext);
+  const { selectedCompetition, fixtures, user, predictions } = useContext(AppContext);
   // const [predictions, setPredictions] = useState({});
   const [userPredictions, setUserPredictions] = useState({});
   const [inputFields, setInputFields] = useState({});
@@ -35,19 +35,7 @@ const Predictions = ({ round }) => {
     return newFixtures;
   }
 
-  // Update this function to map the predictions to find only those belonging to the user
-  // then if the fixture_id matches the fixture shown - populate the prediction
 
-  useEffect(() => {
-    const initialPredictions = {};
-    currentFixtures.forEach(match => {
-      initialPredictions[match.fixture_id] = {
-        homePrediction: match.homePrediction || '',
-        awayPrediction: match.awayPrediction || ''
-      };
-    });
-    setUserPredictions(initialPredictions);
-  }, [currentFixtures]);
 
   const handleInputChange = (e, fixtureId) => {
     const { name, value } = e.target;
@@ -70,13 +58,13 @@ const Predictions = ({ round }) => {
     for (let prediction in predictions) {
       for (let predictionElement in prediction) {
         if (predictionElement === 'user' &&
-          predictions[prediction][predictionElement] === currentUser) {
+          predictions[prediction][predictionElement] === user) {
             filteredPredictions.push(predictions[prediction]);
           }
       }
     }
     setUserPredictions(filteredPredictions);
-  }, [predictions, currentUser]);
+  }, [predictions, user]);
 
 
 
@@ -99,6 +87,10 @@ const Predictions = ({ round }) => {
   return (
     <>
       <PredictionContext.Provider></PredictionContext.Provider>
+      {console.log(fixtures)}
+      {console.log(JSON.stringify(user))}
+      {console.log(JSON.stringify(selectedCompetition))}
+      {console.log(userPredictions)}
       <div>
         <h1>Predictions  - Matchweek {round}:</h1>
       </div>
@@ -129,7 +121,7 @@ const Predictions = ({ round }) => {
                                   name='homePrediction'
                                   type='text'
                                   size="1"
-                                  value={predictions[match.fixture_id]?.homePrediction || ''}
+                                  value={userPredictions[match.fixture_id]?.homePrediction || ''}
                                   onChange={(e) => handleInputChange(e, match.fixture_id)}
                                 />
                                 &nbsp;-&nbsp;
@@ -139,12 +131,12 @@ const Predictions = ({ round }) => {
                                   name='awayPrediction'
                                   type='text'
                                   size="1"
-                                  value={predictions[match.fixture_id]?.awayPrediction || ''}
+                                  value={userPredictions[match.fixture_id]?.awayPrediction || ''}
                                   onChange={(e) => handleInputChange(e, match.fixture_id)}
                                 />
                               </>
                             ) : (
-                              <span>{`${predictions[match.fixture_id]?.homePrediction || ''} - ${predictions[match.fixture_id]?.awayPrediction || ''}`}</span>
+                              <span>{`${userPredictions[match.fixture_id]?.homePrediction || ''} - ${userPredictions[match.fixture_id]?.awayPrediction || ''}`}</span>
                             )}
                           </div>
                           <div className='grid-item1'>

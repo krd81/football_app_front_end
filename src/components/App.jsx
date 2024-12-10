@@ -13,12 +13,15 @@ import TokenDecoder from '../authentication/TokenDecoder'
 
 function App({ children }) {
   const [users, setUsers] = useState([]);
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState(() => {
+    const savedUser = sessionStorage.getItem('currentUser');
+    return savedUser ? JSON.parse(savedUser) : {};
+  });
   const [competitions, setCompetitions] = useState([]);
   const [selectedCompetition, setSelectedCompetition] = useState({});
   const [fixtures, setFixtures] = useState([]);
   const [predictions, setPredictions] = useState({});
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState(() => sessionStorage.getItem('token'));
   const [round, setRound] = useState('');
   const [route, setRoute] = useState(''); // Use to store whether to display predictions or fixtures
 
@@ -27,59 +30,60 @@ function App({ children }) {
   // i.e. users/predictions from user database and
   // football fixtures/scores/results from football database
   useEffect(() => {
-      const fetchData = async () => {
-          try {
-              // const apiUrl = import.meta.env.VITE_API_URL;
-              const apiUrl = 'http://127.0.0.1:8005';
-              const result = await fetch(`${apiUrl}/user/`, {
-                  method: 'GET',
-                  headers: {
-                      'Content-Type': 'application/json',
-                      'Authorization': `null`
-                  }
-              });
-              const users = await result.json();
-              setUsers(users);
-
-          } catch (error) {
-              console.error(error.message);
-          }
-          try {
-              // const apiUrl = import.meta.env.VITE_API_URL;
-              const apiUrl = 'http://127.0.0.1:8002';
-              const result = await fetch(`${apiUrl}/competitions/`, {
-                  method: 'GET',
-                  headers: {
-                      'Content-Type': 'application/json',
-                      'Authorization': `null`
-                  }
-              });
-              const competitions = await result.json();
-              setCompetitions(competitions);
-              // Sets the first element of competitions[0]
-              // i.e. "Premier League" as the default competition
-              setSelectedCompetition(competitions['0']);
-          } catch (error) {
-              console.error(error.message);
-          }
-          try {
-            // const apiUrl = import.meta.env.VITE_API_URL;
-            const apiUrl = 'http://127.0.0.1:8002';
-            const fixtures = await fetch(`${apiUrl}/fixtures/`, {
+    const fetchData = async () => {
+      try {
+          // const apiUrl = import.meta.env.VITE_API_URL;
+          const apiUrl = 'http://127.0.0.1:8005';
+          const result = await fetch(`${apiUrl}/user/`, {
               method: 'GET',
               headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `null`
+                  'Content-Type': 'application/json',
+                  'Authorization': `null`
               }
-            })
-            const fixtureData = await fixtures.json();
-            setFixtures(fixtureData);
-          } catch (error) {
-            console.error(error.message);
-          }
+          });
+          const users = await result.json();
+          setUsers(users);
+
+      } catch (error) {
+          console.error(error.message);
       }
-  fetchData();
-}, []);
+      try {
+          // const apiUrl = import.meta.env.VITE_API_URL;
+          const apiUrl = 'http://127.0.0.1:8002';
+          const result = await fetch(`${apiUrl}/competitions/`, {
+              method: 'GET',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `null`
+              }
+          });
+          const competitions = await result.json();
+          setCompetitions(competitions);
+          // Sets the first element of competitions[0]
+          // i.e. "Premier League" as the default competition
+          setSelectedCompetition(competitions['0']);
+      } catch (error) {
+          console.error(error.message);
+      }
+      try {
+        // const apiUrl = import.meta.env.VITE_API_URL;
+        const apiUrl = 'http://127.0.0.1:8002';
+        const fixtures = await fetch(`${apiUrl}/fixtures/`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `null`
+          }
+        })
+        const fixtureData = await fixtures.json();
+        setFixtures(fixtureData);
+      } catch (error) {
+        console.error(error.message);
+      }
+    }
+    fetchData();
+  }, []);
+
 
 // Separate effect for fetching predictions info since it is dependent upon selectedCompetition
 // and will need to be called each time the competition changes
@@ -110,7 +114,7 @@ useEffect(() => {
 
   function showDatabaseEntries () {
       console.log(users)
-      console.log(currentUser)
+      // console.log(currentUser)
       console.log(competitions)
       console.log(selectedCompetition)
       console.log(fixtures)
@@ -123,8 +127,8 @@ useEffect(() => {
       setToken(newToken)
       const decodedToken = TokenDecoder(newToken);
       const user = users.find(user => user._id === decodedToken._id);
-      console.log(user)
-      setCurrentUser(user);
+      // console.log(user)
+      // setCurrentUser(user);
       // user ? setCurrentUser(user) : setCurrentUser(null);
       showDatabaseEntries()
   }
@@ -149,6 +153,16 @@ useEffect(() => {
     setRoute(path);
   };
 
+  useEffect(() => {
+    if (token && users) {
+      const decodedToken = TokenDecoder(token);
+      const user = users.find(user => user._id === decodedToken._id);
+      console.log(user)
+      setCurrentUser(user);
+      sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+    }
+ }, [token, users, currentUser]);
+
 
   return (
     <>
@@ -169,6 +183,7 @@ useEffect(() => {
             })}
             >
               {children}
+              {console.log(currentUser)}
       <BrowserRouter>
         <NavBar />
         <div>
