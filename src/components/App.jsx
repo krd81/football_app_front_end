@@ -168,7 +168,8 @@ useEffect(() => {
     <>
      <AppContext.Provider
         value={({
-            user: [currentUser, setCurrentUser],
+            // user: [currentUser, setCurrentUser],
+            currentUser,
             comps: [competitions, setCompetitions],
             userToken: [token, setToken],
             comp: [selectedCompetition, setSelectedCompetition],
@@ -183,7 +184,6 @@ useEffect(() => {
             })}
             >
               {children}
-              {console.log(currentUser)}
       <BrowserRouter>
         <NavBar />
         <div>

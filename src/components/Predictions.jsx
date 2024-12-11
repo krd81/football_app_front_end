@@ -9,7 +9,7 @@ import { PredictionContext } from '../common/PredictionContext';
 
 
 const Predictions = ({ round }) => {
-  const { selectedCompetition, fixtures, user, predictions } = useContext(AppContext);
+  const { selectedCompetition, fixtures, predictions, currentUser } = useContext(AppContext);
   // const [predictions, setPredictions] = useState({});
   const [userPredictions, setUserPredictions] = useState({});
   const [inputFields, setInputFields] = useState({});
@@ -55,17 +55,14 @@ const Predictions = ({ round }) => {
   // Predictions stored in context are for the selected competition/round
   // This useEffect filters those belonging to the current user
   useEffect(() => {
-    const filteredPredictions = [];
-    for (let prediction in predictions) {
-      for (let predictionElement in prediction) {
-        if (predictionElement === 'user' &&
-          predictions[prediction][predictionElement] === user) {
-            filteredPredictions.push(predictions[prediction]);
-          }
-      }
-    }
+    console.log(currentUser);
+
+    const filteredPredictions = predictions.filter(prediction => {
+      return prediction.user && prediction.user._id === currentUser._id;
+    });
+
     setUserPredictions(filteredPredictions);
-  }, [predictions, user]);
+  }, [predictions, currentUser]);
 
 
 
@@ -85,15 +82,13 @@ const Predictions = ({ round }) => {
   }
 
 
+
   return (
     <>
       <PredictionContext.Provider></PredictionContext.Provider>
-      {console.log(fixtures)}
-      {console.log(JSON.stringify(user))}
-      {console.log(JSON.stringify(selectedCompetition))}
-      {console.log(userPredictions)}
       <div>
         <h1>Predictions  - Matchweek {round}:</h1>
+        {console.log(userPredictions)}
       </div>
       <div>
       <button className='edit-mode-btn' onClick={handleEditButton}>{editMode ? `View` : `Edit`}</button>
