@@ -67,13 +67,20 @@ const Predictions = ({ round }) => {
 // Function to map through userPredictions and select the prediction which
 // corresponds with the match being displayed
   const getUserPrediction = (match, team) => {
-    // Should be mapping 'userPredictions' but this is causing a rendering error
-    predictions.map((userPrediction) => {
+
+    // initially filter all predictions and return those belonging to the user
+    const userPredictions_new = predictions.filter(prediction => {
+      return prediction.user && prediction.user._id === currentUser._id;
+    });
+
+    userPredictions_new.map((userPrediction) => {
       if (match.fixture_id === userPrediction.fixture_id) {
         switch (team) {
           case 'home':
+            console.log('Home prediction: ' + userPrediction.homeName + ' - ' + userPrediction.homePrediction);
             return userPrediction.homePrediction;
           case 'away':
+            console.log('Away prediction: ' + userPrediction.awayName + ' - ' + userPrediction.awayPrediction);
             return userPrediction.awayPrediction;
           default:
             return null;
