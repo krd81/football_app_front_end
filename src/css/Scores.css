@@ -14,6 +14,15 @@
     align-items: center;
 }
 
+.date-header {
+    margin-bottom: 0px;
+}
+
+.date-text {
+    font-size: 1.8em;
+    font-weight: bold;
+}
+
 .predictions-text {
     font-size: normal;
 }
@@ -34,6 +43,11 @@
 
 .grid-item1:hover {
     overflow: visible;
+}
+
+.team-name {
+    display: flex;
+    text-align: center;
 }
 
 

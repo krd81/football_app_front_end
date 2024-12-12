@@ -1,55 +1,68 @@
-import { React, useState, useEffect } from 'react'
+import { Fragment, useContext, useMemo } from 'react'
 import '../css/Scores.css'
-import DateFormatter from '../common/DateFormatter'
+import getDates from '../functions/getDates';
+import { dateFormatter2 } from '../functions/dateFormatter'
+import shortName from '../functions/nameAbbreviation';
+import { AppContext } from '../authentication/AppContext';
 
-const Fixtures = () => {
-  const [matches, setMatches] = useState([])
+const Fixtures = ({ round }) => {
+  const { fixtures } = useContext(AppContext);
 
+  const currentFixtures = useMemo(() => {
+    return getRoundFixtures(fixtures, round);
+  }, [fixtures, round]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // const apiUrl = import.meta.env.VITE_API_URL;
-        const apiUrl = 'http://127.0.0.1:8002';
-        const fixtures = await fetch(`${apiUrl}/fixtures/`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `null`
-          }
-        })
-        const fixtureData = await fixtures.json();
-        setMatches(fixtureData);
-      } catch (error) {
-        console.error(error.message);
-      }
+  function getRoundFixtures (fixtures, round) {
+    const newFixtures = [];
+    for (let fixture in fixtures) {
+        for (let matchElement in fixtures[fixture]) {
+            if (matchElement === 'round' &&
+                  fixtures[fixture][matchElement] === round) {
+                    newFixtures.push(fixtures[fixture]);
+            }
+        }
     }
+    return newFixtures;
+  }
 
-    fetchData();
-  }, []);
+  const fixtureDates = getDates(currentFixtures);
+
 
   return (
     <>
-    <div>
-      <h1>Fixtures:</h1>
-    </div>
-    <div>
-     {matches?.map((match, index) => {
-        return (
-          <>
-          <div className='match-card' key={index}>
-            <p>{`${index+1}. ${match.homeName} vs ${match.awayName}`}</p>
-            <p>{`Date: ${DateFormatter(match.date)}`}</p>
-            <p>{`Kick-off: ${match.time}`}</p>
-            <p>{`${match.location}`}</p>
-            </div>
-          </>
-        )
-      })
-    }
-    </div>
-    </>
-  )
-}
+      <div>
+        <h1>Fixtures - Matchweek {round}:</h1>
+      </div>
+      <div className='match-list'>
+        {fixtureDates?.map((fixtureDate) => {
+          return (
+            <Fragment key={fixtureDate}>
+              <div className='date-header'>
+                  {/* Displays date */}
+                  <h3 className='date-text'>{dateFormatter2(fixtureDate)}</h3>
+                </div>
+                  {fixtures?.map((match) => {
+                  if (match.date === fixtureDate) {
 
-export default Fixtures
+                    return (
+                      <Fragment key={match._id}>
+                        <div className='match-card'>
+                          <span>{shortName(match.homeName)}&ensp;</span>
+                          <span><img src='' alt='home-icon'></img></span>
+                          <span>&emsp;{match.time}&emsp;</span>
+                          <span><img src='' alt='away-icon'></img></span>
+                          <span>&ensp;{shortName(match.awayName)}</span>
+                        </div>
+                      </Fragment>
+                    )
+                  }
+                  })};
+            </Fragment>
+
+          )
+        })};
+    </div>
+  </>
+)};
+
+export default Fixtures;
