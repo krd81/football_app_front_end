@@ -5,9 +5,9 @@ import { AppContext } from '../authentication/AppContext';
 
 
 const Homepage = () => {
-  const { selectedCompetition, user, userToken, comp } = useContext(AppContext);
+  const { selectedCompetition, user: currentUser, userToken, comp } = useContext(AppContext);
 
-  console.log(`Homepage - currentUser: `+ JSON.stringify(user))
+  console.log(`Homepage - currentUser: `+ JSON.stringify(currentUser))
   console.log(`Homepage - token: `+ userToken)
   console.log(`Homepage - selectedCompetition: ` + JSON.stringify(comp))
 

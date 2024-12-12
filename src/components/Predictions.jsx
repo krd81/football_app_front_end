@@ -64,6 +64,25 @@ const Predictions = ({ round }) => {
     setUserPredictions(filteredPredictions);
   }, [predictions, currentUser]);
 
+// Function to map through userPredictions and select the prediction which
+// corresponds with the match being displayed
+  const getUserPrediction = (match, team) => {
+    // Should be mapping 'userPredictions' but this is causing a rendering error
+    predictions.map((userPrediction) => {
+      if (match.fixture_id === userPrediction.fixture_id) {
+        switch (team) {
+          case 'home':
+            return userPrediction.homePrediction;
+          case 'away':
+            return userPrediction.awayPrediction;
+          default:
+            return null;
+        }
+      } else {
+        return '';
+      }
+    });
+  };
 
 
 
@@ -89,6 +108,7 @@ const Predictions = ({ round }) => {
       <div>
         <h1>Predictions  - Matchweek {round}:</h1>
         {console.log(userPredictions)}
+        {/* {console.log(Object.values(userPredictions[0]))} */}
       </div>
       <div>
       <button className='edit-mode-btn' onClick={handleEditButton}>{editMode ? `View` : `Edit`}</button>
@@ -117,7 +137,8 @@ const Predictions = ({ round }) => {
                                   name='homePrediction'
                                   type='text'
                                   size="1"
-                                  value={userPredictions[match.fixture_id]?.homePrediction || ''}
+                                  // value={userPredictions[match.fixture_id]?.homePrediction || ''}
+                                  value={getUserPrediction(match, 'home') || ''}
                                   onChange={(e) => handleInputChange(e, match.fixture_id)}
                                 />
                                 &nbsp;-&nbsp;
@@ -127,12 +148,14 @@ const Predictions = ({ round }) => {
                                   name='awayPrediction'
                                   type='text'
                                   size="1"
-                                  value={userPredictions[match.fixture_id]?.awayPrediction || ''}
+                                  // value={userPredictions[match.fixture_id]?.awayPrediction || ''}
+                                  value={getUserPrediction(match, 'away') || ''}
                                   onChange={(e) => handleInputChange(e, match.fixture_id)}
                                 />
                               </>
                             ) : (
-                              <span>{`${userPredictions[match.fixture_id]?.homePrediction || ''} - ${userPredictions[match.fixture_id]?.awayPrediction || ''}`}</span>
+                              // <span>{`${userPredictions[match.fixture_id]?.homePrediction || ''} - ${userPredictions[match.fixture_id]?.awayPrediction || ''}`}</span>
+                              <span>{`${getUserPrediction(match, 'home') || ''} - ${getUserPrediction(match, 'away') || ''}`}</span>
                             )}
                           </div>
                           <div className='grid-item1'>
