@@ -36,7 +36,7 @@ export default function FixtureList({
 function Fixture ({ match, isEdit, updatePrediction, awayPrediction, onDelete }) {
     const { predictions: allPredictions, currentUser } = useContext(AppContext);
     const m = match;
-    let prediction = '';
+    // let prediction = '';
 
     // initially filter all predictions and return those belonging to the user
     const userPredictions = allPredictions.filter(prediction => {
@@ -46,6 +46,7 @@ function Fixture ({ match, isEdit, updatePrediction, awayPrediction, onDelete })
 
     // Function to map through userPredictions and select the prediction which
     // corresponds with the match being displayed
+    /*
     const getUserPrediction = (team) => {
 
         userPredictions.map((userPrediction) => {
@@ -67,20 +68,29 @@ function Fixture ({ match, isEdit, updatePrediction, awayPrediction, onDelete })
             }
         });
     };
-
-    const getHomePrediction = () => {
-        const prediction = userPredictions.find(pred => pred._id === m._id);
+*/
+    const getHomePrediction = (fixture) => {
+        const prediction = userPredictions.find(pred => pred.fixture_id === fixture.fixture_id);
+        console.log(fixture)
+        console.log(`Home prediction for `+ fixture.homeName + `: ` + prediction?.homePrediction );
         return prediction ? prediction.homePrediction : '';
     }
 
-    const getAwayPrediction = () => {
-        const prediction = userPredictions.find(pred => pred._id === m._id);
+    const getAwayPrediction = (fixture) => {
+        const prediction = userPredictions.find(pred => pred.fixture_id === fixture.fixture_id);
+        console.log(`Away prediction for `+ fixture.awayName + `: ` + prediction?.awayPrediction );
         return prediction ? prediction.awayPrediction : '';
+    }
+
+    const getPrediction = (fixture) => {
+        const prediction = userPredictions.find(pred => pred._id === fixture.fixture_id);
+        return prediction || null;
     }
 
 
     return (
         <>
+        {console.log(userPredictions)}
             <div className='match-card'>
                 <div className='predictions-text'>
                     <div className='grid-container'>
@@ -90,15 +100,15 @@ function Fixture ({ match, isEdit, updatePrediction, awayPrediction, onDelete })
                         <div className='grid-item2'>
                             {isEdit ? (
                                 <>
-                                {getUserPrediction('home')}
                                 <input
                                     className='score-input'
                                     id={`${m.homeName}`}
                                     name='homePrediction'
                                     type='text'
                                     size="1"
-                                    value={prediction || ''}
+                                    value={getHomePrediction(m) || ''}
                                     onChange={e => {
+                                        const prediction = getPrediction(m);
                                         updatePrediction({
                                             ...prediction,
                                             homePrediction: e.target.value
@@ -106,15 +116,15 @@ function Fixture ({ match, isEdit, updatePrediction, awayPrediction, onDelete })
                                     }}
                                 />
                                 &nbsp;-&nbsp;
-                                {getUserPrediction('away')}
                                 <input
                                     className='score-input'
                                     id={`${m.awayName}`}
                                     name='awayPrediction'
                                     type='text'
                                     size="1"
-                                    value={prediction || ''}
+                                    value={getAwayPrediction(m) || ''}
                                     onChange={e => {
+                                        const prediction = getPrediction(m);
                                         updatePrediction({
                                             ...prediction,
                                             awayPrediction: e.target.value
@@ -125,7 +135,7 @@ function Fixture ({ match, isEdit, updatePrediction, awayPrediction, onDelete })
                                 </>
                             ) : (
                                 // <span>{`${getUserPrediction(m, 'home') || ''} - ${getUserPrediction(m, 'away') || ''}`}</span>
-                                <span>{`${getHomePrediction() || ''} - ${getAwayPrediction() || ''}`}</span>
+                                <span>{`${getHomePrediction(m) || ''} - ${getAwayPrediction(m) || ''}`}</span>
                             )}
                         </div>
                         <div className='grid-item1'>
