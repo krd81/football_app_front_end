@@ -57,7 +57,8 @@ function Fixture ({ match, isEdit, updatePrediction, awayPrediction, onDelete })
     }
 
     const getPrediction = (fixture) => {
-        const prediction = userPredictions.find(pred => pred._id === fixture.fixture_id);
+        const prediction = userPredictions.find(pred => pred.fixture_id === fixture.fixture_id);
+        console.log(prediction)
         return prediction || null;
     }
 
