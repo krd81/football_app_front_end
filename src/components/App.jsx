@@ -20,7 +20,7 @@ function App({ children }) {
   const [competitions, setCompetitions] = useState([]);
   const [selectedCompetition, setSelectedCompetition] = useState({});
   const [fixtures, setFixtures] = useState([]);
-  const [predictions, setPredictions] = useState({});
+  const [allPredictions, setPredictions] = useState({});
   const [token, setToken] = useState(() => sessionStorage.getItem('token'));
   const [round, setRound] = useState('');
   const [route, setRoute] = useState(''); // Use to store whether to display predictions or fixtures
@@ -175,7 +175,7 @@ useEffect(() => {
             comp: [selectedCompetition, setSelectedCompetition],
             competitions,
             selectedCompetition,
-            predictions,
+            predictions: allPredictions,
             fixtures,
             round,
             login,

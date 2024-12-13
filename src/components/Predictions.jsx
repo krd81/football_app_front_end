@@ -3,26 +3,46 @@ import '../css/Scores.css'
 import getDates from '../functions/getDates';
 import { dateFormatter2 } from '../functions/dateFormatter'
 import { AppContext } from '../authentication/AppContext';
-import inputReducer from '../common/InputReducer';
+import predictionsReducer from '../common/PredictionsReducer';
 import FixtureList from './FixtureList';
 import { PredictionContext } from '../common/PredictionContext';
 
 
 const Predictions = ({ round }) => {
-  const { fixtures } = useContext(AppContext);
-  // const [predictions, setPredictions] = useState({});
+  const { predictions: allPredictions, fixtures } = useContext(AppContext);
   const [userPredictions, setUserPredictions] = useState({});
   const [editMode, setEditMode] = useState(true);
-  const [inputFields, dispatch] = useReducer(inputReducer, initialInputs);
+  const [predictions, dispatch] = useReducer(predictionsReducer, initialPredictions);
 
-  function handleUpdateField(updatedInput) {
+  const initialPredictions = [...allPredictions];
+
+  function handleAddPrediction(fixtureId, home, away) {
     dispatch({
-      type: 'update'
+      type: 'added',
+      fixtureId: fixtureId,
+      homePrediction: home,
+      awayPrediction: away
     })
-  }
+  };
+
+  function handleEditPrediction(fixtureId, home, away) {
+    dispatch({
+      type: 'updated',
+      fixtureId: fixtureId,
+      homePrediction: home,
+      awayPrediction: away
+    })
+  };
+
+  function handleDeletePrediction(fixtureId) {
+    dispatch({
+      type: 'deleted',
+      fixtureId: fixtureId
+    })
+  };
 
 
-  // This is causing a 'too many re-renders' error
+
   const currentFixtures = useMemo(() => {
     return getRoundFixtures(fixtures, round);
   }, [fixtures, round]);
@@ -76,8 +96,6 @@ const Predictions = ({ round }) => {
       <PredictionContext.Provider></PredictionContext.Provider>
       <div>
         <h1>Predictions  - Matchweek {round}:</h1>
-        {console.log(userPredictions)}
-        {/* {console.log(Object.values(userPredictions[0]))} */}
       </div>
       <div>
       <button className='edit-mode-btn' onClick={handleEditButton}>{editMode ? `View` : `Edit`}</button>
@@ -93,6 +111,10 @@ const Predictions = ({ round }) => {
                 date={fixtureDate}
                 fixtures={currentFixtures}
                 isEdit={editMode}
+                predictions={predictions}
+                onAddPrediction={handleAddPrediction}
+                onEditPrediction={handleEditPrediction}
+                onDeletePrediction={handleDeletePrediction}
               />
 
 

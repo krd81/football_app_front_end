@@ -2,7 +2,15 @@ import { Fragment, useState, useContext } from 'react'
 import { AppContext } from '../authentication/AppContext';
 import shortName from '../functions/nameAbbreviation';
 
-export default function FixtureList({ date, fixtures, isEdit}) {
+export default function FixtureList({
+    date,
+    fixtures,
+    isEdit,
+    predictions,
+    onAddPrediction,
+    onEditPrediction,
+    onDeletePrediction
+}) {
     const roundFixtures = fixtures;
 
     return (
@@ -10,7 +18,13 @@ export default function FixtureList({ date, fixtures, isEdit}) {
         {roundFixtures?.map((match) => (
             match.date === date && (
                 <Fragment key={match.fixture_id + date} >
-                    <Fixture match={match} isEdit={isEdit} />
+                    <Fixture
+                        match={match}
+                        isEdit={isEdit}
+                        onAdd={onAddPrediction}
+                        onEdit={onEditPrediction}
+                        onDelete={onDeletePrediction}
+                    />
                 </Fragment>
         )
         ))}
@@ -19,19 +33,19 @@ export default function FixtureList({ date, fixtures, isEdit}) {
   )
 }
 
-function Fixture ({ match, isEdit }) {
-    const { predictions, currentUser } = useContext(AppContext);
+function Fixture ({ match, isEdit, onAdd, onEdit, onDelete }) {
+    const { predictions: allPredictions, currentUser } = useContext(AppContext);
     const m = match;
 
     // Function to map through userPredictions and select the prediction which
     // corresponds with the match being displayed
     const getUserPrediction = (match, team) => {
         // initially filter all predictions and return those belonging to the user
-        const userPredictions_new = predictions.filter(prediction => {
+        const userPredictions = allPredictions.filter(prediction => {
             return prediction.user && prediction.user._id === currentUser._id;
         });
 
-        userPredictions_new.map((userPrediction) => {
+        userPredictions.map((userPrediction) => {
             if (m.fixture_id === userPrediction.fixture_id) {
                 switch (team) {
                 case 'home':
@@ -67,7 +81,7 @@ function Fixture ({ match, isEdit }) {
                                     type='text'
                                     size="1"
                                     value={getUserPrediction(m, 'home') || ''}
-                                    // onChange={(e) => handleInputChange(e, match.fixture_id)}
+                                    onChange={(e) => onAdd({})}
                                 />
                                 &nbsp;-&nbsp;
                                 <input
