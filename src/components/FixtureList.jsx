@@ -36,7 +36,6 @@ export default function FixtureList({
 function Fixture ({ match, isEdit, updatePrediction, awayPrediction, onDelete }) {
     const { predictions: allPredictions, currentUser } = useContext(AppContext);
     const m = match;
-    // let prediction = '';
 
     // initially filter all predictions and return those belonging to the user
     const userPredictions = allPredictions.filter(prediction => {
@@ -44,41 +43,16 @@ function Fixture ({ match, isEdit, updatePrediction, awayPrediction, onDelete })
     });
 
 
-    // Function to map through userPredictions and select the prediction which
-    // corresponds with the match being displayed
-    /*
-    const getUserPrediction = (team) => {
 
-        userPredictions.map((userPrediction) => {
-            if (m.fixture_id === userPrediction.fixture_id) {
-                switch (team) {
-                case 'home':
-                    console.log('Home prediction: ' + userPrediction.homeName + ' - ' + userPrediction.homePrediction);
-                    prediction = userPrediction.homePrediction;
-                    break;
-                case 'away':
-                    console.log('Away prediction: ' + userPrediction.awayName + ' - ' + userPrediction.awayPrediction);
-                    prediction = userPrediction.awayPrediction;
-                    break;
-                default:
-                    prediction = '';
-                }
-            } else {
-                prediction = '';
-            }
-        });
-    };
-*/
     const getHomePrediction = (fixture) => {
         const prediction = userPredictions.find(pred => pred.fixture_id === fixture.fixture_id);
-        console.log(fixture)
-        console.log(`Home prediction for `+ fixture.homeName + `: ` + prediction?.homePrediction );
+        // console.log(`Home prediction for `+ fixture.homeName + `: ` + prediction?.homePrediction );
         return prediction ? prediction.homePrediction : '';
     }
 
     const getAwayPrediction = (fixture) => {
         const prediction = userPredictions.find(pred => pred.fixture_id === fixture.fixture_id);
-        console.log(`Away prediction for `+ fixture.awayName + `: ` + prediction?.awayPrediction );
+        // console.log(`Away prediction for `+ fixture.awayName + `: ` + prediction?.awayPrediction );
         return prediction ? prediction.awayPrediction : '';
     }
 
@@ -134,7 +108,6 @@ function Fixture ({ match, isEdit, updatePrediction, awayPrediction, onDelete })
                                 />
                                 </>
                             ) : (
-                                // <span>{`${getUserPrediction(m, 'home') || ''} - ${getUserPrediction(m, 'away') || ''}`}</span>
                                 <span>{`${getHomePrediction(m) || ''} - ${getAwayPrediction(m) || ''}`}</span>
                             )}
                         </div>
