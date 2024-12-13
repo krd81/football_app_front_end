@@ -9,12 +9,11 @@ import { PredictionContext } from '../common/PredictionContext';
 
 
 const Predictions = ({ round }) => {
-  const { predictions: allPredictions, fixtures } = useContext(AppContext);
-  const [userPredictions, setUserPredictions] = useState({});
+  const { allPredictions, fixtures } = useContext(AppContext);
   const [editMode, setEditMode] = useState(true);
-  const [predictions, dispatch] = useReducer(predictionsReducer, initialPredictions);
 
-  const initialPredictions = [...allPredictions];
+  const initialPredictions = allPredictions;
+  const [predictions, dispatch] = useReducer(predictionsReducer, initialPredictions);
 
   function handleUpdatePrediction(prediction) {
     dispatch({
@@ -58,18 +57,6 @@ const Predictions = ({ round }) => {
     return newFixtures;
   }
 
-
-
-  const handleInputChange = (e, fixtureId) => {
-    const { name, value } = e.target;
-    setUserPredictions(prevState => ({
-      ...prevState,
-      [fixtureId]: {
-        ...prevState[fixtureId],
-        [name]: value
-      }
-    }));
-  };
 
 
 
