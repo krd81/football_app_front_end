@@ -16,21 +16,19 @@ const Predictions = ({ round }) => {
 
   const initialPredictions = [...allPredictions];
 
-  function handleAddPrediction(fixtureId, home, away) {
+  function handleHomePrediction(fixtureId, predictedScore) {
     dispatch({
       type: 'added',
       fixtureId: fixtureId,
-      homePrediction: home,
-      awayPrediction: away
+      homePrediction: predictedScore
     })
   };
 
-  function handleEditPrediction(fixtureId, home, away) {
+  function handleAwayPrediction(fixtureId, predictedScore) {
     dispatch({
-      type: 'updated',
+      type: 'added',
       fixtureId: fixtureId,
-      homePrediction: home,
-      awayPrediction: away
+      awayPrediction: predictedScore
     })
   };
 
@@ -112,8 +110,8 @@ const Predictions = ({ round }) => {
                 fixtures={currentFixtures}
                 isEdit={editMode}
                 predictions={predictions}
-                onAddPrediction={handleAddPrediction}
-                onEditPrediction={handleEditPrediction}
+                addHomePrediction={handleHomePrediction}
+                addAwayPrediction={handleAwayPrediction}
                 onDeletePrediction={handleDeletePrediction}
               />
 

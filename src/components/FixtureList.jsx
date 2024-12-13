@@ -1,4 +1,4 @@
-import { Fragment, useState, useContext } from 'react'
+import { Fragment, useContext } from 'react'
 import { AppContext } from '../authentication/AppContext';
 import shortName from '../functions/nameAbbreviation';
 
@@ -7,8 +7,8 @@ export default function FixtureList({
     fixtures,
     isEdit,
     predictions,
-    onAddPrediction,
-    onEditPrediction,
+    addHomePrediction,
+    addAwayPrediction,
     onDeletePrediction
 }) {
     const roundFixtures = fixtures;
@@ -21,8 +21,8 @@ export default function FixtureList({
                     <Fixture
                         match={match}
                         isEdit={isEdit}
-                        onAdd={onAddPrediction}
-                        onEdit={onEditPrediction}
+                        homePrediction={addHomePrediction}
+                        awayPrediction={addAwayPrediction}
                         onDelete={onDeletePrediction}
                     />
                 </Fragment>
@@ -33,35 +33,51 @@ export default function FixtureList({
   )
 }
 
-function Fixture ({ match, isEdit, onAdd, onEdit, onDelete }) {
+function Fixture ({ match, isEdit, homePrediction, awayPrediction, onDelete }) {
     const { predictions: allPredictions, currentUser } = useContext(AppContext);
     const m = match;
+    let prediction = '';
+
+    // initially filter all predictions and return those belonging to the user
+    const userPredictions = allPredictions.filter(prediction => {
+        return prediction.user && prediction.user._id === currentUser._id;
+    });
+
 
     // Function to map through userPredictions and select the prediction which
     // corresponds with the match being displayed
-    const getUserPrediction = (match, team) => {
-        // initially filter all predictions and return those belonging to the user
-        const userPredictions = allPredictions.filter(prediction => {
-            return prediction.user && prediction.user._id === currentUser._id;
-        });
+    const getUserPrediction = (team) => {
 
         userPredictions.map((userPrediction) => {
             if (m.fixture_id === userPrediction.fixture_id) {
                 switch (team) {
                 case 'home':
                     console.log('Home prediction: ' + userPrediction.homeName + ' - ' + userPrediction.homePrediction);
-                    return userPrediction.homePrediction;
+                    prediction = userPrediction.homePrediction;
+                    break;
                 case 'away':
                     console.log('Away prediction: ' + userPrediction.awayName + ' - ' + userPrediction.awayPrediction);
-                    return userPrediction.awayPrediction;
+                    prediction = userPrediction.awayPrediction;
+                    break;
                 default:
-                    return null;
+                    prediction = '';
                 }
             } else {
-                return '';
+                prediction = '';
             }
         });
     };
+
+    const getHomePrediction = () => {
+        const prediction = userPredictions.find(pred => pred._id === m._id);
+        return prediction ? prediction.homePrediction : '';
+    }
+
+    const getAwayPrediction = () => {
+        const prediction = userPredictions.find(pred => pred._id === m._id);
+        return prediction ? prediction.awayPrediction : '';
+    }
+
 
     return (
         <>
@@ -74,28 +90,42 @@ function Fixture ({ match, isEdit, onAdd, onEdit, onDelete }) {
                         <div className='grid-item2'>
                             {isEdit ? (
                                 <>
+                                {getUserPrediction('home')}
                                 <input
                                     className='score-input'
                                     id={`${m.homeName}`}
                                     name='homePrediction'
                                     type='text'
                                     size="1"
-                                    value={getUserPrediction(m, 'home') || ''}
-                                    onChange={(e) => onAdd({})}
+                                    value={prediction || ''}
+                                    onChange={e => {
+                                        homePrediction({
+                                            fixtureId: m.fixture_id,
+                                            homePrediction: e.target.value
+                                        });
+                                    }}
                                 />
                                 &nbsp;-&nbsp;
+                                {getUserPrediction('away')}
                                 <input
                                     className='score-input'
                                     id={`${m.awayName}`}
                                     name='awayPrediction'
                                     type='text'
                                     size="1"
-                                    value={getUserPrediction(m, 'away') || ''}
-                                    // onChange={(e) => handleInputChange(e, match.fixture_id)}
+                                    value={prediction || ''}
+                                    onChange={e => {
+                                        awayPrediction({
+                                            fixtureId: m.fixture_id,
+                                            awayPrediction: e.target.value
+                                        });
+                                    }}
+
                                 />
                                 </>
                             ) : (
-                                <span>{`${getUserPrediction(m, 'home') || ''} - ${getUserPrediction(m, 'away') || ''}`}</span>
+                                // <span>{`${getUserPrediction(m, 'home') || ''} - ${getUserPrediction(m, 'away') || ''}`}</span>
+                                <span>{`${getHomePrediction() || ''} - ${getAwayPrediction() || ''}`}</span>
                             )}
                         </div>
                         <div className='grid-item1'>
@@ -109,7 +139,4 @@ function Fixture ({ match, isEdit, onAdd, onEdit, onDelete }) {
 
         </>
     )
-
-
-
 };
