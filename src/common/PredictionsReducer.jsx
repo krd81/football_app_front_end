@@ -1,7 +1,16 @@
 export default function predictionsReducer(predictions, action) {
     switch (action.type) {
-        case 'added':
-            break;
+        case 'updatedPrediction': {
+                return predictions.map((p) => {
+                    if (p.fixture_id === action.prediction.fixture_id) {
+                      return action.prediction;
+                    } else {
+                      return p;
+                    }
+                  });
+            }
+
+
         case 'updated':
             break;
         case 'deleted':

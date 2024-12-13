@@ -7,7 +7,7 @@ export default function FixtureList({
     fixtures,
     isEdit,
     predictions,
-    addHomePrediction,
+    updatePrediction,
     addAwayPrediction,
     onDeletePrediction
 }) {
@@ -21,7 +21,7 @@ export default function FixtureList({
                     <Fixture
                         match={match}
                         isEdit={isEdit}
-                        homePrediction={addHomePrediction}
+                        updatePrediction={updatePrediction}
                         awayPrediction={addAwayPrediction}
                         onDelete={onDeletePrediction}
                     />
@@ -33,7 +33,7 @@ export default function FixtureList({
   )
 }
 
-function Fixture ({ match, isEdit, homePrediction, awayPrediction, onDelete }) {
+function Fixture ({ match, isEdit, updatePrediction, awayPrediction, onDelete }) {
     const { predictions: allPredictions, currentUser } = useContext(AppContext);
     const m = match;
     let prediction = '';
@@ -99,8 +99,8 @@ function Fixture ({ match, isEdit, homePrediction, awayPrediction, onDelete }) {
                                     size="1"
                                     value={prediction || ''}
                                     onChange={e => {
-                                        homePrediction({
-                                            fixtureId: m.fixture_id,
+                                        updatePrediction({
+                                            ...prediction,
                                             homePrediction: e.target.value
                                         });
                                     }}
@@ -115,8 +115,8 @@ function Fixture ({ match, isEdit, homePrediction, awayPrediction, onDelete }) {
                                     size="1"
                                     value={prediction || ''}
                                     onChange={e => {
-                                        awayPrediction({
-                                            fixtureId: m.fixture_id,
+                                        updatePrediction({
+                                            ...prediction,
                                             awayPrediction: e.target.value
                                         });
                                     }}
