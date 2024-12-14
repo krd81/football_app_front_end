@@ -46,13 +46,11 @@ function Fixture ({ match, isEdit, updatePrediction, awayPrediction, onDelete })
 
     const getHomePrediction = (fixture) => {
         const prediction = userPredictions.find(pred => pred.fixture_id === fixture.fixture_id);
-        // console.log(`Home prediction for `+ fixture.homeName + `: ` + prediction?.homePrediction );
         return prediction ? prediction.homePrediction : '';
     }
 
     const getAwayPrediction = (fixture) => {
         const prediction = userPredictions.find(pred => pred.fixture_id === fixture.fixture_id);
-        // console.log(`Away prediction for `+ fixture.awayName + `: ` + prediction?.awayPrediction );
         return prediction ? prediction.awayPrediction : '';
     }
 
@@ -81,7 +79,7 @@ function Fixture ({ match, isEdit, updatePrediction, awayPrediction, onDelete })
                                     name='homePrediction'
                                     type='text'
                                     size="1"
-                                    value={getHomePrediction(m) || ''}
+                                    value={getHomePrediction(m) >=0 ? getHomePrediction(m) : ''}
                                     onChange={e => {
                                         const prediction = getPrediction(m);
                                         updatePrediction({
@@ -97,7 +95,7 @@ function Fixture ({ match, isEdit, updatePrediction, awayPrediction, onDelete })
                                     name='awayPrediction'
                                     type='text'
                                     size="1"
-                                    value={getAwayPrediction(m) || ''}
+                                    value={getAwayPrediction(m) >=0 ? getAwayPrediction(m) : ''}
                                     onChange={e => {
                                         const prediction = getPrediction(m);
                                         updatePrediction({
@@ -109,7 +107,11 @@ function Fixture ({ match, isEdit, updatePrediction, awayPrediction, onDelete })
                                 />
                                 </>
                             ) : (
-                                <span>{`${getHomePrediction(m) || ''} - ${getAwayPrediction(m) || ''}`}</span>
+                                <>
+                                    <span>{`${getHomePrediction(m) >=0 ? getHomePrediction(m) : ''}`}</span>
+                                    <span>&ensp;-&ensp;</span>
+                                    <span>{`${getAwayPrediction(m) >=0 ? getAwayPrediction(m) : ''}`}</span>
+                                </>
                             )}
                         </div>
                         <div className='grid-item1'>

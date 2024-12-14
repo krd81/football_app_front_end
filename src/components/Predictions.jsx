@@ -81,11 +81,14 @@ const Predictions = ({ round }) => {
   return (
     <>
       <PredictionContext.Provider></PredictionContext.Provider>
-      <div>
+      <div className='title-div'>
         <h1>Predictions  - Matchweek {round}:</h1>
-      </div>
+        <div className='button-div'>
+          <button className='edit-mode-btn' onClick={handleEditButton}>{editMode ? `View Mode` : `Edit Mode`}</button>
+        </div>
+        </div>
       <div>
-      <button className='edit-mode-btn' onClick={handleEditButton}>{editMode ? `View` : `Edit`}</button>
+
       <div className='match-list'>
         {fixtureDates?.map((fixtureDate) => (
           <Fragment key={fixtureDate}>
