@@ -59,6 +59,13 @@
 .grid-item1 {
     overflow: hidden;
     text-overflow: ellipsis;
+    display: grid;
+    justify-items: end;
+    margin-right: 5px;
+}
+
+.grid-item3 {
+    margin-left: 5px;
 }
 
 .grid-item1:hover {
@@ -67,7 +74,7 @@
 
 .team-name {
     display: flex;
-    text-align: center;
+    text-align: right;
 }
 
 
@@ -75,6 +82,13 @@
     height: 20px;
     border: 2.5px black solid;
     border-radius: 5px;
+    font-size: x-large;
+    text-align: center;
+    font-weight: bolder;
+}
+
+.score-display {
+    font-weight: bolder;
 }
 
 /* Tablet */

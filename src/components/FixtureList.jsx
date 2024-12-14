@@ -77,8 +77,10 @@ function Fixture ({ match, isEdit, updatePrediction, awayPrediction, onDelete })
                                     className='score-input'
                                     id={`${m.homeName}`}
                                     name='homePrediction'
-                                    type='text'
+                                    type='number'
                                     size="1"
+                                    min="0"
+                                    max="10"
                                     value={getHomePrediction(m) >=0 ? getHomePrediction(m) : ''}
                                     onChange={e => {
                                         const prediction = getPrediction(m);
@@ -93,8 +95,10 @@ function Fixture ({ match, isEdit, updatePrediction, awayPrediction, onDelete })
                                     className='score-input'
                                     id={`${m.awayName}`}
                                     name='awayPrediction'
-                                    type='text'
+                                    type='number'
                                     size="1"
+                                    min="0"
+                                    max="10"
                                     value={getAwayPrediction(m) >=0 ? getAwayPrediction(m) : ''}
                                     onChange={e => {
                                         const prediction = getPrediction(m);
@@ -108,13 +112,15 @@ function Fixture ({ match, isEdit, updatePrediction, awayPrediction, onDelete })
                                 </>
                             ) : (
                                 <>
+                                <div className='score-display'>
                                     <span>{`${getHomePrediction(m) >=0 ? getHomePrediction(m) : ''}`}</span>
                                     <span>&ensp;-&ensp;</span>
                                     <span>{`${getAwayPrediction(m) >=0 ? getAwayPrediction(m) : ''}`}</span>
+                                </div>
                                 </>
                             )}
                         </div>
-                        <div className='grid-item1'>
+                        <div className='grid-item3'>
                                 <label className='team-name' htmlFor='awayPrediction'>{` ${shortName(m.awayName)}`}</label>
                             </div>
                     </div>
