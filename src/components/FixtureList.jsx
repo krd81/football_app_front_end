@@ -34,7 +34,7 @@ export default function FixtureList({
 }
 
 function Fixture ({ match, isEdit, updatePrediction, awayPrediction, onDelete }) {
-    const { predictions: allPredictions, currentUser } = useContext(AppContext);
+    const { allPredictions, currentUser } = useContext(AppContext);
     const m = match;
 
     // initially filter all predictions and return those belonging to the user
@@ -90,7 +90,7 @@ function Fixture ({ match, isEdit, updatePrediction, awayPrediction, onDelete })
                                         });
                                     }}
                                 />
-                                &nbsp;-&nbsp;
+                                &nbsp;&mdash;&nbsp;
                                 <input
                                     className='score-input'
                                     id={`${m.awayName}`}
@@ -114,7 +114,7 @@ function Fixture ({ match, isEdit, updatePrediction, awayPrediction, onDelete })
                                 <>
                                 <div className='score-display'>
                                     <span>{`${getHomePrediction(m) >=0 ? getHomePrediction(m) : ''}`}</span>
-                                    <span>&ensp;-&ensp;</span>
+                                    <span className='dash'>&ensp;&mdash;&ensp;</span>
                                     <span>{`${getAwayPrediction(m) >=0 ? getAwayPrediction(m) : ''}`}</span>
                                 </div>
                                 </>

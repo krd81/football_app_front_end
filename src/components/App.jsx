@@ -20,7 +20,7 @@ function App({ children }) {
   const [competitions, setCompetitions] = useState([]);
   const [selectedCompetition, setSelectedCompetition] = useState({});
   const [fixtures, setFixtures] = useState([]);
-  const [allPredictions, setPredictions] = useState({});
+  const [allPredictions, setAllPredictions] = useState({});
   const [token, setToken] = useState(() => sessionStorage.getItem('token'));
   const [round, setRound] = useState('');
   const [route, setRoute] = useState(''); // Use to store whether to display predictions or fixtures
@@ -100,7 +100,7 @@ useEffect(() => {
           }
         });
         const selectedCompPredictions = await result.json();
-        setPredictions(selectedCompPredictions);
+        setAllPredictions(selectedCompPredictions);
       } catch (error) {
           console.error(error.message);
       }
@@ -175,7 +175,7 @@ useEffect(() => {
             comp: [selectedCompetition, setSelectedCompetition],
             competitions,
             selectedCompetition,
-            predictions: allPredictions,
+            allPredictions,
             fixtures,
             round,
             login,

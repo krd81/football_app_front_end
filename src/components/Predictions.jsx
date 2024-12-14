@@ -14,10 +14,8 @@ const Predictions = ({ round }) => {
 
   const initialPredictions = allPredictions;
   const [predictions, dispatch] = useReducer(predictionsReducer, initialPredictions);
-  console.log(initialPredictions)
-  console.log(predictions)
 
-
+  
   function handleUpdatePrediction(prediction) {
     dispatch({
       type: 'updatedPrediction',

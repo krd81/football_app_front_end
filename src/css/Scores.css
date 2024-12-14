@@ -77,6 +77,10 @@
     text-align: right;
 }
 
+.dash {
+    font-weight: normal;
+}
+
 
 .score-input {
     height: 20px;
