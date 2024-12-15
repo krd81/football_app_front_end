@@ -38,10 +38,6 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
     const m = match;
     const predictions = predictionsList;
 
-
-
-
-
     const getHomePrediction = (fixture) => {
         const prediction = predictions.find(pred => pred.fixture_id === fixture.fixture_id);
         return prediction ? prediction.homePrediction : '';

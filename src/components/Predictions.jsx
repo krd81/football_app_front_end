@@ -87,37 +87,38 @@ const Predictions = ({ round }) => {
       <PredictionContext.Provider></PredictionContext.Provider>
       <div className='title-div'>
         <h1>Predictions  - Matchweek {round}:</h1>
-        <div className='button-div'>
+        <div className='edit-button-div'>
           <button className='edit-mode-btn' onClick={handleEditButton}>{editMode ? `View Mode` : `Edit Mode`}</button>
         </div>
         </div>
       <div>
+      <form onSubmit={handleSubmit}>
 
-      <div className='match-list'>
-        {fixtureDates?.map((fixtureDate) => (
-          <Fragment key={fixtureDate}>
-            <div className='date-header'>
-              <h3 className='date-text'>{dateFormatter2(fixtureDate)}</h3>
-            </div>
-            <form onSubmit={handleSubmit} key={fixtureDate}>
+        <div className='match-list'>
+          {fixtureDates?.map((fixtureDate) => (
+            <Fragment key={fixtureDate}>
+              <div className='date-header'>
+                <h3 className='date-text'>{dateFormatter2(fixtureDate)}</h3>
+              </div>
 
-              <FixtureList
-                date={fixtureDate}
-                fixtures={currentFixtures}
-                isEdit={editMode}
-                predictions={predictions}
-                updatePrediction={handleUpdatePrediction}
-                addAwayPrediction={handleAwayPrediction}
-                onDeletePrediction={handleDeletePrediction}
-              />
+                <FixtureList
+                  date={fixtureDate}
+                  fixtures={currentFixtures}
+                  isEdit={editMode}
+                  predictions={predictions}
+                  updatePrediction={handleUpdatePrediction}
+                  addAwayPrediction={handleAwayPrediction}
+                  onDeletePrediction={handleDeletePrediction}
+                />
 
+            </Fragment>
+          ))}
+        </div>
+        <div className='save-button-div'>
+          <input className='save-button' type="submit" value='Save Changes'></input>
+        </div>
+      </form>
 
-
-            </form>
-          </Fragment>
-
-        ))};
-      </div>
       </div>
     </>
   )
