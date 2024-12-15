@@ -9,13 +9,19 @@ import { PredictionContext } from '../common/PredictionContext';
 
 
 const Predictions = ({ round }) => {
-  const { allPredictions, fixtures } = useContext(AppContext);
+  const { allPredictions, fixtures, currentUser } = useContext(AppContext);
   const [editMode, setEditMode] = useState(true);
 
-  const initialPredictions = allPredictions;
+    // initially filter all predictions and return those belonging to the user
+    const initialPredictions = allPredictions.filter(prediction => {
+      return prediction.user && prediction.user._id === currentUser._id;
+   });
+
+
+  // const initialPredictions = allPredictions;
   const [predictions, dispatch] = useReducer(predictionsReducer, initialPredictions);
 
-  
+
   function handleUpdatePrediction(prediction) {
     dispatch({
       type: 'updatedPrediction',
