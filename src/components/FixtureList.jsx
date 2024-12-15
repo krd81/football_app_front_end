@@ -21,6 +21,7 @@ export default function FixtureList({
                     <Fixture
                         match={match}
                         isEdit={isEdit}
+                        predictionsList={predictions}
                         updatePrediction={updatePrediction}
                         awayPrediction={addAwayPrediction}
                         onDelete={onDeletePrediction}
@@ -33,29 +34,26 @@ export default function FixtureList({
   )
 }
 
-function Fixture ({ match, isEdit, updatePrediction, awayPrediction, onDelete }) {
-    const { allPredictions, currentUser } = useContext(AppContext);
+function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPrediction, onDelete }) {
     const m = match;
+    const predictions = predictionsList;
 
-    // initially filter all predictions and return those belonging to the user
-    const userPredictions = allPredictions.filter(prediction => {
-        return prediction.user && prediction.user._id === currentUser._id;
-    });
+
 
 
 
     const getHomePrediction = (fixture) => {
-        const prediction = userPredictions.find(pred => pred.fixture_id === fixture.fixture_id);
+        const prediction = predictions.find(pred => pred.fixture_id === fixture.fixture_id);
         return prediction ? prediction.homePrediction : '';
     }
 
     const getAwayPrediction = (fixture) => {
-        const prediction = userPredictions.find(pred => pred.fixture_id === fixture.fixture_id);
+        const prediction = predictions.find(pred => pred.fixture_id === fixture.fixture_id);
         return prediction ? prediction.awayPrediction : '';
     }
 
     const getPrediction = (fixture) => {
-        const prediction = userPredictions.find(pred => pred.fixture_id === fixture.fixture_id);
+        const prediction = predictions.find(pred => pred.fixture_id === fixture.fixture_id);
         console.log(prediction)
         return prediction || null;
     }
@@ -63,7 +61,7 @@ function Fixture ({ match, isEdit, updatePrediction, awayPrediction, onDelete })
 
     return (
         <>
-        {console.log(userPredictions)}
+        {console.log(predictions)}
             <div className='match-card'>
                 <div className='predictions-text'>
                     <div className='grid-container'>
