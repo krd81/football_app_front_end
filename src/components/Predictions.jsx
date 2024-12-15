@@ -1,4 +1,5 @@
 import { Fragment, useContext, useEffect, useState, useMemo, useReducer } from 'react'
+import { useNavigate } from 'react-router-dom';
 import '../css/Scores.css'
 import getDates from '../functions/getDates';
 import { dateFormatter2 } from '../functions/dateFormatter'
@@ -11,6 +12,7 @@ import { PredictionContext } from '../common/PredictionContext';
 const Predictions = ({ round }) => {
   const { allPredictions, fixtures, currentUser } = useContext(AppContext);
   const [editMode, setEditMode] = useState(true);
+  const nav = useNavigate();
 
     // initially filter all predictions and return those belonging to the user
     const initialPredictions = allPredictions.filter(prediction => {
@@ -73,12 +75,35 @@ const Predictions = ({ round }) => {
     editMode ? setEditMode(false) : setEditMode(true);
   }
 
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget)
-    const formDataObj = Object.fromEntries(formData.entries())
 
-  }
+    // const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = 'http://127.0.0.1:8005/predictions';
+
+    for (const prediction of predictions) {
+      const { fixture_id, user: { _id } } = prediction;
+      const url = `${apiUrl}/fixture/${fixture_id}/user/${_id}`;
+      const method = 'PUT';
+
+      try {
+        await fetch(url, {
+          method: method,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+          },
+          body: JSON.stringify(prediction),
+        });
+        nav('/play');
+
+
+      } catch (error) {
+        console.error('Failed to create/update listing:', error);
+      };
+    };
+  };
 
 
 

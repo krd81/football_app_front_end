@@ -80,7 +80,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                                         const prediction = getPrediction(m);
                                         updatePrediction({
                                             ...prediction,
-                                            homePrediction: e.target.value
+                                            homePrediction: Number(e.target.value)
                                         });
                                     }}
                                 />
@@ -98,7 +98,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                                         const prediction = getPrediction(m);
                                         updatePrediction({
                                             ...prediction,
-                                            awayPrediction: e.target.value
+                                            awayPrediction: Number(e.target.value)
                                         });
                                     }}
 
