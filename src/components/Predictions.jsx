@@ -14,10 +14,14 @@ const Predictions = ({ round }) => {
   const [editMode, setEditMode] = useState(true);
   const nav = useNavigate();
 
-    // initially filter all predictions and return those belonging to the user
-    const initialPredictions = allPredictions.filter(prediction => {
-      return prediction.user && prediction.user._id === currentUser._id;
-   });
+  // Need to find a solution that ensures the predictions are kept up to date
+  // according to entries made in the app
+
+
+  // initially filter all predictions and return those belonging to the user
+  const initialPredictions = allPredictions.filter(prediction => {
+    return prediction.user && prediction.user._id === currentUser._id;
+  });
 
 
   // const initialPredictions = allPredictions;
@@ -83,8 +87,12 @@ const Predictions = ({ round }) => {
     const apiUrl = 'http://127.0.0.1:8005/predictions';
 
     for (const prediction of predictions) {
-      const { fixture_id, user: { _id } } = prediction;
-      const url = `${apiUrl}/fixture/${fixture_id}/user/${_id}`;
+      const url = `${apiUrl}/${prediction._id}`;
+      const update = {
+        homePrediction: prediction.homePrediction,
+        awayPrediction: prediction.awayPrediction
+      };
+      console.log(`Home team: `+ prediction.homeName + ` `+ prediction.homePrediction + ` Away team: `+ prediction.awayName + ` `+ prediction.awayPrediction)
       const method = 'PUT';
 
       try {
@@ -94,8 +102,9 @@ const Predictions = ({ round }) => {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${sessionStorage.getItem('token')}`
           },
-          body: JSON.stringify(prediction),
+          body: JSON.stringify(update),
         });
+
         nav('/play');
 
 
