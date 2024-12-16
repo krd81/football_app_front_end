@@ -10,7 +10,9 @@ export default function predictionsReducer(predictions, action) {
                     }
                   });
             }
-
+        case 'setPredictions': {
+          return action.predictions;
+        }
 
         case 'updated':
             break;

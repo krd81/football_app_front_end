@@ -14,10 +14,24 @@ const Predictions = ({ round }) => {
   const [editMode, setEditMode] = useState(true);
   const nav = useNavigate();
 
-    // initially filter all predictions and return those belonging to the user
-    const initialPredictions = allPredictions.filter(prediction => {
-      return prediction.user && prediction.user._id === currentUser._id;
-   });
+
+  // Fetch the latest predictions from the database
+  const fetchPredictions = async () => {
+    try {
+      const response = await fetch('/api/predictions');
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching predictions:', error);
+      return [];
+    }
+  };
+
+
+  // initially filter all predictions and return those belonging to the user
+  const initialPredictions = allPredictions.filter(prediction => {
+    return prediction.user && prediction.user._id === currentUser._id;
+  });
 
 
   // const initialPredictions = allPredictions;
@@ -100,6 +114,7 @@ const Predictions = ({ round }) => {
           },
           body: JSON.stringify(update),
         });
+        
         nav('/play');
 
 
