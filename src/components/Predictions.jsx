@@ -14,18 +14,8 @@ const Predictions = ({ round }) => {
   const [editMode, setEditMode] = useState(true);
   const nav = useNavigate();
 
-
-  // Fetch the latest predictions from the database
-  const fetchPredictions = async () => {
-    try {
-      const response = await fetch('/api/predictions');
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('Error fetching predictions:', error);
-      return [];
-    }
-  };
+  // Need to find a solution that ensures the predictions are kept up to date
+  // according to entries made in the app
 
 
   // initially filter all predictions and return those belonging to the user
@@ -114,7 +104,7 @@ const Predictions = ({ round }) => {
           },
           body: JSON.stringify(update),
         });
-        
+
         nav('/play');
 
 
