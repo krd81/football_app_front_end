@@ -83,8 +83,12 @@ const Predictions = ({ round }) => {
     const apiUrl = 'http://127.0.0.1:8005/predictions';
 
     for (const prediction of predictions) {
-      const { fixture_id, user: { _id } } = prediction;
-      const url = `${apiUrl}/fixture/${fixture_id}/user/${_id}`;
+      const url = `${apiUrl}/${prediction._id}`;
+      const update = {
+        homePrediction: prediction.homePrediction,
+        awayPrediction: prediction.awayPrediction
+      };
+      console.log(`Home team: `+ prediction.homeName + ` `+ prediction.homePrediction + ` Away team: `+ prediction.awayName + ` `+ prediction.awayPrediction)
       const method = 'PUT';
 
       try {
@@ -94,7 +98,7 @@ const Predictions = ({ round }) => {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${sessionStorage.getItem('token')}`
           },
-          body: JSON.stringify(prediction),
+          body: JSON.stringify(update),
         });
         nav('/play');
 
