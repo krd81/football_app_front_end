@@ -11,7 +11,7 @@ import { PredictionContext } from '../common/PredictionContext';
 
 const Predictions = ({ round }) => {
   const { allPredictions, setAllPredictions, fixtures, currentUser } = useContext(AppContext);
-  const [editMode, setEditMode] = useState(true);
+  const [editMode, setEditMode] = useState(false);
   const nav = useNavigate();
 
 
@@ -103,7 +103,7 @@ const Predictions = ({ round }) => {
           body: JSON.stringify(update),
         });
         setAllPredictions(predictions);
-        nav('/play');
+        setEditMode(false);
 
       } catch (error) {
         console.error('Failed to create/update listing:', error);
@@ -145,9 +145,23 @@ const Predictions = ({ round }) => {
             </Fragment>
           ))}
         </div>
-        <div className='save-button-div'>
-          <input className='save-button' type="submit" value='Save Changes'></input>
-        </div>
+        {editMode ?
+          (
+            <>
+              <div className='save-back-button-div'>
+                <input className='save-back-button' type="submit" value='Save Changes'></input>
+              </div>
+            </>
+          )
+          :
+          (
+            <>
+              <div className='save-back-button-div'>
+                <button className='save-back-button' onClick={() => nav('/play')}>Back</button>
+              </div>
+            </>
+          )
+        }
       </form>
 
       </div>

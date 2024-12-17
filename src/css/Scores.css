@@ -19,19 +19,20 @@
     border-radius: 5px;
 }
 
-.save-button-div {
+.save-back-button-div {
     display: flex;
     justify-content: center;
     margin: 2vh 0;
 }
 
-.save-button {
+.save-back-button {
     margin: 3px 0;
     padding: 5px 10px;
     min-height: min-content;
     height: 5vh;
     font-size: larger;
     background-color:cornflowerblue;
+    border: solid black;
     border-radius: 5px;
 }
 
