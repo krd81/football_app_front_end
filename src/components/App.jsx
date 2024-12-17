@@ -176,6 +176,7 @@ useEffect(() => {
             competitions,
             selectedCompetition,
             allPredictions,
+            setAllPredictions,
             fixtures,
             round,
             login,

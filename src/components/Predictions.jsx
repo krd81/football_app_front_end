@@ -1,4 +1,4 @@
-import { Fragment, useContext, useEffect, useState, useMemo, useReducer } from 'react'
+import { Fragment, useContext, useState, useMemo, useReducer } from 'react'
 import { useNavigate } from 'react-router-dom';
 import '../css/Scores.css'
 import getDates from '../functions/getDates';
@@ -10,18 +10,17 @@ import { PredictionContext } from '../common/PredictionContext';
 
 
 const Predictions = ({ round }) => {
-  const { allPredictions, fixtures, currentUser } = useContext(AppContext);
+  const { allPredictions, setAllPredictions, fixtures, currentUser } = useContext(AppContext);
   const [editMode, setEditMode] = useState(true);
   const nav = useNavigate();
 
-  // Need to find a solution that ensures the predictions are kept up to date
-  // according to entries made in the app
-
 
   // initially filter all predictions and return those belonging to the user
-  const initialPredictions = allPredictions.filter(prediction => {
-    return prediction.user && prediction.user._id === currentUser._id;
-  });
+  const initialPredictions = useMemo(() => {
+    return allPredictions.filter(prediction => {
+      return prediction.user && prediction.user._id === currentUser._id;
+    });
+  }, [allPredictions, currentUser._id]);
 
 
   // const initialPredictions = allPredictions;
@@ -56,6 +55,7 @@ const Predictions = ({ round }) => {
     return getRoundFixtures(fixtures, round);
   }, [fixtures, round]);
 
+
   function getRoundFixtures (fixtures, round) {
     const newFixtures = [];
     for (let fixture in fixtures) {
@@ -68,16 +68,14 @@ const Predictions = ({ round }) => {
         }
     }
     return newFixtures;
-  }
-
-
+  };
 
 
   const fixtureDates = getDates(currentFixtures);
 
   const handleEditButton = () => {
     editMode ? setEditMode(false) : setEditMode(true);
-  }
+  };
 
 
   const handleSubmit = async (event) => {
@@ -92,7 +90,7 @@ const Predictions = ({ round }) => {
         homePrediction: prediction.homePrediction,
         awayPrediction: prediction.awayPrediction
       };
-      console.log(`Home team: `+ prediction.homeName + ` `+ prediction.homePrediction + ` Away team: `+ prediction.awayName + ` `+ prediction.awayPrediction)
+
       const method = 'PUT';
 
       try {
@@ -104,9 +102,8 @@ const Predictions = ({ round }) => {
           },
           body: JSON.stringify(update),
         });
-
+        setAllPredictions(predictions);
         nav('/play');
-
 
       } catch (error) {
         console.error('Failed to create/update listing:', error);
