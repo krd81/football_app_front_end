@@ -10,7 +10,7 @@ import { PredictionContext } from '../common/PredictionContext';
 
 
 const Predictions = ({ round }) => {
-  const { allPredictions, setAllPredictions, fixtures, currentUser } = useContext(AppContext);
+  const { allPredictions, setAllPredictions, fixtures, results, currentUser } = useContext(AppContext);
   const [editMode, setEditMode] = useState(false);
   const nav = useNavigate();
 
@@ -72,6 +72,19 @@ const Predictions = ({ round }) => {
 
 
   const fixtureDates = getDates(currentFixtures);
+
+  function getMatchResult (match_id) {
+    const matchResult = [];
+    for (let result in results) {
+      for (let matchElement in results[result]) {
+        if (matchElement === 'fixture_id' &&
+            results[result][matchElement] === match_id) {
+              matchResult.push(results[result]);
+            }
+      }
+    }
+    return matchResult;
+  };
 
   const handleEditButton = () => {
     editMode ? setEditMode(false) : setEditMode(true);
@@ -140,6 +153,7 @@ const Predictions = ({ round }) => {
                   updatePrediction={handleUpdatePrediction}
                   addAwayPrediction={handleAwayPrediction}
                   onDeletePrediction={handleDeletePrediction}
+                  matchResult={getMatchResult}
                 />
 
             </Fragment>

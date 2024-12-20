@@ -6,7 +6,7 @@ import shortName from '../functions/nameAbbreviation';
 import { AppContext } from '../authentication/AppContext';
 
 const Fixtures = ({ round }) => {
-  const { fixtures } = useContext(AppContext);
+  const { fixtures, results } = useContext(AppContext);
 
   const currentFixtures = useMemo(() => {
     return getRoundFixtures(fixtures, round);
@@ -25,13 +25,27 @@ const Fixtures = ({ round }) => {
     return newFixtures;
   }
 
+// Not tested in this component
+  function getMatchResult (fixture_id) {
+    const matchResult = [];
+    for (let result in results) {
+      for (let matchElement in results[result]) {
+        if (matchElement === 'fixture_id' &&
+            results[result][matchElement] === fixture_id) {
+              matchResult.push(results[result]);
+            }
+      }
+    }
+    return matchResult;
+  };
+
   const fixtureDates = getDates(currentFixtures);
 
 
   return (
     <>
       <div>
-        <h1>Fixtures - Matchweek {round}:</h1>
+        <h1>Fixtures - Matchweek etc {round}:</h1>
       </div>
       <div className='match-list'>
         {fixtureDates?.map((fixtureDate) => {
@@ -64,5 +78,6 @@ const Fixtures = ({ round }) => {
     </div>
   </>
 )};
+
 
 export default Fixtures;

@@ -5,6 +5,7 @@ import shortName from '../functions/nameAbbreviation';
 export default function FixtureList({
     date,
     fixtures,
+    matchResult,
     isEdit,
     predictions,
     updatePrediction,
@@ -25,6 +26,7 @@ export default function FixtureList({
                         updatePrediction={updatePrediction}
                         awayPrediction={addAwayPrediction}
                         onDelete={onDeletePrediction}
+                        matchResult={matchResult}
                     />
                 </Fragment>
         )
@@ -34,9 +36,16 @@ export default function FixtureList({
   )
 }
 
-function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPrediction, onDelete }) {
+function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPrediction, onDelete, matchResult }) {
     const m = match;
     const predictions = predictionsList;
+    const result = matchResult(m.fixture_id);
+    const status= result.status
+    console.log(m)
+    console.log(m.fixture_id)
+    console.log(JSON.stringify(result))
+    console.log(JSON.stringify(result.status))
+    console.log(status)
 
     const getHomePrediction = (fixture) => {
         const prediction = predictions.find(pred => pred.fixture_id === fixture.fixture_id);
@@ -59,6 +68,9 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
         <>
         {console.log(predictions)}
             <div className='match-card'>
+                <div>
+                    {result.status}
+                </div>
                 <div className='predictions-text'>
                     <div className='grid-container'>
                         <div className='grid-item1'>
