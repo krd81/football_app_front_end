@@ -20,6 +20,7 @@ function App({ children }) {
   const [competitions, setCompetitions] = useState([]);
   const [selectedCompetition, setSelectedCompetition] = useState({});
   const [fixtures, setFixtures] = useState([]);
+  const [results, setResults] = useState([]);
   const [allPredictions, setAllPredictions] = useState({});
   const [token, setToken] = useState(() => sessionStorage.getItem('token'));
   const [round, setRound] = useState('');
@@ -46,7 +47,7 @@ function App({ children }) {
 
       } catch (error) {
           console.error(error.message);
-      }
+      };
       try {
           // const apiUrl = import.meta.env.VITE_API_URL;
           const apiUrl = 'http://127.0.0.1:8002';
@@ -64,7 +65,7 @@ function App({ children }) {
           setSelectedCompetition(competitions['0']);
       } catch (error) {
           console.error(error.message);
-      }
+      };
       try {
         // const apiUrl = import.meta.env.VITE_API_URL;
         const apiUrl = 'http://127.0.0.1:8002';
@@ -74,12 +75,27 @@ function App({ children }) {
             'Content-Type': 'application/json',
             'Authorization': `null`
           }
-        })
+        });
         const fixtureData = await fixtures.json();
         setFixtures(fixtureData);
       } catch (error) {
         console.error(error.message);
-      }
+      };
+      try {
+        // const apiUrl = import.meta.env.VITE_API_URL;
+        const apiUrl = 'http://127.0.0.1:8002';
+        const results = await fetch(`${apiUrl}/results/`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `null`
+          }
+        });
+        const resultsData = await results.json();
+        setResults(resultsData);
+      } catch (error) {
+        console.error(error.message);
+      };
     }
     fetchData();
   }, []);
@@ -118,6 +134,7 @@ useEffect(() => {
       console.log(competitions)
       console.log(selectedCompetition)
       console.log(fixtures)
+      console.log(results)
       console.log("Fixtures data type: " + typeof(fixtures))
 
   }
@@ -178,6 +195,7 @@ useEffect(() => {
             allPredictions,
             setAllPredictions,
             fixtures,
+            results,
             round,
             login,
             logout,
