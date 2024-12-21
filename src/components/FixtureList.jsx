@@ -12,6 +12,7 @@ export default function FixtureList({
     addAwayPrediction,
     onDeletePrediction
 }) {
+    // const { results } = useContext(AppContext);
     const roundFixtures = fixtures;
 
     return (
@@ -36,32 +37,36 @@ export default function FixtureList({
   )
 }
 
-function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPrediction, onDelete, matchResult }) {
+function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPrediction, onDelete }) {
+    const { results } = useContext(AppContext);
     const m = match;
+    const allResults = results;
     const predictions = predictionsList;
-    const result = matchResult(m.fixture_id);
-    const status= result.status
-    console.log(m)
-    console.log(m.fixture_id)
-    console.log(JSON.stringify(result))
-    console.log(JSON.stringify(result.status))
-    console.log(status)
+
 
     const getHomePrediction = (fixture) => {
         const prediction = predictions.find(pred => pred.fixture_id === fixture.fixture_id);
         return prediction ? prediction.homePrediction : '';
-    }
+    };
 
     const getAwayPrediction = (fixture) => {
         const prediction = predictions.find(pred => pred.fixture_id === fixture.fixture_id);
         return prediction ? prediction.awayPrediction : '';
-    }
+    };
 
     const getPrediction = (fixture) => {
         const prediction = predictions.find(pred => pred.fixture_id === fixture.fixture_id);
         console.log(prediction)
         return prediction || null;
-    }
+    };
+
+    const getMatchResult = (match_id) => {
+        const matchResult = allResults.find(result => result.fixture_id === match_id);
+        console.log(matchResult)
+
+        return matchResult || null;
+      };
+
 
 
     return (
@@ -69,7 +74,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
         {console.log(predictions)}
             <div className='match-card'>
                 <div>
-                    {result.status}
+                    {getMatchResult(m.fixture_id)?.status}
                 </div>
                 <div className='predictions-text'>
                     <div className='grid-container'>
