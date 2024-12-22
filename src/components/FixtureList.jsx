@@ -221,17 +221,15 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                         <div className='grid-item6'>
                                 <label className='team-name' htmlFor='awayPrediction'>{` ${shortName(m.awayName)}`}</label>
                         </div>
-                        <div>
-                            <PredictionOutcome
-                                finalScore={getFinalScore(m)}
-                                predictedScore={`${getHomePrediction(m)} - ${getAwayPrediction(m)}`}
-                                finalResult={getFinalResult(m)}
-                                prediction={getPrediction(m)}
 
-                            />
-
-
-                        </div>
+                    </div>
+                    <div>
+                        <PredictionOutcome
+                            finalScore={getFinalScore(m)}
+                            predictedScore={`${getHomePrediction(m)} - ${getAwayPrediction(m)}`}
+                            finalResult={getFinalResult(m)}
+                            prediction={getPrediction(m)}
+                        />
                     </div>
                 </div>
             </div>

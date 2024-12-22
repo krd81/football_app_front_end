@@ -41,6 +41,11 @@ function CompetitionPanel({ comp }) {
     <>
       <div><h1 className='paytone-one-h1'>{comp}</h1></div>
       <div><h2 className='paytone-one-h2'></h2></div>
+      <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="50" r="40" fill="orange"/>
+  <path d="M30 50 L45 65 L70 35" stroke="white" strokeWidth="10" fill="none"/>
+</svg>
+
     </>
   )
 }
