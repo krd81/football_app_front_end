@@ -22,6 +22,32 @@
     transform: rotate(-5deg);
 }
 
+.default-tag {
+    display: inline-block;
+    font-weight: 650;
+    color: white;
+    background-color:navy;
+    border: 1px solid black;
+    padding: 5px 20px 5px 10px;
+    margin: 10px 0;
+    transform: rotate(-5deg);
+}
+
+.time-tag {
+    display: inline-block;
+    font-weight: 650;
+    color: navy;
+    background-color:white;
+    border: 1px solid black;
+    min-width: 70px;
+    padding: 5px 10px;
+    margin: 10px 0;
+    transform: rotate(-5deg);
+    position: relative;
+    right: 5px;
+    top: 5px;
+}
+
 
 
 

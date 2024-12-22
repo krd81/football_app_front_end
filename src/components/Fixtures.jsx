@@ -1,7 +1,7 @@
 import { Fragment, useContext, useMemo } from 'react'
 import '../css/Scores.css'
 import getDates from '../functions/getDates';
-import { dateFormatter2 } from '../functions/dateFormatter'
+import { dateFormatter2 } from '../functions/dateTimeFormatter'
 import shortName from '../functions/nameAbbreviation';
 import { AppContext } from '../authentication/AppContext';
 

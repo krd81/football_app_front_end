@@ -28,3 +28,17 @@ const daySuffix = (day) => {
     default: return 'th';
   }
 };
+
+
+export function timeFormatter(timeToFormat) {
+  const time = new Date(`1970-01-01T${timeToFormat}Z`);
+  const hours = time.getUTCHours();
+  const minutes = time.getUTCMinutes();
+  const period = hours >= 12 ? 'pm' : 'am';
+  const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
+  const formattedMinutes = minutes === 0 ? '' : `.${minutes}`;
+
+  if (formattedHours) {
+    return `${formattedHours}${formattedMinutes}${period}`;
+  }
+}

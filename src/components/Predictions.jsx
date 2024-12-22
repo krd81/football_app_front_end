@@ -2,7 +2,7 @@ import { Fragment, useContext, useState, useMemo, useReducer } from 'react'
 import { useNavigate } from 'react-router-dom';
 import '../css/Scores.css'
 import getDates from '../functions/getDates';
-import { dateFormatter2 } from '../functions/dateFormatter'
+import { dateFormatter2 } from '../functions/dateTimeFormatter'
 import { AppContext } from '../authentication/AppContext';
 import predictionsReducer from '../common/PredictionsReducer';
 import FixtureList from './FixtureList';

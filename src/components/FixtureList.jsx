@@ -1,6 +1,7 @@
 import { Fragment, useContext } from 'react'
 import { AppContext } from '../authentication/AppContext';
 import shortName from '../functions/nameAbbreviation';
+import { timeFormatter } from '../functions/dateTimeFormatter'
 import '../css/MatchCard.css'
 
 export default function FixtureList({
@@ -96,12 +97,12 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
             default: {
                 return (
                     <>
-                        <div className='default-tag'>
-                            {result?.date}
-                        </div>
-                        <div className='default-tag'>
-                            {result?.scheduled}
-                        </div>
+                        <span className='default-tag'>
+                            Kick-off
+                        </span>
+                        <span className='time-tag'>
+                           {timeFormatter(result?.scheduled) || timeFormatter(m?.time) ||'none'}
+                        </span>
                     </>
                 )
             }
@@ -177,8 +178,8 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                             </div>
                     </div>
                 </div>
-                <p className='predictions-text'>{`Kick-off: ${m.time}`}</p>
-                        <p className='predictions-text'>{`${m.location}`}</p>
+                {/* <p className='predictions-text'>{`Kick-off: ${timeFormatter(m.time)}`}</p>
+                        <p className='predictions-text'>{`${m.location}`}</p> */}
             </div>
 
         </>
