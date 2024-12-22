@@ -1,6 +1,7 @@
 import { Fragment, useContext } from 'react'
 import { AppContext } from '../authentication/AppContext';
 import shortName from '../functions/nameAbbreviation';
+import '../css/MatchCard.css'
 
 export default function FixtureList({
     date,
@@ -67,6 +68,46 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
         return matchResult || null;
       };
 
+    const matchStatusTag = (match_id) => {
+        const result = getMatchResult(match_id);
+        const status = result?.status;
+
+        switch (status) {
+            case 'FINISHED': {
+                return (
+                    <>
+                        <span className='ft-tag'>
+                            Full time
+                        </span>
+                    </>
+                )
+            }
+            case 'IN PLAY':
+            case 'HALF TIME BREAK':
+            case 'ADDED TIME':
+            case 'INSUFFICIENT DATA': {
+                return (
+                    <span className='live-tag'>
+                        Live
+                    </span>
+
+                )
+            }
+            default: {
+                return (
+                    <>
+                        <div className='default-tag'>
+                            {result?.date}
+                        </div>
+                        <div className='default-tag'>
+                            {result?.scheduled}
+                        </div>
+                    </>
+                )
+            }
+        }
+    }
+
 
 
     return (
@@ -74,7 +115,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
         {console.log(predictions)}
             <div className='match-card'>
                 <div>
-                    {getMatchResult(m.fixture_id)?.status}
+                    {matchStatusTag(m.fixture_id)}
                 </div>
                 <div className='predictions-text'>
                     <div className='grid-container'>

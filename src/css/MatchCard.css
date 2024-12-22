@@ -1,0 +1,40 @@
+/* Mobile first design */
+.live-tag {
+    display: inline-block;
+    font-weight: 650;
+    color: white;
+    background-color: green ;
+    border: 1px solid black;
+    padding: 5px 25px;
+    margin: 10px 0;
+    transform: rotate(-5deg);
+}
+
+
+.ft-tag {
+    display: inline-block;
+    font-weight: 650;
+    color: white;
+    background-color: red;
+    border: 1px solid black;
+    padding: 5px 10px;
+    margin: 10px 0;
+    transform: rotate(-5deg);
+}
+
+
+
+
+
+
+
+/* Tablet */
+@media only screen and (min-width: 600px) {
+
+}
+
+
+/* Desktop */
+@media only screen and (min-width: 1280px) {
+
+}
