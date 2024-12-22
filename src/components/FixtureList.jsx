@@ -62,6 +62,32 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
         return prediction || null;
     };
 
+    const getResult = (fixture) => {
+        const matchResult = allResults.find(result => result.fixture_id === fixture.fixture_id);
+        const scoreObject = matchResult.scores;
+        const score = scoreObject.score;
+
+        return score || null;
+    };
+
+    const getHomeResult = (fixture) => {
+        const score = getResult(fixture);
+
+        if (score) {
+            const homeScore = score ? parseInt(score.split(' - ')[0], 10) : null;
+            return homeScore;
+        }
+    };
+
+    const getAwayResult = (fixture) => {
+        const score = getResult(fixture);
+
+        if (score) {
+            const awayScore = score ? parseInt(score.split(' - ')[1], 10) : null;
+            return awayScore;
+        }
+    };
+
     const getMatchResult = (match_id) => {
         const matchResult = allResults.find(result => result.fixture_id === match_id);
         console.log(matchResult)
@@ -70,7 +96,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
       };
 
     const matchStatusTag = (match_id) => {
-        const result = getMatchResult(match_id);
+        const result = allResults.find(result => result.fixture_id === match_id);
         const status = result?.status;
 
         switch (status) {
@@ -124,6 +150,11 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                             <label className='team-name' htmlFor='homePrediction'>{`${shortName(m.homeName)} `}</label>
                         </div>
                         <div className='grid-item2'>
+                            You predicted
+
+                        </div>
+
+                        <div className='grid-item3'>
                             {isEdit ? (
                                 <>
                                 <input
@@ -134,7 +165,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                                     size="1"
                                     min="0"
                                     max="10"
-                                    value={getHomePrediction(m) >=0 ? getHomePrediction(m) : ''}
+                                    value={getHomePrediction(m) >=0 ? getHomePrediction(m) : '0'}
                                     onChange={e => {
                                         const prediction = getPrediction(m);
                                         updatePrediction({
@@ -152,7 +183,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                                     size="1"
                                     min="0"
                                     max="10"
-                                    value={getAwayPrediction(m) >=0 ? getAwayPrediction(m) : ''}
+                                    value={getAwayPrediction(m) >=0 ? getAwayPrediction(m) : '0'}
                                     onChange={e => {
                                         const prediction = getPrediction(m);
                                         updatePrediction({
@@ -166,20 +197,32 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                             ) : (
                                 <>
                                 <div className='score-display'>
-                                    <span>{`${getHomePrediction(m) >=0 ? getHomePrediction(m) : ''}`}</span>
+                                    <span>{`${getHomePrediction(m) >=0 ? getHomePrediction(m) : '0'}`}</span>
                                     <span className='dash'>&ensp;&mdash;&ensp;</span>
-                                    <span>{`${getAwayPrediction(m) >=0 ? getAwayPrediction(m) : ''}`}</span>
+                                    <span>{`${getAwayPrediction(m) >=0 ? getAwayPrediction(m) : '0'}`}</span>
                                 </div>
                                 </>
                             )}
                         </div>
-                        <div className='grid-item3'>
+                        <div className='grid-item4'>
+                            Final Score
+
+                        </div>
+                        <div className='grid-item5'>
+                            <div className='score-display'>
+                                    <span>{`${getHomeResult(m) >=0 ? getHomeResult(m) : '0'}`}</span>
+                                    <span className='dash'>&ensp;&mdash;&ensp;</span>
+                                    <span>{`${getAwayResult(m) >=0 ? getAwayResult(m) : '0'}`}</span>
+                            </div>
+
+
+                        </div>
+
+                        <div className='grid-item6'>
                                 <label className='team-name' htmlFor='awayPrediction'>{` ${shortName(m.awayName)}`}</label>
                             </div>
                     </div>
                 </div>
-                {/* <p className='predictions-text'>{`Kick-off: ${timeFormatter(m.time)}`}</p>
-                        <p className='predictions-text'>{`${m.location}`}</p> */}
             </div>
 
         </>

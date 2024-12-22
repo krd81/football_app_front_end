@@ -68,14 +68,16 @@
 
 .grid-container {
     display: grid;
-    grid-template-columns: 80px auto 80px;
+    grid-template-columns: auto auto auto;
     overflow: hidden;
     align-items: center;
     justify-content: center;
-    column-gap: 10px;
+    column-gap: 5px;
 }
 
 .grid-item1 {
+    grid-column: 1;
+    grid-row: 1 / span 4;
     overflow: hidden;
     text-overflow: ellipsis;
     display: grid;
@@ -89,6 +91,16 @@
 
 .grid-item1:hover {
     overflow: visible;
+}
+
+.grid-item6 {
+    grid-column: 3;
+    grid-row: 1 / span 4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: grid;
+    justify-items: end;
+    margin-right: 5px;
 }
 
 .team-name {
