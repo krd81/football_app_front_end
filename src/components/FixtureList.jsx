@@ -1,5 +1,6 @@
 import { Fragment, useContext } from 'react'
 import { AppContext } from '../authentication/AppContext';
+import PredictionOutcome from './PredictionOutcome';
 import shortName from '../functions/nameAbbreviation';
 import { timeFormatter } from '../functions/dateTimeFormatter'
 import '../css/MatchCard.css'
@@ -62,7 +63,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
         return prediction || null;
     };
 
-    const getResult = (fixture) => {
+    const getFinalScore = (fixture) => {
         const matchResult = allResults.find(result => result.fixture_id === fixture.fixture_id);
         const scoreObject = matchResult.scores;
         const score = scoreObject.score;
@@ -70,8 +71,8 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
         return score || null;
     };
 
-    const getHomeResult = (fixture) => {
-        const score = getResult(fixture);
+    const getHomeScore = (fixture) => {
+        const score = getFinalScore(fixture);
 
         if (score) {
             const homeScore = score ? parseInt(score.split(' - ')[0], 10) : null;
@@ -80,7 +81,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
     };
 
     const getAwayResult = (fixture) => {
-        const score = getResult(fixture);
+        const score = getFinalScore(fixture);
 
         if (score) {
             const awayScore = score ? parseInt(score.split(' - ')[1], 10) : null;
@@ -88,12 +89,14 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
         }
     };
 
-    const getMatchResult = (match_id) => {
-        const matchResult = allResults.find(result => result.fixture_id === match_id);
-        console.log(matchResult)
+    const getFinalResult = (fixture) => {
+        const matchResult = allResults.find(result => result.fixture_id === fixture.fixture_id);
+        const resultObject = matchResult.outcomes;
+        const result = resultObject.fullTime;
 
-        return matchResult || null;
-      };
+        return result || null;
+    };
+
 
     const matchStatusTag = (match_id) => {
         const result = allResults.find(result => result.fixture_id === match_id);
@@ -210,17 +213,25 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                         </div>
                         <div className='grid-item5'>
                             <div className='score-display'>
-                                    <span>{`${getHomeResult(m) >=0 ? getHomeResult(m) : '0'}`}</span>
+                                    <span>{`${getHomeScore(m) >=0 ? getHomeScore(m) : '0'}`}</span>
                                     <span className='dash'>&ensp;&mdash;&ensp;</span>
                                     <span>{`${getAwayResult(m) >=0 ? getAwayResult(m) : '0'}`}</span>
                             </div>
+                        </div>
+                        <div className='grid-item6'>
+                                <label className='team-name' htmlFor='awayPrediction'>{` ${shortName(m.awayName)}`}</label>
+                        </div>
+                        <div>
+                            <PredictionOutcome
+                                finalScore={getFinalScore(m)}
+                                predictedScore={`${getHomePrediction(m)} - ${getAwayPrediction(m)}`}
+                                finalResult={getFinalResult(m)}
+                                prediction={getPrediction(m)}
+
+                            />
 
 
                         </div>
-
-                        <div className='grid-item6'>
-                                <label className='team-name' htmlFor='awayPrediction'>{` ${shortName(m.awayName)}`}</label>
-                            </div>
                     </div>
                 </div>
             </div>
