@@ -1,4 +1,5 @@
 import React from 'react'
+import '../css/PredictionOutcome.css'
 
 // Component will compare the user prediction to the match result and
 // award a score

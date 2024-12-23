@@ -133,7 +133,30 @@
 }
 
 
+.prediction-value, .result-value, .numeric-value {
+    display: inline-block;
+    font-size: x-large;
+    color: white;
+    /* opacity: 90%; */
+}
 
+.prediction-disc, .result-disc {
+    display: inline-block;
+    height: calc(1em + 20px);
+    width: calc(1em + 20px);
+    border-radius: 100%;
+
+}
+
+.prediction-disc {
+    background-color:rgb(71, 75, 79);
+
+}
+
+
+.result-disc {
+    background-color:rgb(0, 176, 0);
+}
 
 
 

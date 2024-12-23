@@ -200,9 +200,14 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                             ) : (
                                 <>
                                 <div className='score-display'>
-                                    <span>{`${getHomePrediction(m) >=0 ? getHomePrediction(m) : '0'}`}</span>
+                                    <span className='prediction-disc'>
+                                        <span className='numeric-value'>{`${getHomePrediction(m) >=0 ? getHomePrediction(m) : '0'}`}</span>
+                                    </span>
                                     <span className='dash'>&ensp;&mdash;&ensp;</span>
-                                    <span>{`${getAwayPrediction(m) >=0 ? getAwayPrediction(m) : '0'}`}</span>
+                                    <span className='prediction-disc'>
+                                        <span className='numeric-value'>{`${getAwayPrediction(m) >=0 ? getAwayPrediction(m) : '0'}`}</span>
+                                    </span>
+
                                 </div>
                                 </>
                             )}
@@ -213,9 +218,13 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                         </div>
                         <div className='grid-item5'>
                             <div className='score-display'>
-                                    <span>{`${getHomeScore(m) >=0 ? getHomeScore(m) : '0'}`}</span>
+                                    <span className='result-disc'>
+                                        <span className='numeric-value'>{`${getHomeScore(m) >=0 ? getHomeScore(m) : '0'}`}</span>
+                                    </span>
                                     <span className='dash'>&ensp;&mdash;&ensp;</span>
-                                    <span>{`${getAwayResult(m) >=0 ? getAwayResult(m) : '0'}`}</span>
+                                    <span className='result-disc'>
+                                        <span className='numeric-value'>{`${getAwayResult(m) >=0 ? getAwayResult(m) : '0'}`}</span>
+                                    </span>
                             </div>
                         </div>
                         <div className='grid-item6'>
