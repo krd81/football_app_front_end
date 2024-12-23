@@ -115,6 +115,7 @@ const Predictions = ({ round }) => {
 
   return (
     <>
+
       <PredictionContext.Provider></PredictionContext.Provider>
       <div className='title-div'>
         <h1>Predictions  - Matchweek {round}:</h1>
@@ -122,7 +123,7 @@ const Predictions = ({ round }) => {
           <button className='edit-mode-btn' onClick={handleEditButton}>{editMode ? `View Mode` : `Edit Mode`}</button>
         </div>
         </div>
-      <div>
+      <div className='match-list-parent'>
       <form onSubmit={handleSubmit}>
 
         <div className='match-list'>

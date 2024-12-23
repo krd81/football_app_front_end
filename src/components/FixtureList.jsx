@@ -144,6 +144,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
         <>
         {console.log(predictions)}
             <div className='match-card'>
+                <div className='card-content'>
                 <div>
                     {matchStatusTag(m.fixture_id)}
                 </div>
@@ -232,7 +233,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                         </div>
 
                     </div>
-                    <div>
+                    <div className='outcome-div'>
                         <PredictionOutcome
                             finalScore={getFinalScore(m)}
                             predictedScore={`${getHomePrediction(m)} - ${getAwayPrediction(m)}`}
@@ -240,6 +241,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                             prediction={getPrediction(m)}
                         />
                     </div>
+                </div>
                 </div>
             </div>
 
