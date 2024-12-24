@@ -172,9 +172,21 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                                     value={getHomePrediction(m) >=0 ? getHomePrediction(m) : '0'}
                                     onChange={e => {
                                         const prediction = getPrediction(m);
+                                        // Check whether the new prediction means predicted outcome is
+                                        // home win, away win or draw
+                                        let newOutcomePrediction = 'X';
+                                        if (prediction.awayPrediction > Number(e.target.value)) {
+                                            newOutcomePrediction = '2';
+                                        } else if (prediction.awayPrediction < Number(e.target.value)) {
+                                            newOutcomePrediction = '1';
+                                        };
+
+                                        // Store changed prediction and updated outcome into
+                                        // predictions away using reducer
                                         updatePrediction({
                                             ...prediction,
-                                            homePrediction: Number(e.target.value)
+                                            homePrediction: Number(e.target.value),
+                                            outcomePrediction: newOutcomePrediction
                                         });
                                     }}
                                 />
@@ -190,9 +202,21 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                                     value={getAwayPrediction(m) >=0 ? getAwayPrediction(m) : '0'}
                                     onChange={e => {
                                         const prediction = getPrediction(m);
+                                        // Check whether the new prediction means predicted outcome is
+                                        // home win, away win or draw
+                                        let newOutcomePrediction = 'X';
+                                        if (prediction.homePrediction > Number(e.target.value)) {
+                                            newOutcomePrediction = '1';
+                                        } else if (prediction.homePrediction < Number(e.target.value)) {
+                                            newOutcomePrediction = '2';
+                                        };
+
+                                        // Store changed prediction and updated outcome into
+                                        // predictions away using reducer
                                         updatePrediction({
                                             ...prediction,
-                                            awayPrediction: Number(e.target.value)
+                                            awayPrediction: Number(e.target.value),
+                                            outcomePrediction: newOutcomePrediction
                                         });
                                     }}
 
