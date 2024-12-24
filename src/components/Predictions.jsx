@@ -121,12 +121,10 @@ const Predictions = ({ round }) => {
   */
 
   useMemo (() => {
-    let score = 0;
-    predictions.map(sumScores);
+    const score = predictions.reduce((total, prediction) => {
+      return total + (prediction.userScore || 0);
+    }, 0);
 
-    function sumScores(value){
-      score += value;
-    };
     setTotalScore(score);
   }, [predictions]);
 
@@ -166,7 +164,9 @@ const Predictions = ({ round }) => {
           ))}
         </div>
         <div className='total-score'>
-          <h3 className='total-score-text'>{`${totalScore} points`}</h3>
+          <div className='score-bg'>
+            <h3 className='total-score-text'>{`${totalScore} points`}</h3>
+          </div>
         </div>
         {editMode ?
           (
