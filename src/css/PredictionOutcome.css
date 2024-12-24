@@ -9,7 +9,6 @@
 }
 
 .points-div {
-    /* display: inline-block; */
     align-self: center;
     font-size: large;
     font-weight: 500;
@@ -21,15 +20,14 @@
 
 }
 
-.outcome-icon {
-    /* display: flex; */
-    float: inline-end;
+.svg-icon {
+
 
 }
 
-.outcome_icon {
+.outcome-icon {
 
-    align-self: start;
+
 }
 
 

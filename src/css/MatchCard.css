@@ -13,7 +13,7 @@
     padding: 20px;
     min-width: 38vw;
     max-width: 80vw;
-    height: calc(100% + 20%);
+    height: calc(100% + 50%);
     /* height: auto; */
     text-align: center;
 
@@ -176,7 +176,7 @@
 
 .outcome-div {
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
     width: 100%;
     min-height: 75px;
 }

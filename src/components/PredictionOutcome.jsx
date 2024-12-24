@@ -17,7 +17,7 @@ const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction
 
   let icon = () => {
     return(
-      <svg width="75" height="75" xmlns="http://www.w3.org/2000/svg" className='outcome-icon'>
+      <svg width="75" height="75" xmlns="http://www.w3.org/2000/svg" className='svg-icon'>
         <circle cx="37.5" cy="37.5" r="30" fill="red"/>
         <line x1="20" y1="20" x2="55" y2="55" stroke="white" strokeWidth="10"/>
         <line x1="20" y1="55" x2="55" y2="20" stroke="white" strokeWidth="10"/>
@@ -43,7 +43,7 @@ const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction
     if (n > 0) {
       icon = () => {
         return (
-          <svg width="75" height="75" xmlns="http://www.w3.org/2000/svg" className='outcome-icon'>
+          <svg width="75" height="75" xmlns="http://www.w3.org/2000/svg" className='svg-icon'>
             <circle cx="37.5" cy="37.5" r="30" fill={iconColour}/>
             <path d="M22.5 37.5 L33.75 48.75 L52.5 26.25" stroke="white" strokeWidth="10" fill="none"/>
           </svg>
@@ -56,16 +56,16 @@ const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction
 
   return (
     <>
-      <div className='bottom-icons'>
+
         <div className='points-div'>
           <span>{score()}&nbsp;</span>
           <span>{score() === 1 ? 'point' : 'points'}</span>
         </div>
-        <div className='outcome_icon'>
+        <div className='outcome-icon'>
           {icon()}
 
         </div>
-      </div>
+
     </>
   )
 }
