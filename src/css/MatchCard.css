@@ -9,8 +9,8 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
     border: 1px solid grey;
     border-radius: 12px;
-    margin: 1.5rem 0;
-    padding: 5px 20px 40px;
+    margin: 1.5rem 0 2rem;
+    padding: 5px 20px 30px;
     min-width: 38vw;
     max-width: 80vw;
     /* height: calc(100% + 50%); */
@@ -60,6 +60,15 @@
 
 
 }
+
+.grid-item2, .grid-item4 {
+    padding-bottom: 5px;
+}
+
+.grid-item4 {
+    padding-top: 15px;
+}
+
 
 .grid-item1, .grid-item2, .grid-item4, .grid-item6 {
     font-size: large;
