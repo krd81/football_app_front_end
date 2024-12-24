@@ -1,24 +1,14 @@
 /* Mobile first design */
-.bottom-icons {
-    display: flex;
-    justify-content:space-between;
-}
 
 .points-div {
-    display: flex;
+    align-self: center;
     font-size: large;
     font-weight: 500;
     border: 1px solid black;
     background-color: navy;
     color: white;
     padding: 10px;
-    align-self: center;
 
-}
-
-.outcome-icon {
-
-    float: inline-end;
 
 }
 
