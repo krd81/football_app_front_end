@@ -10,11 +10,11 @@
     border: 1px solid grey;
     border-radius: 12px;
     margin: 1.5rem 0;
-    padding: 20px;
+    padding: 20px 20px 40px;
     min-width: 38vw;
     max-width: 80vw;
-    height: calc(100% + 50%);
-    /* height: auto; */
+    /* height: calc(100% + 50%); */
+    height: auto;
     text-align: center;
 
 }
@@ -177,8 +177,9 @@
 .outcome-div {
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    width: 95%;
     min-height: 75px;
+    position: absolute;
 }
 
 
