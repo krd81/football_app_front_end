@@ -12,6 +12,7 @@ import { PredictionContext } from '../common/PredictionContext';
 const Predictions = ({ round }) => {
   const { allPredictions, setAllPredictions, fixtures, currentUser } = useContext(AppContext);
   const [editMode, setEditMode] = useState(false);
+  const [totalScore, setTotalScore] = useState (0);
   const nav = useNavigate();
 
 
@@ -111,6 +112,24 @@ const Predictions = ({ round }) => {
     };
   };
 
+  /*
+  const initialPredictions = useMemo(() => {
+    return allPredictions.filter(prediction => {
+      return prediction.user && prediction.user._id === currentUser._id;
+    });
+  }, [allPredictions, currentUser._id]);
+  */
+
+  useMemo (() => {
+    let score = 0;
+    predictions.map(sumScores);
+
+    function sumScores(value){
+      score += value;
+    };
+    setTotalScore(score);
+  }, [predictions]);
+
 
 
   return (
@@ -145,6 +164,9 @@ const Predictions = ({ round }) => {
 
             </Fragment>
           ))}
+        </div>
+        <div className='total-score'>
+          <h3 className='total-score-text'>{`${totalScore} points`}</h3>
         </div>
         {editMode ?
           (

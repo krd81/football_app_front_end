@@ -50,7 +50,7 @@ function Play ({ children, setCompRound, setRoutePath, route }) {
             </CompRoundContext.Provider>
         </>
     )
-}
+};
 
 function GameWeekDisplay ({ comp }) {
     return (
@@ -61,7 +61,7 @@ function GameWeekDisplay ({ comp }) {
             </div>
         </>
     )
-}
+};
 
 
 export default Play;
