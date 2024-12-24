@@ -145,7 +145,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
         {console.log(predictions)}
             <div className='match-card'>
                 <div className='card-content'>
-                <div>
+                <div className='card-header-div'>
                     {matchStatusTag(m.fixture_id)}
                 </div>
                 <div className='predictions-text'>
