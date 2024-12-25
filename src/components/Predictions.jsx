@@ -162,11 +162,11 @@ const Predictions = ({ round }) => {
 
             </Fragment>
           ))}
-        </div>
         <div className='total-score'>
           <div className='score-bg'>
             <h3 className='total-score-text'>{`${totalScore} points`}</h3>
           </div>
+        </div>
         </div>
         {editMode ?
           (

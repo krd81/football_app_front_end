@@ -50,18 +50,20 @@
 .total-score {
     display: flex;
     justify-content: center;
-    padding: 2vh 0;
+    padding: 6vh 0 3vh;
+    min-width: 41vw;
 }
 
 .score-bg {
     height: auto;
-    width: fit-content;
-    padding: 1em;
-    border: 1px black solid;;
-    border-radius: 100%;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    padding: 1em 20px;
+    border: 2px grey solid;
+    border-radius: 8px;
 
-    background-color: rgb(68, 236, 68);
+    text-align: center;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    background-color: rgb(243, 240, 234);
 
 }
 
