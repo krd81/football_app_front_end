@@ -1,10 +1,9 @@
-import React from 'react'
 import '../css/PredictionOutcome.css'
 
 // Component will compare the user prediction to the match result and
 // award a score
 // Scoring: 3 points = correct score | 1 point = correct result | 0 points = incorrect result
-const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction }) => {
+const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction, updateUserScore }) => {
   const matchScore = finalScore; // type string e.g. '2 - 3'
   const predScore = predictedScore;
 
@@ -53,6 +52,12 @@ const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction
         );
       };
     };
+
+    // Store user's score for this prediction using reducer function
+    // updateUserScore({
+    //   ...prediction,
+    //   userScore: n
+    // });
 
     return n;
   };

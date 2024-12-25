@@ -275,6 +275,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                             predictedScore={`${getHomePrediction(m)} - ${getAwayPrediction(m)}`}
                             finalResult={getFinalResult(m)}
                             prediction={getPrediction(m)}
+                            updateUserScore={updatePrediction}
                         />
                     </div>
                 </div>
