@@ -112,13 +112,6 @@ const Predictions = ({ round }) => {
     };
   };
 
-  /*
-  const initialPredictions = useMemo(() => {
-    return allPredictions.filter(prediction => {
-      return prediction.user && prediction.user._id === currentUser._id;
-    });
-  }, [allPredictions, currentUser._id]);
-  */
 
   useMemo (() => {
     const score = predictions.reduce((total, prediction) => {

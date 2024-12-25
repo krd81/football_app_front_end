@@ -24,10 +24,13 @@ const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction
       </svg>
 
     )
-  }
+  };
 
-  // Score calc
-  const score = () => {
+  // Returns the user's score for the match prediction
+  // This can only happen once the match is complete and the result is final
+  // Once calculated it dispatches the action of updating the user's score
+  // in the predictions array
+  const userScore = () => {
     let n = 0;
     let iconColour;
     if (matchResult === predictedResult()) {
@@ -48,7 +51,7 @@ const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction
             <path d="M22.5 37.5 L33.75 48.75 L52.5 26.25" stroke="white" strokeWidth="10" fill="none"/>
           </svg>
         );
-      }
+      };
     };
 
     return n;
@@ -58,8 +61,8 @@ const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction
     <>
 
         <div className='points-div'>
-          <span>{score()}&nbsp;</span>
-          <span>{score() === 1 ? 'point' : 'points'}</span>
+          <span>{userScore()}&nbsp;</span>
+          <span>{userScore() === 1 ? 'point' : 'points'}</span>
         </div>
         <div className='outcome-icon'>
           {icon()}
@@ -68,6 +71,6 @@ const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction
 
     </>
   )
-}
+};
 
 export default PredictionOutcome;

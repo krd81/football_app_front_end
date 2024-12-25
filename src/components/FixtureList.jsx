@@ -34,11 +34,12 @@ export default function FixtureList({
                     />
                 </Fragment>
         )
-        ))}
+        ))};
 
     </>
   )
-}
+};
+
 
 function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPrediction, onDelete }) {
     const { results } = useContext(AppContext);
@@ -47,22 +48,28 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
     const predictions = predictionsList;
 
 
+    // Returns the number of goals predicted for the home team
+    // Returns null if no prediction is found
     const getHomePrediction = (fixture) => {
         const prediction = predictions.find(pred => pred.fixture_id === fixture.fixture_id);
         return prediction ? prediction.homePrediction : '';
     };
 
+    // Returns the number of goals predicted for the away team
+    // Returns null if no prediction is found
     const getAwayPrediction = (fixture) => {
         const prediction = predictions.find(pred => pred.fixture_id === fixture.fixture_id);
         return prediction ? prediction.awayPrediction : '';
     };
 
+    // Returns the prediction object for the specific match or null if no prediction is found
     const getPrediction = (fixture) => {
         const prediction = predictions.find(pred => pred.fixture_id === fixture.fixture_id);
         console.log(prediction)
         return prediction || null;
     };
 
+    // Returns the actual score (string e.g. '3 - 2') or null if not found
     const getFinalScore = (fixture) => {
         const matchResult = allResults.find(result => result.fixture_id === fixture.fixture_id);
         const scoreObject = matchResult.scores;
@@ -71,6 +78,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
         return score || null;
     };
 
+    // Number of goals scored by home team (actual)
     const getHomeScore = (fixture) => {
         const score = getFinalScore(fixture);
 
@@ -80,7 +88,8 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
         }
     };
 
-    const getAwayResult = (fixture) => {
+    // Number of goals scored by away team (actual)
+    const getAwayScore = (fixture) => {
         const score = getFinalScore(fixture);
 
         if (score) {
@@ -89,6 +98,8 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
         }
     };
 
+    // Final result is the actual outcome (home win, away win, draw)
+    // Function returns null if no full time result exists
     const getFinalResult = (fixture) => {
         const matchResult = allResults.find(result => result.fixture_id === fixture.fixture_id);
         const resultObject = matchResult.outcomes;
@@ -98,6 +109,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
     };
 
 
+    // Match status indicates whether game is in play, not started or completed
     const matchStatusTag = (match_id) => {
         const result = allResults.find(result => result.fixture_id === match_id);
         const status = result?.status;
@@ -136,7 +148,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                 )
             }
         }
-    }
+    };
 
 
 
@@ -248,7 +260,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                                     </span>
                                     <span className='dash'>&ensp;&mdash;&ensp;</span>
                                     <span className='result-disc'>
-                                        <span className='numeric-value'>{`${getAwayResult(m) >=0 ? getAwayResult(m) : '0'}`}</span>
+                                        <span className='numeric-value'>{`${getAwayScore(m) >=0 ? getAwayScore(m) : '0'}`}</span>
                                     </span>
                             </div>
                         </div>
