@@ -18,7 +18,7 @@ export const UserTotalRoundScore = ({ round }) => {
   }, 0);
 
   return (
-    <>  
+    <>
         <div className='total-score'>
           <div className='score-bg'>
             <h3 className='total-score-text'>{`${totalRoundScore} points`}</h3>
@@ -27,3 +27,4 @@ export const UserTotalRoundScore = ({ round }) => {
     </>
   )
 };
+

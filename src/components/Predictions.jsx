@@ -136,6 +136,7 @@ const Predictions = ({ round }) => {
               </div>
 
                 <FixtureList
+                  round={round}
                   date={fixtureDate}
                   fixtures={currentFixtures}
                   isEdit={editMode}
