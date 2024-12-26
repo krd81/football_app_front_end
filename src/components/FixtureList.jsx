@@ -66,15 +66,17 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
     // Returns the prediction object for the specific match or null if no prediction is found
     const getPrediction = (fixture) => {
         const prediction = predictions.find(pred => pred.fixture_id === fixture.fixture_id);
-        console.log(prediction)
+        if (prediction) {
+            console.log(prediction)
+        };
         return prediction || null;
     };
 
     // Returns the actual score (string e.g. '3 - 2') or null if not found
     const getFinalScore = (fixture) => {
         const matchResult = allResults.find(result => result.fixture_id === fixture.fixture_id);
-        const scoreObject = matchResult.scores;
-        const score = scoreObject.score;
+        const scoreObject = matchResult?.scores;
+        const score = scoreObject?.score;
 
         return score || null;
     };
@@ -85,7 +87,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
 
         if (score) {
             const homeScore = score ? parseInt(score.split(' - ')[0], 10) : null;
-            return homeScore;
+            return homeScore || null;
         }
     };
 
@@ -95,7 +97,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
 
         if (score) {
             const awayScore = score ? parseInt(score.split(' - ')[1], 10) : null;
-            return awayScore;
+            return awayScore || null;
         }
     };
 
@@ -103,8 +105,8 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
     // Function returns null if no full time result exists
     const getFinalResult = (fixture) => {
         const matchResult = allResults.find(result => result.fixture_id === fixture.fixture_id);
-        const resultObject = matchResult.outcomes;
-        const result = resultObject.fullTime;
+        const resultObject = matchResult?.outcomes;
+        const result = resultObject?.fullTime;
 
         return result || null;
     };
@@ -188,9 +190,9 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                                         // Check whether the new prediction means predicted outcome is
                                         // home win, away win or draw
                                         let newOutcomePrediction = 'X';
-                                        if (prediction.awayPrediction > Number(e.target.value)) {
+                                        if (prediction?.awayPrediction > Number(e.target.value)) {
                                             newOutcomePrediction = '2';
-                                        } else if (prediction.awayPrediction < Number(e.target.value)) {
+                                        } else if (prediction?.awayPrediction < Number(e.target.value)) {
                                             newOutcomePrediction = '1';
                                         };
 
@@ -218,9 +220,9 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                                         // Check whether the new prediction means predicted outcome is
                                         // home win, away win or draw
                                         let newOutcomePrediction = 'X';
-                                        if (prediction.homePrediction > Number(e.target.value)) {
+                                        if (prediction?.homePrediction > Number(e.target.value)) {
                                             newOutcomePrediction = '1';
-                                        } else if (prediction.homePrediction < Number(e.target.value)) {
+                                        } else if (prediction?.homePrediction < Number(e.target.value)) {
                                             newOutcomePrediction = '2';
                                         };
 
@@ -250,6 +252,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                                 </>
                             )}
                         </div>
+                        {/* TODO: Final Score should only be rendered where match status is complete */}
                         <div className='grid-item4'>
                             Final Score
 

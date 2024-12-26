@@ -153,6 +153,7 @@ const DisplayFixtures = () => {
             </Fragment>
 
           ))}
+          {/* TODO: Only show total score component when at least one match of the round is complete?? */}
             <UserTotalRoundScore />
 
         </div>
