@@ -11,17 +11,8 @@ const GameWeekSelect = ({ setCompRound, route }) => {
 
     const handleClick = (round) => {
         setCompRound(round);
-        switch (route) {
-            case 'play':
-                nav('/predictions');
-                break;
-            case 'fixtures':
-                nav('/fixtures');
-                break;
-            default:
-                nav('/predictions');
-        }
-    }
+        nav('/predictions');
+    };
 
     return (
         <>
@@ -37,9 +28,8 @@ const GameWeekSelect = ({ setCompRound, route }) => {
                                 value={round}
                                 onClick={() => {handleClick(round)}}
                                 >
-
                                   {round}
-                                    </button>
+                                </button>
                                 </div>
 
                         </Fragment>

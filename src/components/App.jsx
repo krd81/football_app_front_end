@@ -232,7 +232,7 @@ useEffect(() => {
             <Route path='/play' element={<Play setCompRound={setCompRound} setRoutePath={() => setRoutePath('play')} route={route}/>} />
             <Route path='/viewfixtures' element={<Play setCompRound={setCompRound} setRoutePath={() => setRoutePath('fixtures')} route={route}/>} />
             <Route path='/fixtures' element={<Fixtures round={round}/>} />
-            <Route path='/predictions' element={<Predictions round={round}/>} />
+            <Route path='/predictions' element={<Predictions />} />
 
           </Routes>
         </div>

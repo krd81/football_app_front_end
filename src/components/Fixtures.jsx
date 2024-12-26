@@ -5,8 +5,8 @@ import { dateFormatter2 } from '../functions/dateTimeFormatter'
 import shortName from '../functions/nameAbbreviation';
 import { AppContext } from '../authentication/AppContext';
 
-const Fixtures = ({ round }) => {
-  const { fixtures, results } = useContext(AppContext);
+const Fixtures = () => {
+  const { round, fixtures, results } = useContext(AppContext);
 
   const currentFixtures = useMemo(() => {
     return getRoundFixtures(fixtures, round);

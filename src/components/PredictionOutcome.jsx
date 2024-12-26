@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react';
+import { AppContext } from '../authentication/AppContext';
 import { UpdateUserScore } from '../functions/updateUserScore';
 import '../css/PredictionOutcome.css'
 
 // Component will compare the user prediction to the match result and
 // award a score
 // Scoring: 3 points = correct score | 1 point = correct result | 0 points = incorrect result
-const PredictionOutcome = ({ round, finalScore, predictedScore, finalResult, prediction,  }) => {
-  const [userScore, setUserScore] = useState(0);
+const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction,  }) => {
+    const { round } = useContext(AppContext);
+    const [userScore, setUserScore] = useState(0);
   const [icon, setIcon] = useState(
     <svg width="75" height="75" xmlns="http://www.w3.org/2000/svg" className='svg-icon'>
       <circle cx="37.5" cy="37.5" r="30" fill="red"/>

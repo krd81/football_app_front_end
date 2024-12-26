@@ -10,8 +10,8 @@ import { UserTotalRoundScore } from './UserScores'
 import { PredictionContext } from '../common/PredictionContext';
 
 
-const Predictions = ({ round }) => {
-  const { allPredictions, setAllPredictions, fixtures, currentUser } = useContext(AppContext);
+const Predictions = () => {
+  const { allPredictions, setAllPredictions, fixtures, round, currentUser } = useContext(AppContext);
   const [editMode, setEditMode] = useState(false);
   const nav = useNavigate();
 
@@ -136,7 +136,6 @@ const Predictions = ({ round }) => {
               </div>
 
                 <FixtureList
-                  round={round}
                   date={fixtureDate}
                   fixtures={currentFixtures}
                   isEdit={editMode}
@@ -148,7 +147,7 @@ const Predictions = ({ round }) => {
             </Fragment>
 
           ))}
-            <UserTotalRoundScore round={round}/>
+            <UserTotalRoundScore />
 
         </div>
         {editMode ?
