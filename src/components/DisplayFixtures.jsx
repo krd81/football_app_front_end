@@ -9,8 +9,13 @@ import FixtureList from './FixtureList';
 import { UserTotalRoundScore } from './UserScores'
 import { PredictionContext } from '../common/PredictionContext';
 
-
-const Predictions = () => {
+// Previously called Predictions.jsx
+// This component sets up the fixtures and determines which elements are shown
+// At this point, the user has selected the competition and round
+// The next step is to display the relevant fixtures, the predictions (if any) and either
+// - match status (if complete or in play)
+// - date/time (if non started)
+const DisplayFixtures = () => {
   const { allPredictions, setAllPredictions, fixtures, round, currentUser } = useContext(AppContext);
   const [editMode, setEditMode] = useState(false);
   const nav = useNavigate();
@@ -72,6 +77,7 @@ const Predictions = () => {
 
 
   const fixtureDates = getDates(currentFixtures);
+
 
 
   const handleEditButton = () => {
@@ -174,4 +180,4 @@ const Predictions = () => {
   )
 };
 
-export default Predictions;
+export default DisplayFixtures;

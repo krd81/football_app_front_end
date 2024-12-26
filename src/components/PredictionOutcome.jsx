@@ -8,7 +8,7 @@ import '../css/PredictionOutcome.css'
 // Scoring: 3 points = correct score | 1 point = correct result | 0 points = incorrect result
 const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction,  }) => {
     const { round } = useContext(AppContext);
-    const [userScore, setUserScore] = useState(0);
+    const [userScore, setUserScore] = useState('');
   const [icon, setIcon] = useState(
     <svg width="75" height="75" xmlns="http://www.w3.org/2000/svg" className='svg-icon'>
       <circle cx="37.5" cy="37.5" r="30" fill="red"/>
@@ -39,12 +39,12 @@ const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction
     let n = 0;
     let iconColour;
 
-    if (matchResult === predictedResult()) {
+    if (matchResult && matchResult === predictedResult()) {
       n += 1;
       iconColour = 'orange';
     };
 
-    if (matchScore === predScore) {
+    if (matchScore && matchScore === predScore) {
       n += 2;
       iconColour = 'green';
     };
@@ -58,8 +58,10 @@ const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction
       );
     }
 
-    setUserScore(n);
-    UpdateUserScore(round, userPrediction.fixture_id, n);
+    if (matchScore && userPrediction) {
+      setUserScore(n);
+      UpdateUserScore(round, userPrediction.fixture_id, n);
+    }
   }, [round, finalScore, predictedScore, finalResult, prediction]);
 
 
@@ -67,16 +69,21 @@ const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction
 
   return (
     <>
-
-        <div className='points-div'>
-          <span>{userScore}&nbsp;</span>
-          <span>{userScore === 1 ? 'point' : 'points'}</span>
-        </div>
-        <div className='outcome-icon'>
-          {icon}
-
-        </div>
-
+      {userScore ?
+        (
+          <>
+            <div className='points-div'>
+              <span>{userScore}&nbsp;</span>
+              <span>{userScore === 1 ? 'point' : 'points'}</span>
+            </div>
+            <div className='outcome-icon'>
+              {icon}
+            </div>
+          </>
+        )
+        :
+        null
+      }
     </>
   )
 };

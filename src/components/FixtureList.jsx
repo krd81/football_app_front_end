@@ -272,10 +272,10 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                     </div>
                     <div className='outcome-div'>
                         <PredictionOutcome
-                            finalScore={getFinalScore(m)}
-                            predictedScore={`${getHomePrediction(m)} - ${getAwayPrediction(m)}`}
-                            finalResult={getFinalResult(m)}
-                            prediction={getPrediction(m)}
+                            finalScore={getFinalScore(m) || null}
+                            predictedScore={`${getHomePrediction(m) || '0'} - ${getAwayPrediction(m) || '0'}`}
+                            finalResult={getFinalResult(m) || null}
+                            prediction={getPrediction(m) || null}
                         />
                     </div>
                 </div>
