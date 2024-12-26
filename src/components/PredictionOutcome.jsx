@@ -8,7 +8,7 @@ import '../css/PredictionOutcome.css'
 // Scoring: 3 points = correct score | 1 point = correct result | 0 points = incorrect result
 const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction,  }) => {
     const { round } = useContext(AppContext);
-    const [userScore, setUserScore] = useState('');
+    const [userScore, setUserScore] = useState(null);
   const [icon, setIcon] = useState(
     <svg width="75" height="75" xmlns="http://www.w3.org/2000/svg" className='svg-icon'>
       <circle cx="37.5" cy="37.5" r="30" fill="red"/>
@@ -61,7 +61,7 @@ const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction
     if (matchScore && userPrediction) {
       setUserScore(n);
       UpdateUserScore(round, userPrediction.fixture_id, n);
-    }
+    };
   }, [round, finalScore, predictedScore, finalResult, prediction]);
 
 
@@ -69,7 +69,7 @@ const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction
 
   return (
     <>
-      {userScore ?
+      {userScore !== null ?
         (
           <>
             <div className='points-div'>
