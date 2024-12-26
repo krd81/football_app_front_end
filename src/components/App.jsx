@@ -22,6 +22,7 @@ function App({ children }) {
   const [fixtures, setFixtures] = useState([]);
   const [results, setResults] = useState([]);
   const [allPredictions, setAllPredictions] = useState({});
+  const [allUserScores, setAllUserScores] = useState({});
   const [token, setToken] = useState(() => sessionStorage.getItem('token'));
   const [round, setRound] = useState('');
   const [route, setRoute] = useState(''); // Use to store whether to display predictions or fixtures
@@ -103,12 +104,13 @@ function App({ children }) {
 
 // Separate effect for fetching predictions info since it is dependent upon selectedCompetition
 // and will need to be called each time the competition changes
+// This effect also fetches userScores for selected competition
 useEffect(() => {
   const fetchData = async () => {
-      try {
         // const apiUrl = import.meta.env.VITE_API_URL;
         const apiUrl = 'http://127.0.0.1:8005';
-        const result = await fetch(`${apiUrl}/predictions/competition/${selectedCompetition.id}`, {
+        try {
+          const result = await fetch(`${apiUrl}/predictions/competition/${selectedCompetition.id}`, {
           method: 'GET',
           headers: {
               'Content-Type': 'application/json',
@@ -119,8 +121,22 @@ useEffect(() => {
         setAllPredictions(selectedCompPredictions);
       } catch (error) {
           console.error(error.message);
-      }
-  };
+      };
+      try {
+        const result = await fetch(`${apiUrl}/userscores/competition/${selectedCompetition.id}`, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `null`
+          }
+        });
+        const selectedCompUserScores = await result.json();
+        setAllUserScores(selectedCompUserScores);
+      } catch (error) {
+          console.error(error.message);
+      };
+
+    };
   if (selectedCompetition.id) {
     fetchData();
   }
@@ -135,7 +151,9 @@ useEffect(() => {
       console.log(selectedCompetition)
       console.log(fixtures)
       console.log(results)
-      console.log("Fixtures data type: " + typeof(fixtures))
+      console.log(allPredictions)
+      console.log(allUserScores)
+      //console.log()
 
   }
 
@@ -194,6 +212,8 @@ useEffect(() => {
             selectedCompetition,
             allPredictions,
             setAllPredictions,
+            allUserScores,
+            setAllUserScores,
             fixtures,
             results,
             round,
