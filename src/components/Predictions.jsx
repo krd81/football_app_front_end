@@ -115,7 +115,7 @@ const Predictions = ({ round }) => {
 
   useMemo (() => {
     const score = predictions.reduce((total, prediction) => {
-      return total + (prediction.userScore || 0);
+      return total + (prediction.userScore.score || 0);
     }, 0);
 
     setTotalScore(score);
