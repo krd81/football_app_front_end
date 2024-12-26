@@ -2,8 +2,8 @@ import { useContext, useState, useMemo } from 'react'
 import { AppContext } from '../authentication/AppContext'
 
 
-export const UserTotalRoundScore = ({ round }) => {
-  const { allUserScores, setAllUserScores, currentUser } = useContext(AppContext);
+export const UserTotalRoundScore = () => {
+  const { round, allUserScores, setAllUserScores, currentUser } = useContext(AppContext);
 
   const userScores = useMemo(() => {
     return allUserScores.filter(scores => {
@@ -27,4 +27,3 @@ export const UserTotalRoundScore = ({ round }) => {
     </>
   )
 };
-
