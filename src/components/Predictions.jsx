@@ -6,13 +6,13 @@ import { dateFormatter2 } from '../functions/dateTimeFormatter'
 import { AppContext } from '../authentication/AppContext';
 import predictionsReducer from '../common/PredictionsReducer';
 import FixtureList from './FixtureList';
+import { UserTotalRoundScore } from './UserScores'
 import { PredictionContext } from '../common/PredictionContext';
 
 
 const Predictions = ({ round }) => {
   const { allPredictions, setAllPredictions, fixtures, currentUser } = useContext(AppContext);
   const [editMode, setEditMode] = useState(false);
-  const [totalScore, setTotalScore] = useState (0);
   const nav = useNavigate();
 
 
@@ -52,7 +52,7 @@ const Predictions = ({ round }) => {
 
 
   const currentFixtures = useMemo(() => {
-    return getRoundFixtures(fixtures, round);
+    return getRoundFixtures(fixtures, round)
   }, [fixtures, round]);
 
 
@@ -113,14 +113,6 @@ const Predictions = ({ round }) => {
   };
 
 
-  useMemo (() => {
-    const score = predictions.reduce((total, prediction) => {
-      return total + (prediction.userScore.score || 0);
-    }, 0);
-
-    setTotalScore(score);
-  }, [predictions]);
-
 
 
   return (
@@ -144,6 +136,7 @@ const Predictions = ({ round }) => {
               </div>
 
                 <FixtureList
+                  round={round}
                   date={fixtureDate}
                   fixtures={currentFixtures}
                   isEdit={editMode}
@@ -152,14 +145,11 @@ const Predictions = ({ round }) => {
                   addAwayPrediction={handleAwayPrediction}
                   onDeletePrediction={handleDeletePrediction}
                 />
-
             </Fragment>
+
           ))}
-        <div className='total-score'>
-          <div className='score-bg'>
-            <h3 className='total-score-text'>{`${totalScore} points`}</h3>
-          </div>
-        </div>
+            <UserTotalRoundScore round={round}/>
+
         </div>
         {editMode ?
           (

@@ -6,6 +6,7 @@ import { timeFormatter } from '../functions/dateTimeFormatter'
 import '../css/MatchCard.css'
 
 export default function FixtureList({
+    round,
     date,
     fixtures,
     matchResult,
@@ -24,6 +25,7 @@ export default function FixtureList({
             match.date === date && (
                 <Fragment key={match.fixture_id + date} >
                     <Fixture
+                        round={round}
                         match={match}
                         isEdit={isEdit}
                         predictionsList={predictions}
@@ -34,14 +36,14 @@ export default function FixtureList({
                     />
                 </Fragment>
         )
-        ))};
+        ))}
 
     </>
   )
 };
 
 
-function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPrediction, onDelete }) {
+function Fixture ({ round, match, isEdit, predictionsList, updatePrediction, awayPrediction, onDelete }) {
     const { results } = useContext(AppContext);
     const m = match;
     const allResults = results;
@@ -271,11 +273,11 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                     </div>
                     <div className='outcome-div'>
                         <PredictionOutcome
+                            round={round}
                             finalScore={getFinalScore(m)}
                             predictedScore={`${getHomePrediction(m)} - ${getAwayPrediction(m)}`}
                             finalResult={getFinalResult(m)}
                             prediction={getPrediction(m)}
-                            updateUserScore={updatePrediction}
                         />
                     </div>
                 </div>
