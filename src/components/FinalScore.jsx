@@ -1,5 +1,4 @@
-function FinalScore ({ match, home, away, score }) {
-
+function FinalScore ({ match, home, away, score, status }) {
 
     return (
         <>

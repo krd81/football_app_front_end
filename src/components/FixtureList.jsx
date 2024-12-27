@@ -1,4 +1,4 @@
-import { Fragment, useContext } from 'react'
+import { Fragment, useContext, useState } from 'react'
 import { AppContext } from '../contexts/AppContext';
 import { FixtureContext } from '../contexts/FixtureContext';
 import FixtureHeading from './FixtureHeading'
@@ -8,6 +8,7 @@ import PredictionOutcome from './PredictionOutcome';
 import shortName from '../functions/nameAbbreviation';
 import { timeFormatter } from '../functions/dateTimeFormatter'
 import '../css/MatchCard.css'
+import { use } from 'react';
 
 export default function FixtureList({
     date,
@@ -49,10 +50,14 @@ export default function FixtureList({
 
 function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPrediction, onDelete }) {
     const { results } = useContext(AppContext);
+    const [matchStatus, setMatchStatus] = useState('NOT STARTED');
     const m = match;
     const allResults = results;
     const predictions = predictionsList;
 
+    const updateMatchStatus = (status) => {
+        setMatchStatus(status);
+    };
 
     // Returns the number of goals predicted for the home team
     // Returns null if no prediction is found
@@ -128,7 +133,10 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
             <div className='match-card'>
                 <div className='card-content'>
                 <div className='card-header-div'>
-                    <FixtureHeading match={m}/>
+                    <FixtureHeading
+                        match={m}
+                        updateMatchStatus={updateMatchStatus}
+                    />
                 </div>
                 <div className='predictions-text'>
                     <div className='grid-container'>
@@ -148,13 +156,17 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                         />
 
                         {/* TODO: Final Score should only be rendered where match status is complete */}
-                        <FinalScore
-                            match={m}
-                            home={getHomeScore(m)}
-                            away={getAwayScore}
-                            score={getFinalScore}
-                        />
-
+                            {(matchStatus == null || matchStatus === 'NOT STARTED') ?
+                                null
+                                :
+                                (<FinalScore
+                                    match={m}
+                                    home={getHomeScore(m)}
+                                    away={getAwayScore}
+                                    score={getFinalScore}
+                                    status={matchStatus}
+                                />)
+                            }
                         <div className='grid-item6'>
                                 <label className='team-name' htmlFor='awayPrediction'>{` ${shortName(m.awayName)}`}</label>
                         </div>
