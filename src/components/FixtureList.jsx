@@ -87,7 +87,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
 
         if (score) {
             const homeScore = score ? parseInt(score.split(' - ')[0], 10) : null;
-            return homeScore || null;
+            return homeScore;
         }
     };
 
@@ -97,7 +97,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
 
         if (score) {
             const awayScore = score ? parseInt(score.split(' - ')[1], 10) : null;
-            return awayScore || null;
+            return awayScore;
         }
     };
 
