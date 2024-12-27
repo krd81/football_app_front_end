@@ -8,7 +8,7 @@ import Login from '../pages/Login'
 import Homepage from '../pages/Homepage'
 import Play from './Play'
 import Fixtures from '../pages/Fixtures'
-import DisplayFixtures from './DisplayFixtures'
+import DisplayFixtures from '../pages/DisplayFixtures'
 import TokenDecoder from '../authentication/TokenDecoder'
 
 function App({ children }) {

@@ -5,8 +5,8 @@ import getDates from '../functions/getDates';
 import { dateFormatter2 } from '../functions/dateTimeFormatter'
 import { AppContext } from '../contexts/AppContext';
 import predictionsReducer from '../common/PredictionsReducer';
-import FixtureList from './FixtureList';
-import { UserTotalRoundScore } from './UserScores'
+import FixtureList from '../components/FixtureList';
+import { UserTotalRoundScore } from '../components/UserScores'
 import { PredictionContext } from '../contexts/PredictionContext';
 
 // Previously called Predictions.jsx

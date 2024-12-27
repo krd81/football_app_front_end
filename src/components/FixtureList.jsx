@@ -1,5 +1,8 @@
 import { Fragment, useContext } from 'react'
 import { AppContext } from '../contexts/AppContext';
+import FixtureHeading from './FixtureHeading'
+import Prediction from './Prediction'
+import FinalScore from './FinalScore'
 import PredictionOutcome from './PredictionOutcome';
 import shortName from '../functions/nameAbbreviation';
 import { timeFormatter } from '../functions/dateTimeFormatter'
@@ -31,7 +34,7 @@ export default function FixtureList({
                         updatePrediction={updatePrediction}
                         awayPrediction={addAwayPrediction}
                         onDelete={onDeletePrediction}
-                        matchResult={matchResult}
+                        // matchResult={matchResult}
                     />
                 </Fragment>
         )
@@ -43,7 +46,7 @@ export default function FixtureList({
 
 
 function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPrediction, onDelete }) {
-    const { results, round } = useContext(AppContext);
+    const { results } = useContext(AppContext);
     const m = match;
     const allResults = results;
     const predictions = predictionsList;
@@ -81,25 +84,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
         return score || null;
     };
 
-    // Number of goals scored by home team (actual)
-    const getHomeScore = (fixture) => {
-        const score = getFinalScore(fixture);
 
-        if (score) {
-            const homeScore = score ? parseInt(score.split(' - ')[0], 10) : null;
-            return homeScore;
-        }
-    };
-
-    // Number of goals scored by away team (actual)
-    const getAwayScore = (fixture) => {
-        const score = getFinalScore(fixture);
-
-        if (score) {
-            const awayScore = score ? parseInt(score.split(' - ')[1], 10) : null;
-            return awayScore;
-        }
-    };
 
     // Final result is the actual outcome (home win, away win, draw)
     // Function returns null if no full time result exists
@@ -112,48 +97,6 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
     };
 
 
-    // Match status indicates whether game is in play, not started or completed
-    const matchStatusTag = (match_id) => {
-        const result = allResults.find(result => result.fixture_id === match_id);
-        const status = result?.status;
-
-        switch (status) {
-            case 'FINISHED': {
-                return (
-                    <>
-                        <span className='ft-tag'>
-                            Full time
-                        </span>
-                    </>
-                )
-            }
-            case 'IN PLAY':
-            case 'HALF TIME BREAK':
-            case 'ADDED TIME':
-            case 'INSUFFICIENT DATA': {
-                return (
-                    <span className='live-tag'>
-                        Live
-                    </span>
-
-                )
-            }
-            default: {
-                return (
-                    <>
-                        <span className='default-tag'>
-                            Kick-off
-                        </span>
-                        <span className='time-tag'>
-                           {timeFormatter(result?.scheduled) || timeFormatter(m?.time) ||'none'}
-                        </span>
-                    </>
-                )
-            }
-        }
-    };
-
-
 
     return (
         <>
@@ -161,113 +104,25 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
             <div className='match-card'>
                 <div className='card-content'>
                 <div className='card-header-div'>
-                    {matchStatusTag(m.fixture_id)}
+                    <FixtureHeading match={m}/>
                 </div>
                 <div className='predictions-text'>
                     <div className='grid-container'>
                         <div className='grid-item1'>
                             <label className='team-name' htmlFor='homePrediction'>{`${shortName(m.homeName)} `}</label>
                         </div>
-                        <div className='grid-item2'>
-                            You predicted
+                        <Prediction
+                            match={match}
+                            isEdit={isEdit}
+                            predictionsList={predictions}
+                            updatePrediction={updatePrediction}
+                            awayPrediction={awayPrediction}
+                            onDelete={onDelete}
+                        />
 
-                        </div>
-
-                        <div className='grid-item3'>
-                            {isEdit ? (
-                                <>
-                                <input
-                                    className='score-input'
-                                    id={`${m.homeName}`}
-                                    name='homePrediction'
-                                    type='number'
-                                    size="1"
-                                    min="0"
-                                    max="10"
-                                    value={getHomePrediction(m) >=0 ? getHomePrediction(m) : '0'}
-                                    onChange={e => {
-                                        const prediction = getPrediction(m);
-                                        // Check whether the new prediction means predicted outcome is
-                                        // home win, away win or draw
-                                        let newOutcomePrediction = 'X';
-                                        if (prediction?.awayPrediction > Number(e.target.value)) {
-                                            newOutcomePrediction = '2';
-                                        } else if (prediction?.awayPrediction < Number(e.target.value)) {
-                                            newOutcomePrediction = '1';
-                                        };
-
-                                        // Store changed prediction and updated outcome into
-                                        // predictions away using reducer
-                                        updatePrediction({
-                                            ...prediction,
-                                            homePrediction: Number(e.target.value),
-                                            outcomePrediction: newOutcomePrediction
-                                        });
-                                    }}
-                                />
-                                &nbsp;&mdash;&nbsp;
-                                <input
-                                    className='score-input'
-                                    id={`${m.awayName}`}
-                                    name='awayPrediction'
-                                    type='number'
-                                    size="1"
-                                    min="0"
-                                    max="10"
-                                    value={getAwayPrediction(m) >=0 ? getAwayPrediction(m) : '0'}
-                                    onChange={e => {
-                                        const prediction = getPrediction(m);
-                                        // Check whether the new prediction means predicted outcome is
-                                        // home win, away win or draw
-                                        let newOutcomePrediction = 'X';
-                                        if (prediction?.homePrediction > Number(e.target.value)) {
-                                            newOutcomePrediction = '1';
-                                        } else if (prediction?.homePrediction < Number(e.target.value)) {
-                                            newOutcomePrediction = '2';
-                                        };
-
-                                        // Store changed prediction and updated outcome into
-                                        // predictions away using reducer
-                                        updatePrediction({
-                                            ...prediction,
-                                            awayPrediction: Number(e.target.value),
-                                            outcomePrediction: newOutcomePrediction
-                                        });
-                                    }}
-
-                                />
-                                </>
-                            ) : (
-                                <>
-                                <div className='score-display'>
-                                    <span className='prediction-disc'>
-                                        <span className='numeric-value'>{`${getHomePrediction(m) >=0 ? getHomePrediction(m) : '0'}`}</span>
-                                    </span>
-                                    <span className='dash'>&ensp;&mdash;&ensp;</span>
-                                    <span className='prediction-disc'>
-                                        <span className='numeric-value'>{`${getAwayPrediction(m) >=0 ? getAwayPrediction(m) : '0'}`}</span>
-                                    </span>
-
-                                </div>
-                                </>
-                            )}
-                        </div>
                         {/* TODO: Final Score should only be rendered where match status is complete */}
-                        <div className='grid-item4'>
-                            Final Score
+                        <FinalScore match={m}/>
 
-                        </div>
-                        <div className='grid-item5'>
-                            <div className='score-display'>
-                                    <span className='result-disc'>
-                                        <span className='numeric-value'>{`${getHomeScore(m) >=0 ? getHomeScore(m) : '0'}`}</span>
-                                    </span>
-                                    <span className='dash'>&ensp;&mdash;&ensp;</span>
-                                    <span className='result-disc'>
-                                        <span className='numeric-value'>{`${getAwayScore(m) >=0 ? getAwayScore(m) : '0'}`}</span>
-                                    </span>
-                            </div>
-                        </div>
                         <div className='grid-item6'>
                                 <label className='team-name' htmlFor='awayPrediction'>{` ${shortName(m.awayName)}`}</label>
                         </div>
