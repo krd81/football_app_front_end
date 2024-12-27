@@ -1,6 +1,6 @@
 import { React, useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { AppContext } from '../authentication/AppContext';
+import { AppContext } from '../contexts/AppContext';
 import FlashTitle from '../common/FlashTitle';
 import '../css/Login.css'
 

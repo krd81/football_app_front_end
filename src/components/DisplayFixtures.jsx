@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import '../css/Scores.css'
 import getDates from '../functions/getDates';
 import { dateFormatter2 } from '../functions/dateTimeFormatter'
-import { AppContext } from '../authentication/AppContext';
+import { AppContext } from '../contexts/AppContext';
 import predictionsReducer from '../common/PredictionsReducer';
 import FixtureList from './FixtureList';
 import { UserTotalRoundScore } from './UserScores'
-import { PredictionContext } from '../common/PredictionContext';
+import { PredictionContext } from '../contexts/PredictionContext';
 
 // Previously called Predictions.jsx
 // This component sets up the fixtures and determines which elements are shown

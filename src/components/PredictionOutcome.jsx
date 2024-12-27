@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react';
-import { AppContext } from '../authentication/AppContext';
+import { AppContext } from '../contexts/AppContext';
 import { UpdateUserScore } from '../functions/updateUserScore';
 import '../css/PredictionOutcome.css'
 

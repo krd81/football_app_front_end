@@ -1,7 +1,7 @@
 import { Fragment, useContext } from 'react'
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom'
-import { CompRoundContext } from '../common/CompRoundContext';
+import { CompRoundContext } from '../contexts/CompRoundContext';
 import '../css/GameWeekSelect.css'
 
 const GameWeekSelect = ({ setCompRound, route }) => {

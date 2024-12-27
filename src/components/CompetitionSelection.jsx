@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { AppContext } from '../authentication/AppContext';
+import { AppContext } from '../contexts/AppContext';
 
 // Manages the selection of competition and sets this value in state
 // Parent component (Homepage) manages the selectedCompetition state

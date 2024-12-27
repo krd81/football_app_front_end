@@ -1,5 +1,5 @@
 import { useContext, useState, useMemo } from 'react'
-import { AppContext } from '../authentication/AppContext'
+import { AppContext } from '../contexts/AppContext'
 
 
 export const UserTotalRoundScore = () => {

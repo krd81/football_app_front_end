@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import FlashTitle from '../common/FlashTitle'
-import CompetitionSelection from '../common/CompetitionSelection'
-import { AppContext } from '../authentication/AppContext';
+import CompetitionSelection from '../components/CompetitionSelection'
+import { AppContext } from '../contexts/AppContext';
 
 
 const Homepage = () => {

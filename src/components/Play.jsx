@@ -1,8 +1,8 @@
 import '../css/app.css'
 import { useContext, useState, useEffect, useMemo } from "react";
-import { AppContext } from '../authentication/AppContext'
-import { CompRoundContext } from '../common/CompRoundContext';
-import GameWeekSelect from './GameWeekSelect';
+import { AppContext } from '../contexts/AppContext'
+import { CompRoundContext } from '../contexts/CompRoundContext';
+import GameWeekSelect from '../pages/GameWeekSelect';
 
 //'/competition/:comp_id/round/:round_id'
 

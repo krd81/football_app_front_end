@@ -3,7 +3,7 @@ import '../css/Scores.css'
 import getDates from '../functions/getDates';
 import { dateFormatter2 } from '../functions/dateTimeFormatter'
 import shortName from '../functions/nameAbbreviation';
-import { AppContext } from '../authentication/AppContext';
+import { AppContext } from '../contexts/AppContext';
 
 const Fixtures = () => {
   const { round, fixtures, results } = useContext(AppContext);

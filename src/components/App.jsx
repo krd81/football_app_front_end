@@ -1,13 +1,13 @@
 import '../css/app.css'
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { AppContext } from '../authentication/AppContext';
+import { AppContext } from '../contexts/AppContext';
 // import { CompRoundContext } from '../common/CompRoundContext';
 import NavBar from './NavBar'
-import Login from './Login'
-import Homepage from './Homepage'
+import Login from '../pages/Login'
+import Homepage from '../pages/Homepage'
 import Play from './Play'
-import Fixtures from './Fixtures'
+import Fixtures from '../pages/Fixtures'
 import DisplayFixtures from './DisplayFixtures'
 import TokenDecoder from '../authentication/TokenDecoder'
 

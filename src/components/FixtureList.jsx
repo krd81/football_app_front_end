@@ -1,5 +1,5 @@
 import { Fragment, useContext } from 'react'
-import { AppContext } from '../authentication/AppContext';
+import { AppContext } from '../contexts/AppContext';
 import PredictionOutcome from './PredictionOutcome';
 import shortName from '../functions/nameAbbreviation';
 import { timeFormatter } from '../functions/dateTimeFormatter'
