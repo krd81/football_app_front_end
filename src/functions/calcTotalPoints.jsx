@@ -1,9 +1,8 @@
-import { useContext, useState, useMemo } from 'react'
+import { useContext, useMemo } from 'react'
 import { AppContext } from '../contexts/AppContext'
 
-
-export const UserTotalRoundScore = () => {
-  const { round, allUserScores, setAllUserScores, currentUser } = useContext(AppContext);
+function CalcPoints () {
+  const { round, allUserScores, currentUser } = useContext(AppContext);
 
   const userScores = useMemo(() => {
     return allUserScores.filter(scores => {
@@ -17,13 +16,8 @@ export const UserTotalRoundScore = () => {
     return total + (userScore.score || 0)
   }, 0);
 
-  return (
-    <>
-        <div className='total-score'>
-          <div className='score-bg'>
-            <h3 className='total-score-text'>{`${totalRoundScore} points`}</h3>
-          </div>
-        </div>
-    </>
-  )
+  return totalRoundScore;
+
 };
+
+export default CalcPoints;

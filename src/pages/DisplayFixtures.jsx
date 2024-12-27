@@ -6,7 +6,7 @@ import { dateFormatter2 } from '../functions/dateTimeFormatter'
 import { AppContext } from '../contexts/AppContext';
 import predictionsReducer from '../common/PredictionsReducer';
 import FixtureList from '../components/FixtureList';
-import { UserTotalRoundScore } from '../components/UserScores'
+import { UserPointsScore } from '../components/UserPointsScore'
 
 // Previously called Predictions.jsx
 // This component sets up the fixtures and determines which elements are shown
@@ -151,7 +151,7 @@ const DisplayFixtures = () => {
 
           ))}
           {/* TODO: Only show total score component when at least one match of the round is complete?? */}
-            <UserTotalRoundScore />
+            <UserPointsScore />
 
         </div>
         {editMode ?
