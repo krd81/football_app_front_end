@@ -162,8 +162,8 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                                 (<FinalScore
                                     match={m}
                                     home={getHomeScore(m)}
-                                    away={getAwayScore}
-                                    score={getFinalScore}
+                                    away={getAwayScore(m)}
+                                    score={getFinalScore(m)}
                                     status={matchStatus}
                                 />)
                             }
