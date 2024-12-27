@@ -17,6 +17,7 @@ import { UserPointsScore } from '../components/UserPointsScore'
 const DisplayFixtures = () => {
   const { allPredictions, setPredictions, fixtures, round, currentUser } = useContext(AppContext);
   const [editMode, setEditMode] = useState(false);
+  const [totalPoints, setTotalPoints] = useState(0);
   const nav = useNavigate();
 
 
