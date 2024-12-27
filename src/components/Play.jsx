@@ -9,17 +9,6 @@ import GameWeekSelect from '../pages/GameWeekSelect';
 function Play ({ children, setCompRound, setRoutePath, route }) {
     const { fixtures, selectedCompetition } = useContext(AppContext);
 
-    /*
-    // Memoize the setRoutePath function
-    const memoizedSetRoutePath = useMemo(() => {
-        return () => setRoutePath();
-    }, [setRoutePath]);
-
-    // Call the memoized function
-    memoizedSetRoutePath();
-    */
-
-
     function getRounds (fixtures) {
         const newRounds = [];
         for (let fixture in fixtures) {

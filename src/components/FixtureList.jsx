@@ -1,5 +1,6 @@
 import { Fragment, useContext } from 'react'
 import { AppContext } from '../contexts/AppContext';
+import { FixtureContext } from '../contexts/FixtureContext';
 import FixtureHeading from './FixtureHeading'
 import Prediction from './Prediction'
 import FinalScore from './FinalScore'
@@ -23,6 +24,7 @@ export default function FixtureList({
 
     return (
     <>
+
         {roundFixtures?.map((match) => (
             match.date === date && (
                 <Fragment key={match.fixture_id + date} >
@@ -96,11 +98,33 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
         return result || null;
     };
 
+        // Number of goals scored by home team (actual)
+        const getHomeScore = (fixture) => {
+            const score = getFinalScore(fixture);
+
+            if (score) {
+                const homeScore = score ? parseInt(score.split(' - ')[0], 10) : null;
+                return homeScore;
+            }
+        };
+
+        // Number of goals scored by away team (actual)
+        const getAwayScore = (fixture) => {
+            const score = getFinalScore(fixture);
+
+            if (score) {
+                const awayScore = score ? parseInt(score.split(' - ')[1], 10) : null;
+                return awayScore;
+            }
+        };
+
+
 
 
     return (
         <>
         {console.log(predictions)}
+        <FixtureContext.Provider>
             <div className='match-card'>
                 <div className='card-content'>
                 <div className='card-header-div'>
@@ -118,10 +142,18 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                             updatePrediction={updatePrediction}
                             awayPrediction={awayPrediction}
                             onDelete={onDelete}
+                            home={getHomePrediction(m)}
+                            away={getAwayPrediction(m)}
+                            prediction={getPrediction(m)}
                         />
 
                         {/* TODO: Final Score should only be rendered where match status is complete */}
-                        <FinalScore match={m}/>
+                        <FinalScore
+                            match={m}
+                            home={getHomeScore(m)}
+                            away={getAwayScore}
+                            score={getFinalScore}
+                        />
 
                         <div className='grid-item6'>
                                 <label className='team-name' htmlFor='awayPrediction'>{` ${shortName(m.awayName)}`}</label>
@@ -139,7 +171,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                 </div>
                 </div>
             </div>
-
+            </FixtureContext.Provider>
         </>
     )
 };

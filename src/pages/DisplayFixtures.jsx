@@ -7,7 +7,6 @@ import { AppContext } from '../contexts/AppContext';
 import predictionsReducer from '../common/PredictionsReducer';
 import FixtureList from '../components/FixtureList';
 import { UserTotalRoundScore } from '../components/UserScores'
-import { PredictionContext } from '../contexts/PredictionContext';
 
 // Previously called Predictions.jsx
 // This component sets up the fixtures and determines which elements are shown
@@ -123,8 +122,6 @@ const DisplayFixtures = () => {
 
   return (
     <>
-
-      <PredictionContext.Provider></PredictionContext.Provider>
       <div className='title-div'>
         <h1>Predictions  - Matchweek {round}:</h1>
         <div className='edit-button-div'>
@@ -175,7 +172,6 @@ const DisplayFixtures = () => {
           )
         }
       </form>
-
       </div>
     </>
   )
