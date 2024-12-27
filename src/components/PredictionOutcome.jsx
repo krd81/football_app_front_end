@@ -9,7 +9,7 @@ import '../css/PredictionOutcome.css'
 const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction,  }) => {
     const { round } = useContext(AppContext);
     const [userScore, setUserScore] = useState(null);
-  const [icon, setIcon] = useState(
+    const [icon, setIcon] = useState(
     <svg width="75" height="75" xmlns="http://www.w3.org/2000/svg" className='svg-icon'>
       <circle cx="37.5" cy="37.5" r="30" fill="red"/>
       <line x1="20" y1="20" x2="55" y2="55" stroke="white" strokeWidth="10"/>

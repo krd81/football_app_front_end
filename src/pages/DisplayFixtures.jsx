@@ -15,7 +15,7 @@ import { UserPointsScore } from '../components/UserPointsScore'
 // - match status (if complete or in play)
 // - date/time (if non started)
 const DisplayFixtures = () => {
-  const { allPredictions, setAllPredictions, fixtures, round, currentUser } = useContext(AppContext);
+  const { allPredictions, setPredictions, fixtures, round, currentUser } = useContext(AppContext);
   const [editMode, setEditMode] = useState(false);
   const nav = useNavigate();
 
@@ -108,7 +108,7 @@ const DisplayFixtures = () => {
           },
           body: JSON.stringify(update),
         });
-        setAllPredictions(predictions);
+        setPredictions([...predictions, prediction]);
         setEditMode(false);
 
       } catch (error) {

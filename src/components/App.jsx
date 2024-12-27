@@ -183,6 +183,11 @@ useEffect(() => {
     console.log(round);
   }
 
+  const setPredictions = (predictions) => {
+    setAllPredictions(predictions);
+    console.log(allPredictions)
+  }
+
 
   const setRoutePath = (path) => {
     setRoute(path);
@@ -211,7 +216,7 @@ useEffect(() => {
             competitions,
             selectedCompetition,
             allPredictions,
-            setAllPredictions,
+            setPredictions,
             allUserScores,
             setAllUserScores,
             fixtures,

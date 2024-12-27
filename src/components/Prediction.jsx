@@ -30,20 +30,23 @@ function Prediction ({
                         value={home >=0 ? home : '0'}
                         onChange={e => {
                             const currentPrediction = prediction;
+                            const newHomePrediction = Number(e.target.value);
                             // Check whether the new prediction means predicted outcome is
                             // home win, away win or draw
                             let newOutcomePrediction = 'X';
-                            if (away > Number(e.target.value)) {
+                            if (away > newHomePrediction) {
                                 newOutcomePrediction = '2';
-                            } else if (away < Number(e.target.value)) {
+                            } else if (away < newHomePrediction) {
                                 newOutcomePrediction = '1';
                             };
+                            console.log(`Current prediction: ${JSON.stringify(currentPrediction)}`)
+                            console.log(`Home prediction now: ${newHomePrediction} - Outcome prediction: ${newOutcomePrediction === 'X'? 'Draw' : newOutcomePrediction === '1' ? 'Home win' : 'Away win'}`)
 
                             // Store changed prediction and updated outcome into
                             // predictions away using reducer
                             updatePrediction({
                                 ...currentPrediction,
-                                homePrediction: Number(e.target.value),
+                                homePrediction: newHomePrediction,
                                 outcomePrediction: newOutcomePrediction
                             });
                         }}
@@ -60,20 +63,23 @@ function Prediction ({
                         value={away >=0 ? away : '0'}
                         onChange={e => {
                             const currentPrediction = prediction;
+                            const newAwayPrediction = Number(e.target.value);
                             // Check whether the new prediction means predicted outcome is
                             // home win, away win or draw
                             let newOutcomePrediction = 'X';
-                            if (home > Number(e.target.value)) {
+                            if (home > newAwayPrediction) {
                                 newOutcomePrediction = '1';
-                            } else if (home < Number(e.target.value)) {
+                            } else if (home < newAwayPrediction) {
                                 newOutcomePrediction = '2';
                             };
+                            console.log(`Current prediction: ${JSON.stringify(currentPrediction)}`)
+                            console.log(`Away prediction now: ${newAwayPrediction} - Outcome prediction: ${newOutcomePrediction === 'X'? 'Draw' : newOutcomePrediction === '1' ? 'Home win' : 'Away win'}`)
 
                             // Store changed prediction and updated outcome into
                             // predictions away using reducer
                             updatePrediction({
                                 ...currentPrediction,
-                                awayPrediction: Number(e.target.value),
+                                awayPrediction: newAwayPrediction,
                                 outcomePrediction: newOutcomePrediction
                             });
                         }}
