@@ -73,11 +73,6 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
         return prediction ? prediction.awayPrediction : '';
     };
 
-    const getOutcomePrediction = (fixture) => {
-        const prediction = predictions.find(pred => pred.fixture_id === fixture.fixture_id);
-        return prediction ? prediction.outcomePrediction : '';
-    }
-
     // Returns the prediction object for the specific match or null if no prediction is found
     const getPrediction = (fixture) => {
         const prediction = predictions.find(pred => pred.fixture_id === fixture.fixture_id);
@@ -157,7 +152,6 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                             onDelete={onDelete}
                             home={getHomePrediction(m)}
                             away={getAwayPrediction(m)}
-                            outcome={getOutcomePrediction(m)}
                             prediction={getPrediction(m)}
                         />
 
@@ -183,7 +177,6 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                             finalScore={getFinalScore(m) || null}
                             predictedScore={`${getHomePrediction(m) || '0'} - ${getAwayPrediction(m) || '0'}`}
                             finalResult={getFinalResult(m) || null}
-                            outcome={getOutcomePrediction(m)}
                             prediction={getPrediction(m) || null}
                         />
                     </div>

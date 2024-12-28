@@ -6,7 +6,7 @@ import '../css/PredictionOutcome.css'
 // Component will compare the user prediction to the match result and
 // award a score
 // Scoring: 3 points = correct score | 1 point = correct result | 0 points = incorrect result
-const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction, outcome  }) => {
+const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction  }) => {
     const { round } = useContext(AppContext);
     const [userScore, setUserScore] = useState(null);
     const [icon, setIcon] = useState(
@@ -27,7 +27,6 @@ const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction
   useMemo(() => {
 
     const userPrediction = prediction;
-    const outcomePrediction = outcome;
     const matchScore = finalScore; // type string e.g. '2 - 3'
     const matchResult = finalResult; // 1, 2, X
     const predScore = predictedScore;
@@ -40,7 +39,7 @@ const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction
     let n = 0;
     let iconColour;
 
-    if (matchResult && matchResult === outcomePrediction) {
+    if (matchResult && matchResult === predictedResult()) {
       n += 1;
       iconColour = 'orange';
     };
@@ -63,7 +62,7 @@ const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction
       setUserScore(n);
       UpdateUserScore(round, userPrediction.fixture_id, n);
     };
-  }, [round, finalScore, predictedScore, finalResult, prediction, outcome]);
+  }, [round, finalScore, predictedScore, finalResult, prediction]);
 
 
 
