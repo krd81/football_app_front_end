@@ -46,19 +46,36 @@ export const UpdateUserScore = (round, fixtureId, score) => {
     } else {
         // No match found, add new score object
         setAllUserScores([...allUserScores, userScoreObject]);
+        saveNewScore();
     };
 
     console.log(JSON.stringify(allUserScores))
 
-    function saveNewScore () {
+    const apiUrl = 'http://127.0.0.1:8005/userscores';
 
+    async function saveNewScore () {
+        const url =
+            `${apiUrl}/competition/${selectedCompetition.id}/round/${round}/user/${currentUser._id}`;
+        const method = 'POST';
+
+        try {
+            await fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                },
+                body: JSON.stringify(userScoreObject),
+            });
+        } catch (error) {
+            console.error('Failed to create/update score:', error);
+        };
     };
 
 
     async function updateScore () {
         // const apiUrl = import.meta.env.VITE_API_URL;
-        const apiUrl = 'http://127.0.0.1:8005';
-        const url = `${apiUrl}/userscores/${matchId}`;
+        const url = `${apiUrl}/${matchId}`;
         const update = {
             score: score
         };
