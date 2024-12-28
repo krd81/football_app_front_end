@@ -7,9 +7,9 @@ import { AppContext } from '../contexts/AppContext';
 const Homepage = () => {
   const { selectedCompetition, user: currentUser, userToken, comp } = useContext(AppContext);
 
-  console.log(`Homepage - currentUser: `+ JSON.stringify(currentUser))
-  console.log(`Homepage - token: `+ userToken)
-  console.log(`Homepage - selectedCompetition: ` + JSON.stringify(comp))
+  // console.log(`Homepage - currentUser: `+ JSON.stringify(currentUser))
+  // console.log(`Homepage - token: `+ userToken)
+  // console.log(`Homepage - selectedCompetition: ` + JSON.stringify(comp))
 
 
   document.title = 'Home';

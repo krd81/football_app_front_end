@@ -197,7 +197,7 @@ useEffect(() => {
     if (token && users) {
       const decodedToken = TokenDecoder(token);
       const user = users.find(user => user._id === decodedToken._id);
-      console.log(user)
+      // console.log(user)
       setCurrentUser(user);
       sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
     }
