@@ -6,7 +6,7 @@ import { dateFormatter2 } from '../functions/dateTimeFormatter'
 import { AppContext } from '../contexts/AppContext';
 import predictionsReducer from '../common/PredictionsReducer';
 import FixtureList from '../components/FixtureList';
-import { UserPointsScore } from '../components/UserPointsScore'
+import { UserTotalPoints } from '../components/UserTotalPoints'
 
 // Previously called Predictions.jsx
 // This component sets up the fixtures and determines which elements are shown
@@ -116,7 +116,7 @@ const DisplayFixtures = () => {
         });
         setPredictions([...predictions, prediction]);
         setEditMode(false);
-        console.log(`Predictions updated in database: ${predictions}`)
+        console.log(`Predictions updated in database: ${JSON.stringify(predictions)}`)
 
       } catch (error) {
         console.error('Failed to create/update listing:', error);
@@ -124,6 +124,9 @@ const DisplayFixtures = () => {
     };
   };
 
+  /*  Once match status is 'FINISHED' trigger update of user
+      score and store updated score in database.
+  */
 
 
 
@@ -158,7 +161,7 @@ const DisplayFixtures = () => {
 
           ))}
           {/* TODO: Only show total score component when at least one match of the round is complete?? */}
-            <UserPointsScore totalPoints={totalPoints} updatePointsTotal={setPoints}/>
+            <UserTotalPoints totalPoints={totalPoints} updatePointsTotal={setPoints}/>
 
         </div>
         {editMode ?

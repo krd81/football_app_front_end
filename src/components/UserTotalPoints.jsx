@@ -2,7 +2,7 @@ import CalcPoints from '../functions/calcTotalPoints'
 
 // TODO: method to determine whether at least one match is complete
 // Only display Total Points if true
-export const UserPointsScore = ({ totalPoints, updatePointsTotal }) => {
+export const UserTotalPoints = ({ totalPoints, updatePointsTotal }) => {
   const newPointsTotal = CalcPoints();
   updatePointsTotal(newPointsTotal);
 

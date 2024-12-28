@@ -3,7 +3,8 @@ import { AppContext } from '../contexts/AppContext'
 
 function CalcPoints () {
   const { round, allUserScores, currentUser } = useContext(AppContext);
-
+  // console.log("calc points called");
+  // console.log(JSON.stringify(allUserScores));
   const userScores = useMemo(() => {
     return allUserScores.filter(scores => {
         return scores.user && scores.user._id === currentUser._id

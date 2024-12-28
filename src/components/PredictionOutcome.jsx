@@ -61,6 +61,7 @@ const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction
     if (matchScore && userPrediction) {
       setUserScore(n);
       UpdateUserScore(round, userPrediction.fixture_id, n);
+      // make call to DB to offically update score for user/fixture
     };
   }, [round, finalScore, predictedScore, finalResult, prediction]);
 
