@@ -13,12 +13,13 @@ import { use } from 'react';
 export default function FixtureList({
     date,
     fixtures,
-    matchResult,
     isEdit,
     predictions,
     updatePrediction,
     addAwayPrediction,
-    onDeletePrediction
+    onDeletePrediction,
+    matchesStarted,
+    setMatchesStarted
 }) {
     const { round } = useContext(AppContext);
     const roundFixtures = fixtures;
@@ -37,7 +38,8 @@ export default function FixtureList({
                         updatePrediction={updatePrediction}
                         awayPrediction={addAwayPrediction}
                         onDelete={onDeletePrediction}
-                        // matchResult={matchResult}
+                        matchesStarted
+                        setMatchesStarted={setMatchesStarted}
                     />
                 </Fragment>
         )
@@ -48,12 +50,32 @@ export default function FixtureList({
 };
 
 
-function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPrediction, onDelete }) {
-    const { results } = useContext(AppContext);
+function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPrediction, onDelete, matchesStarted, setMatchesStarted }) {
+    const { results, selectedCompetition, round } = useContext(AppContext);
     const [matchStatus, setMatchStatus] = useState('NOT STARTED');
     const m = match;
     const allResults = results;
     const predictions = predictionsList;
+
+    // Check whether any fixtures for the current round have status "FINISHED"
+    const getRoundResults = () => {
+        return results.filter(result => {
+            return result && result.competition.id === selectedCompetition.id
+                && result.round === round
+                && result.status === 'FINISHED';
+        });
+    };
+
+    const roundResults = getRoundResults();
+
+    // If roundResults has matching items, set matchesStarted
+    // state variable to "true"
+    if(roundResults.length < 1) {
+        setMatchesStarted(false);
+    } else {
+        setMatchesStarted(true);
+
+    };
 
     const updateMatchStatus = (status) => {
         setMatchStatus(status);
@@ -77,7 +99,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
     const getPrediction = (fixture) => {
         const prediction = predictions.find(pred => pred.fixture_id === fixture.fixture_id);
         if (prediction) {
-            console.log(prediction)
+            console.log(JSON.stringify(prediction))
         };
         return prediction || null;
     };

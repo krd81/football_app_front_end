@@ -51,9 +51,10 @@ export const UpdateUserScore = (round, fixtureId, score) => {
 
     console.log(JSON.stringify(allUserScores))
 
-    const apiUrl = 'http://127.0.0.1:8005/userscores';
 
     async function saveNewScore () {
+    const apiUrl = 'http://127.0.0.1:8005/userscores';
+
         const url =
             `${apiUrl}/competition/${selectedCompetition.id}/round/${round}/user/${currentUser._id}`;
         const method = 'POST';
@@ -75,6 +76,7 @@ export const UpdateUserScore = (round, fixtureId, score) => {
 
     async function updateScore () {
         // const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = 'http://127.0.0.1:8005/userscores';
         const url = `${apiUrl}/${matchId}`;
         const update = {
             score: score

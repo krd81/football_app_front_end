@@ -15,8 +15,9 @@ import { UserTotalPoints } from '../components/UserTotalPoints'
 // - match status (if complete or in play)
 // - date/time (if non started)
 const DisplayFixtures = () => {
-  const { allPredictions, setPredictions, fixtures, round, currentUser } = useContext(AppContext);
+  const { allPredictions, setPredictions, fixtures, results, round, currentUser } = useContext(AppContext);
   const [editMode, setEditMode] = useState(false);
+  const [matchesStarted, setMatchesStarted] = useState(false);
   const [totalPoints, setTotalPoints] = useState(0);
   const nav = useNavigate();
 
@@ -156,13 +157,18 @@ const DisplayFixtures = () => {
                   updatePrediction={handleUpdatePrediction}
                   addAwayPrediction={handleAwayPrediction}
                   onDeletePrediction={handleDeletePrediction}
+                  matchesStarted
+                  setMatchesStarted={setMatchesStarted}
                 />
             </Fragment>
 
           ))}
-          {/* TODO: Only show total score component when at least one match of the round is complete?? */}
+          {/* matchesStarted state variable controls displaying of total score component
+          only when at least one match of the round is complete */}
+          {matchesStarted ?
             <UserTotalPoints totalPoints={totalPoints} updatePointsTotal={setPoints}/>
-
+          : null
+          }
         </div>
         {editMode ?
           (
