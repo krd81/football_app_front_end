@@ -39,6 +39,10 @@ const DisplayFixtures = () => {
     })
   };
 
+  function setPoints (pointsTotal) {
+    setTotalPoints(pointsTotal);
+  };
+
   function handleAwayPrediction(fixtureId, predictedScore) {
     dispatch({
       type: 'addedAway',
@@ -95,7 +99,8 @@ const DisplayFixtures = () => {
       const url = `${apiUrl}/${prediction._id}`;
       const update = {
         homePrediction: prediction.homePrediction,
-        awayPrediction: prediction.awayPrediction
+        awayPrediction: prediction.awayPrediction,
+        outcomePrediction: prediction.outcomePrediction
       };
 
       const method = 'PUT';
@@ -111,6 +116,7 @@ const DisplayFixtures = () => {
         });
         setPredictions([...predictions, prediction]);
         setEditMode(false);
+        console.log(`Predictions updated in database: ${predictions}`)
 
       } catch (error) {
         console.error('Failed to create/update listing:', error);
@@ -152,7 +158,7 @@ const DisplayFixtures = () => {
 
           ))}
           {/* TODO: Only show total score component when at least one match of the round is complete?? */}
-            <UserPointsScore />
+            <UserPointsScore totalPoints={totalPoints} updatePointsTotal={setPoints}/>
 
         </div>
         {editMode ?

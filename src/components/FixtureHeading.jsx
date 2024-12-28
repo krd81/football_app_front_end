@@ -8,7 +8,7 @@ function FixtureHeading ({ match, updateMatchStatus }) {
     const { results } = useContext(AppContext);
     const m = match;
     const allResults = results;
-    console.log(allResults);
+    // console.log(allResults);
 
 
     const result = allResults.find(result => result.fixture_id === m.fixture_id);
