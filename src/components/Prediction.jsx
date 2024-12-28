@@ -1,3 +1,6 @@
+import { useContext } from 'react'
+import { AppContext } from '../contexts/AppContext';
+
 function Prediction ({
     match,
     isEdit,
@@ -7,8 +10,50 @@ function Prediction ({
     away,
     prediction
 }) {
+    const { currentUser } = useContext(AppContext);
     const m = match;
+    let currentPrediction;
 
+    // If no prediction exists, create a new one, assuming
+    // initial prediction is 0-0
+    // Save to DB
+    if (prediction == null) {
+        currentPrediction = {
+            competitionId: m.competitionId,
+            round: m.round,
+            groupId: m.groupId,
+            fixture_id: m.fixture_id,
+            homeName: m.homeName,
+            awayName: m.awayName,
+            homePrediction: 0,
+            awayPrediction: 0,
+            outcomePrediction: 'X',
+            user: currentUser
+        };
+        saveNewPrediction();
+    } else {
+        currentPrediction = prediction;
+    };
+
+    async function saveNewPrediction () {
+        const apiUrl = 'http://127.0.0.1:8005/predictions';
+        const url =
+        `${apiUrl}/competition/${m.competitionId}/round/${m.round}/user/${currentUser._id}`;
+        const method = 'POST';
+
+        try {
+            await fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                },
+                body: JSON.stringify(currentPrediction),
+            });
+        } catch (error) {
+            console.error('Failed to create new prediction:', error);
+        };
+    };
 
 
     return (
@@ -27,16 +72,17 @@ function Prediction ({
                         size="1"
                         min="0"
                         max="10"
-                        value={home >=0 ? home : '0'}
+                        // value={home >=0 ? home : '0'}
+                        value={currentPrediction.homePrediction}
                         onChange={e => {
-                            const currentPrediction = prediction;
+                            // const currentPrediction = prediction || {}; // Initialize prediction if null
                             const newHomePrediction = Number(e.target.value);
                             // Check whether the new prediction means predicted outcome is
                             // home win, away win or draw
                             let newOutcomePrediction = 'X';
-                            if (away > newHomePrediction) {
+                            if (currentPrediction.awayPrediction > newHomePrediction) {
                                 newOutcomePrediction = '2';
-                            } else if (away < newHomePrediction) {
+                            } else if (currentPrediction.awayPrediction < newHomePrediction) {
                                 newOutcomePrediction = '1';
                             };
                             console.log(`Current prediction: ${JSON.stringify(currentPrediction)}`)
@@ -60,16 +106,16 @@ function Prediction ({
                         size="1"
                         min="0"
                         max="10"
-                        value={away >=0 ? away : '0'}
+                        value={currentPrediction.awayPrediction}
                         onChange={e => {
-                            const currentPrediction = prediction;
+                            // const currentPrediction = prediction || {}; // Initialize prediction if null
                             const newAwayPrediction = Number(e.target.value);
                             // Check whether the new prediction means predicted outcome is
                             // home win, away win or draw
                             let newOutcomePrediction = 'X';
-                            if (home > newAwayPrediction) {
+                            if (currentPrediction.homePrediction > newAwayPrediction) {
                                 newOutcomePrediction = '1';
-                            } else if (home < newAwayPrediction) {
+                            } else if (currentPrediction.homePrediction < newAwayPrediction) {
                                 newOutcomePrediction = '2';
                             };
                             console.log(`Current prediction: ${JSON.stringify(currentPrediction)}`)
@@ -90,11 +136,11 @@ function Prediction ({
                     <>
                     <div className='score-display'>
                         <span className='prediction-disc'>
-                            <span className='numeric-value'>{`${home >=0 ? home : '0'}`}</span>
+                            <span className='numeric-value'>{`${currentPrediction.homePrediction}`}</span>
                         </span>
                         <span className='dash'>&ensp;&mdash;&ensp;</span>
                         <span className='prediction-disc'>
-                            <span className='numeric-value'>{`${away >=0 ? away : '0'}`}</span>
+                            <span className='numeric-value'>{`${currentPrediction.awayPrediction}`}</span>
                         </span>
                     </div>
                     </>
