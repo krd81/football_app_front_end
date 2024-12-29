@@ -9,10 +9,15 @@ const Homepage = () => {
   // If selectedCompetition is null:
   // Set as the first element of competitions[0]
   // i.e. "Premier League" is the default competition
-  if (selectedCompetition === '' || selectedCompetition == null) {
-    // setSelectedCompetition(competitions[0]);
-    console.log(JSON.stringify(selectedCompetition))
-  };
+  // if (selectedCompetition && selectedCompetition.length > 0) {
+  //   setSelectedCompetition(prevComp => prevComp);
+  //   console.log(JSON.stringify(selectedCompetition))
+  //   console.log(selectedCompetition?.length)
+  // } else {
+  //   setSelectedCompetition(competitions[0]);
+  //   console.log(JSON.stringify(selectedCompetition))
+  //   console.log(selectedCompetition?.length)
+  // };
 
   document.title = 'Home';
 

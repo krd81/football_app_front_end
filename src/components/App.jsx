@@ -1,5 +1,5 @@
 import '../css/app.css'
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppContext } from '../contexts/AppContext';
 // import { CompRoundContext } from '../common/CompRoundContext';
@@ -34,25 +34,13 @@ function App({ children }) {
   useEffect(() => {
     const fetchData = async () => {
       console.log('App.jsx first useEffect called')
-      try {
-          // const apiUrl = import.meta.env.VITE_API_URL;
-          const apiUrl = 'http://127.0.0.1:8005';
-          const result = await fetch(`${apiUrl}/user/`, {
-              method: 'GET',
-              headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `null`
-              }
-          });
-          const users = await result.json();
-          setUsers(users);
 
-      } catch (error) {
-          console.error(error.message);
-      };
+      // FOOTBALL DB FETCH CALLS
+      let apiUrl = 'http://127.0.0.1:8002';
+
       try {
           // const apiUrl = import.meta.env.VITE_API_URL;
-          const apiUrl = 'http://127.0.0.1:8002';
+
           const result = await fetch(`${apiUrl}/competitions/`, {
               method: 'GET',
               headers: {
@@ -70,7 +58,7 @@ function App({ children }) {
       };
       try {
         // const apiUrl = import.meta.env.VITE_API_URL;
-        const apiUrl = 'http://127.0.0.1:8002';
+        // const apiUrl = 'http://127.0.0.1:8002';
         const fixtures = await fetch(`${apiUrl}/fixtures/`, {
           method: 'GET',
           headers: {
@@ -85,7 +73,7 @@ function App({ children }) {
       };
       try {
         // const apiUrl = import.meta.env.VITE_API_URL;
-        const apiUrl = 'http://127.0.0.1:8002';
+        // const apiUrl = 'http://127.0.0.1:8002';
         const results = await fetch(`${apiUrl}/results/`, {
           method: 'GET',
           headers: {
@@ -98,6 +86,52 @@ function App({ children }) {
       } catch (error) {
         console.error(error.message);
       };
+
+
+      // USER DB FETCH CALLS
+      apiUrl = 'http://127.0.0.1:8005';
+      try {
+          // const apiUrl = import.meta.env.VITE_API_URL;
+          // const apiUrl = 'http://127.0.0.1:8005';
+          const result = await fetch(`${apiUrl}/user/`, {
+              method: 'GET',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `null`
+              }
+          });
+          const users = await result.json();
+          setUsers(users);
+      } catch (error) {
+          console.error(error.message);
+      };
+      try {
+        const result = await fetch(`${apiUrl}/predictions/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `null`
+        }
+      });
+        const predictions = await result.json();
+        setAllPredictions(predictions);
+      } catch (error) {
+          console.error(error.message);
+      };
+      try {
+        const result = await fetch(`${apiUrl}/userscores/`, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `null`
+          }
+        });
+        const userScores = await result.json();
+        setAllUserScores(userScores);
+      } catch (error) {
+          console.error(error.message);
+      };
+
     }
     fetchData();
   }, []);
@@ -140,7 +174,7 @@ useEffect(() => {
 
   };
   if (selectedCompetition?.id) {
-    fetchData();
+    // fetchData();
     console.log(selectedCompetition?.name)
     // setSelectedCompetition(prevComp => )
   }
@@ -171,6 +205,7 @@ useEffect(() => {
       // user ? setCurrentUser(user) : setCurrentUser(null);
       showDatabaseEntries()
   }
+
 
   const logout = () => {
       sessionStorage.removeItem('token');
