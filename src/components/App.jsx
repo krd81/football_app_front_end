@@ -18,7 +18,7 @@ function App({ children }) {
     return savedUser ? JSON.parse(savedUser) : {};
   });
   const [competitions, setCompetitions] = useState([]);
-  const [selectedCompetition, setSelectedCompetition] = useState({});
+  const [selectedCompetition, setSelectedCompetition] = useState([]);
   const [fixtures, setFixtures] = useState([]);
   const [results, setResults] = useState([]);
   const [allPredictions, setAllPredictions] = useState({});
@@ -139,12 +139,12 @@ useEffect(() => {
     };
 
   };
-  if (selectedCompetition.id) {
+  if (selectedCompetition?.id) {
     fetchData();
-    console.log(selectedCompetition.name)
+    console.log(selectedCompetition?.name)
     // setSelectedCompetition(prevComp => )
   }
-}, [selectedCompetition.id, selectedCompetition.name]);
+}, [selectedCompetition?.id, selectedCompetition?.name]);
 
 
 
