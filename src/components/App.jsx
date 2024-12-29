@@ -1,5 +1,5 @@
 import '../css/app.css'
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppContext } from '../contexts/AppContext';
 // import { CompRoundContext } from '../common/CompRoundContext';
@@ -18,7 +18,7 @@ function App({ children }) {
     return savedUser ? JSON.parse(savedUser) : {};
   });
   const [competitions, setCompetitions] = useState([]);
-  const [selectedCompetition, setSelectedCompetition] = useState([]);
+  const [selectedCompetition, setSelectedCompetition] = useState({ id: 2, tier: 1, isCup: false, isLeague: true, hasGroups: false, active: true, name: 'Premier League', nationalTeamsOnly: false });
   const [fixtures, setFixtures] = useState([]);
   const [results, setResults] = useState([]);
   const [allPredictions, setAllPredictions] = useState({});
@@ -52,7 +52,8 @@ function App({ children }) {
           setCompetitions(competitions);
           // Sets the first element of competitions[0]
           // i.e. "Premier League" as the default competition
-          setSelectedCompetition(competitions['0']);
+          // setSelectedCompetition(competitions['0']);
+          setSelectedCompetition((prevComp) => ({...prevComp}));
       } catch (error) {
           console.error(error.message);
       };
@@ -179,6 +180,12 @@ useEffect(() => {
     // setSelectedCompetition(prevComp => )
   }
 }, [selectedCompetition?.id, selectedCompetition?.name]);
+
+
+
+// useEffect(() =>{
+//   setSelectedCompetition((prevComp) => ({...prevComp}))
+// }, []);
 
 
 
