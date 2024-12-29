@@ -42,10 +42,14 @@ function Play ({ children, setCompRound, setRoutePath, route }) {
 };
 
 function GameWeekDisplay ({ comp }) {
+    const { selectedCompetition } = useContext(AppContext);
+    const compName = selectedCompetition.name;
+
     return (
         <>
             <div>
                 <h1>{comp}</h1>
+                <h1>{compName}</h1>
                 <h2>Select round:</h2>
             </div>
         </>

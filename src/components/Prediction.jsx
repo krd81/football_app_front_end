@@ -4,10 +4,7 @@ import { AppContext } from '../contexts/AppContext';
 function Prediction ({
     match,
     isEdit,
-    predictionsList,
     updatePrediction,
-    home,
-    away,
     prediction
 }) {
     const { currentUser } = useContext(AppContext);

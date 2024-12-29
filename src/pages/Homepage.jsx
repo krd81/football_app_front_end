@@ -5,12 +5,14 @@ import { AppContext } from '../contexts/AppContext';
 
 
 const Homepage = () => {
-  const { selectedCompetition, user: currentUser, userToken, comp } = useContext(AppContext);
-
-  // console.log(`Homepage - currentUser: `+ JSON.stringify(currentUser))
-  // console.log(`Homepage - token: `+ userToken)
-  // console.log(`Homepage - selectedCompetition: ` + JSON.stringify(comp))
-
+  const { competitions, setSelectedCompetition, selectedCompetition, currentUser, userToken, comp } = useContext(AppContext);
+  // If selectedCompetition is null:
+  // Set as the first element of competitions[0]
+  // i.e. "Premier League" is the default competition
+  if (selectedCompetition === '' || selectedCompetition == null) {
+    // setSelectedCompetition(competitions[0]);
+    console.log(JSON.stringify(selectedCompetition))
+  };
 
   document.title = 'Home';
 

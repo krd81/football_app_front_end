@@ -30,17 +30,17 @@ const GameWeekSelect = ({ setCompRound, route }) => {
                                 >
                                   {round}
                                 </button>
-                                </div>
-
+                            </div>
                         </Fragment>
                     )
                 })}
             </div>
         </>
     )
-}
+};
+
 GameWeekSelect.propTypes = {
     setCompRound: PropTypes.func.isRequired,
 };
 
-export default GameWeekSelect
+export default GameWeekSelect;

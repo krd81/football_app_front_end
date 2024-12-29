@@ -4,7 +4,14 @@ import { AppContext } from '../contexts/AppContext';
 // Manages the selection of competition and sets this value in state
 // Parent component (Homepage) manages the selectedCompetition state
 const CompetitionSelection = () => {
-  const { comps, setComp } = useContext(AppContext);
+  const { competitions, comps, setComp, selectedCompetition, setSelectedCompetition } = useContext(AppContext);
+
+  // If selectedCompetition is null:
+  // Set as the first element of competitions[0]
+  // i.e. "Premier League" is the default competition
+  // if (selectedCompetition == null) {
+  //   selectedCompetition(competitions[0]);
+  // }
 
   return (
     <>
@@ -16,14 +23,16 @@ const CompetitionSelection = () => {
           onChange={e => {
             let compName = e.target.value;
             let selectedComp;
-            comps[0].map((comp) =>
+            competitions.map((comp) =>
               comp.name === compName ?
                 selectedComp = comp : null
             )
-            setComp(selectedComp)
+            console.log(selectedComp);
+            setSelectedCompetition(selectedComp)
+            console.log(JSON.stringify(selectedCompetition))
           }}
         >
-            {comps[0].map((comp, i) =>
+            {competitions.map((comp, i) =>
                 comp.active?
                     <option value={comp.name} key={i}>{comp.name}</option>
                     :

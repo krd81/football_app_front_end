@@ -1,13 +1,13 @@
-import { Fragment, useContext, useState } from 'react'
+import { Fragment, useContext, useState } from 'react';
 import { AppContext } from '../contexts/AppContext';
 import { FixtureContext } from '../contexts/FixtureContext';
-import FixtureHeading from './FixtureHeading'
-import Prediction from './Prediction'
-import FinalScore from './FinalScore'
+import FixtureHeading from './FixtureHeading';
+import Prediction from './Prediction';
+import FinalScore from './FinalScore';
 import PredictionOutcome from './PredictionOutcome';
 import shortName from '../functions/nameAbbreviation';
-import { timeFormatter } from '../functions/dateTimeFormatter'
-import '../css/MatchCard.css'
+import { timeFormatter } from '../functions/dateTimeFormatter';
+import '../css/MatchCard.css';
 import { use } from 'react';
 
 export default function FixtureList({
@@ -21,25 +21,22 @@ export default function FixtureList({
     matchesStarted,
     setMatchesStarted
 }) {
-    const { round } = useContext(AppContext);
     const roundFixtures = fixtures;
 
     return (
-    <>
-
-        {roundFixtures?.map((match) => (
-            match.date === date && (
-                <Fragment key={match.fixture_id + date} >
-                    <Fixture
-                        round={round}
-                        match={match}
-                        isEdit={isEdit}
-                        predictionsList={predictions}
-                        updatePrediction={updatePrediction}
-                        awayPrediction={addAwayPrediction}
-                        onDelete={onDeletePrediction}
-                        matchesStarted
-                        setMatchesStarted={setMatchesStarted}
+        <>
+            {roundFixtures?.map((match) => (
+                match.date === date && (
+                    <Fragment key={match.fixture_id + date} >
+                        <Fixture
+                            match={match}
+                            isEdit={isEdit}
+                            predictionsList={predictions}
+                            updatePrediction={updatePrediction}
+                            awayPrediction={addAwayPrediction}
+                            onDelete={onDeletePrediction}
+                            matchesStarted
+                            setMatchesStarted={setMatchesStarted}
                     />
                 </Fragment>
         )
@@ -168,12 +165,12 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                         <Prediction
                             match={match}
                             isEdit={isEdit}
-                            predictionsList={predictions}
+                            // predictionsList={predictions}
                             updatePrediction={updatePrediction}
-                            awayPrediction={awayPrediction}
-                            onDelete={onDelete}
-                            home={getHomePrediction(m)}
-                            away={getAwayPrediction(m)}
+                            // awayPrediction={awayPrediction}
+                            // onDelete={onDelete}
+                            // home={getHomePrediction(m)}
+                            // away={getAwayPrediction(m)}
                             prediction={getPrediction(m)}
                         />
 

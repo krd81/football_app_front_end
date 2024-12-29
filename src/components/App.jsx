@@ -33,6 +33,7 @@ function App({ children }) {
   // football fixtures/scores/results from football database
   useEffect(() => {
     const fetchData = async () => {
+      console.log('App.jsx first useEffect called')
       try {
           // const apiUrl = import.meta.env.VITE_API_URL;
           const apiUrl = 'http://127.0.0.1:8005';
@@ -107,40 +108,43 @@ function App({ children }) {
 // This effect also fetches userScores for selected competition
 useEffect(() => {
   const fetchData = async () => {
-        // const apiUrl = import.meta.env.VITE_API_URL;
-        const apiUrl = 'http://127.0.0.1:8005';
-        try {
-          const result = await fetch(`${apiUrl}/predictions/competition/${selectedCompetition.id}`, {
-          method: 'GET',
-          headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `null`
-          }
-        });
-        const selectedCompPredictions = await result.json();
-        setAllPredictions(selectedCompPredictions);
-      } catch (error) {
-          console.error(error.message);
-      };
-      try {
-        const result = await fetch(`${apiUrl}/userscores/competition/${selectedCompetition.id}`, {
-          method: 'GET',
-          headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `null`
-          }
-        });
-        const selectedCompUserScores = await result.json();
-        setAllUserScores(selectedCompUserScores);
-      } catch (error) {
-          console.error(error.message);
-      };
-
+    console.log('App.jsx second useEffect called')
+    // const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = 'http://127.0.0.1:8005';
+    try {
+      const result = await fetch(`${apiUrl}/predictions/competition/${selectedCompetition.id}`, {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `null`
+      }
+    });
+      const selectedCompPredictions = await result.json();
+      setAllPredictions(selectedCompPredictions);
+    } catch (error) {
+        console.error(error.message);
     };
+    try {
+      const result = await fetch(`${apiUrl}/userscores/competition/${selectedCompetition.id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `null`
+        }
+      });
+      const selectedCompUserScores = await result.json();
+      setAllUserScores(selectedCompUserScores);
+    } catch (error) {
+        console.error(error.message);
+    };
+
+  };
   if (selectedCompetition.id) {
     fetchData();
+    console.log(selectedCompetition.name)
+    // setSelectedCompetition(prevComp => )
   }
-}, [selectedCompetition.id]);
+}, [selectedCompetition.id, selectedCompetition.name]);
 
 
 
@@ -176,6 +180,7 @@ useEffect(() => {
 
   const setComp = (comp) => {
     setSelectedCompetition(comp);
+    console.log(selectedCompetition)
   }
 
   const setCompRound = (round) => {
@@ -215,6 +220,7 @@ useEffect(() => {
             comp: [selectedCompetition, setSelectedCompetition],
             competitions,
             selectedCompetition,
+            setSelectedCompetition,
             allPredictions,
             setPredictions,
             allUserScores,
