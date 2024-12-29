@@ -36,13 +36,11 @@ function Prediction ({
     };
 
     async function saveNewPrediction () {
-        const apiUrl = 'http://127.0.0.1:8005/predictions';
-        const url =
-        `${apiUrl}/competition/${m.competitionId}/round/${m.round}/user/${currentUser._id}`;
+        const apiUrl = 'http://127.0.0.1:8005/predictions/';
         const method = 'POST';
 
         try {
-            await fetch(url, {
+            await fetch(apiUrl, {
                 method: method,
                 headers: {
                     'Content-Type': 'application/json',
