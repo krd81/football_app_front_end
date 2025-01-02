@@ -10,6 +10,14 @@ import Play from './Play'
 import Fixtures from '../pages/Fixtures'
 import DisplayFixtures from '../pages/DisplayFixtures'
 import TokenDecoder from '../authentication/TokenDecoder'
+import CompetitionSelection from './CompetitionSelection';
+import GameWeekSelect from '../pages/GameWeekSelect';
+import FixtureList from './FixtureList';
+import Prediction from './Prediction';
+import FinalScore from './FinalScore';
+import PredictionOutcome from './PredictionOutcome';
+import { UserTotalPoints } from './UserTotalPoints';
+import FixtureHeading from './FixtureHeading';
 
 function App({ children }) {
   const [users, setUsers] = useState([]);
@@ -281,7 +289,7 @@ useEffect(() => {
         <div>
           <Routes>
             <Route path='/login' element={<Login />} />
-            <Route path='/' element={<Homepage />} />
+            <Route path='/' element={<Homepage> <CompetitionSelection/></Homepage>} />
             <Route path='/play' element={<Play setCompRound={setCompRound} setRoutePath={() => setRoutePath('play')} route={route}/>} />
             <Route path='/viewfixtures' element={<Play setCompRound={setCompRound} setRoutePath={() => setRoutePath('fixtures')} route={route}/>} />
             <Route path='/fixtures' element={<Fixtures round={round}/>} />

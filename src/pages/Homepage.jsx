@@ -1,10 +1,9 @@
 import { useContext } from 'react'
 import FlashTitle from '../common/FlashTitle'
-import CompetitionSelection from '../components/CompetitionSelection'
 import { AppContext } from '../contexts/AppContext';
 
 
-const Homepage = () => {
+const Homepage = ({ children }) => {
   const { competitions, setSelectedCompetition, selectedCompetition, currentUser, userToken, comp } = useContext(AppContext);
   // If selectedCompetition is null:
   // Set as the first element of competitions[0]
@@ -27,10 +26,7 @@ const Homepage = () => {
 
         <div>< FlashTitle/></div>
         <div>
-          <CompetitionSelection
-            // competition = {selectedCompetition}
-            >
-          </CompetitionSelection>
+          {children}
         </div>
         <div>
           <CompetitionPanel comp={selectedCompetition.name}>
