@@ -1,8 +1,7 @@
 import '../css/app.css'
 import { useEffect } from "react";
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import useApp from '../hooks/useApp'
-// import { CompRoundContext } from '../common/CompRoundContext';
 import NavBar from './NavBar'
 import Login from '../pages/Login'
 import Homepage from '../pages/Homepage'
@@ -78,7 +77,7 @@ function App() {
 
     }
     fetchData();
-  }, [setAllPredictions, setAllUserScores, setCompetitions, setFixtures, setResults, setSelectedCompetition, setUsers]);
+  }, [setAllPredictions, setAllUserScores, setCompetitions, setFixtures, setResults, setSelectedCompetition]);
 
 
   // Separate effect for fetching predictions info since it is dependent upon selectedCompetition
@@ -106,7 +105,6 @@ function App() {
         });
 
         setUserPredictions(filterPredictions);
-        console.log(`App.jsx userPredictions: ${JSON.stringify(userPredictions)}`)
       } catch (error) {
           console.error(error.message);
       };
@@ -128,7 +126,7 @@ function App() {
     };
     if (selectedCompetition?.id) {
       fetchData();
-      console.log(selectedCompetition?.name)
+      // console.log(selectedCompetition?.name)
     }
   }, [setAllPredictions, setAllUserScores, selectedCompetition.id, selectedCompetition?.name, allPredictions, setUserPredictions, user]);
 
@@ -140,8 +138,9 @@ function App() {
         <NavBar />
         <div>
           <Routes>
-            <Route path='/login' element={<Login />} />
-            <Route path='/' element={<Homepage> <CompetitionSelection/></Homepage>} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/' element={<Navigate to="/login" />} />
+          <Route path='/homepage' element={<Homepage> <CompetitionSelection/></Homepage>} />
             <Route path='/play' element={
               <Play setCompRound={setRound}>
                 <GameWeekSelect setCompRound={setRound}  />

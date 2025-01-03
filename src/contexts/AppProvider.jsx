@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AppContext } from "./AppContext";
-import TokenDecoder from '../authentication/TokenDecoder'; // Adjust the import path as necessary
+import TokenDecoder from '../authentication/TokenDecoder';
 
 const AppProvider = ({ children }) => {
     const [users, setUsers] = useState([]);
@@ -20,8 +20,9 @@ const AppProvider = ({ children }) => {
 
 
     function showDatabaseEntries () {
+        console.log('App variables - login display')
         console.log(users)
-        // console.log(currentUser)
+        console.log(currentUser)
         console.log(competitions)
         console.log(selectedCompetition)
         console.log(fixtures)
