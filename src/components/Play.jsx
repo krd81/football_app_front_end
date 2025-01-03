@@ -1,13 +1,11 @@
 import '../css/app.css'
-import { useContext, useState, useEffect, useMemo } from "react";
-import { AppContext } from '../contexts/AppContext'
+import { useContext, useMemo } from "react";
+import useApp from '../hooks/useApp'
 import { CompRoundContext } from '../contexts/CompRoundContext';
 
 
-//'/competition/:comp_id/round/:round_id'
-
 function Play ({ children }) {
-    const { fixtures, selectedCompetition } = useContext(AppContext);
+    const { fixtures, selectedCompetition } = useApp();
 
     function getRounds (fixtures) {
         const newRounds = [];
