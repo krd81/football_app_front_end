@@ -1,8 +1,7 @@
-import { useContext } from 'react'
-import { AppContext } from '../contexts/AppContext'
+import useApp from '../hooks/useApp'
 
 export const UpdateUserScore = (round, fixtureId, score) => {
-    const { selectedCompetition, allUserScores, setAllUserScores, currentUser } = useContext(AppContext);
+    const { selectedCompetition, allUserScores, setAllUserScores, currentUser } = useApp();
 
     const userScoreObject = {
         'competitionId': selectedCompetition.id,
