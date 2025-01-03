@@ -46,11 +46,11 @@ export default function FixtureList({
 
 
 function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPrediction, onDelete, matchesStarted, setMatchesStarted }) {
-    const { results, selectedCompetition, round } = useApp();
+    const { results, selectedCompetition, round, userPredictions } = useApp();
     const [matchStatus, setMatchStatus] = useState('NOT STARTED');
     const m = match;
     const allResults = results;
-    const predictions = predictionsList;
+    const predictions = userPredictions;
 
     // Check whether any fixtures for the current round have status "FINISHED"
     const getRoundResults = () => {

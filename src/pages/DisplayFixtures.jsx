@@ -8,29 +8,29 @@ import predictionsReducer from '../common/PredictionsReducer';
 import FixtureList from '../components/FixtureList';
 import { UserTotalPoints } from '../components/UserTotalPoints'
 
-// Previously called Predictions.jsx
 // This component sets up the fixtures and determines which elements are shown
 // At this point, the user has selected the competition and round
 // The next step is to display the relevant fixtures, the predictions (if any) and either
 // - match status (if complete or in play)
 // - date/time (if non started)
 const DisplayFixtures = () => {
-  const { allPredictions, setAllPredictions, fixtures, results, round, currentUser } = useApp();
+  const { allPredictions, setAllPredictions, fixtures, results, round, currentUser, userPredictions } = useApp();
   const [editMode, setEditMode] = useState(false);
   const [matchesStarted, setMatchesStarted] = useState(false);
   const [totalPoints, setTotalPoints] = useState(0);
   const nav = useNavigate();
+  console.log(`User Predictions: ${allPredictions}`)
 
 
   // initially filter all predictions and return those belonging to the user
-  const initialPredictions = useMemo(() => {
+  const deleteFunc = useMemo(() => {
     return allPredictions.filter(prediction => {
       return prediction.user && prediction.user._id === currentUser._id;
     });
   }, [allPredictions, currentUser._id]);
 
 
-  const [predictions, dispatch] = useReducer(predictionsReducer, initialPredictions);
+  const [predictions, dispatch] = useReducer(predictionsReducer, userPredictions);
 
 
   function handleUpdatePrediction(prediction) {
@@ -129,6 +129,9 @@ const DisplayFixtures = () => {
       score and store updated score in database.
   */
 
+      const showUserPredictions = () => {
+        console.log(`User Predictions: ${predictions}`)
+      }
 
 
   return (
@@ -148,6 +151,7 @@ const DisplayFixtures = () => {
               <div className='date-header'>
                 <h3 className='date-text'>{dateFormatter2(fixtureDate)}</h3>
               </div>
+              {showUserPredictions()}
 
                 <FixtureList
                   date={fixtureDate}

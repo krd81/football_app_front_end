@@ -13,6 +13,7 @@ const AppProvider = ({ children }) => {
     const [fixtures, setFixtures] = useState([]);
     const [results, setResults] = useState([]);
     const [allPredictions, setAllPredictions] = useState({});
+    const [userPredictions, setUserPredictions] = useState({});
     const [allUserScores, setAllUserScores] = useState({});
     const [token, setToken] = useState(() => sessionStorage.getItem('token'));
     const [round, setRound] = useState('');
@@ -68,6 +69,7 @@ const AppProvider = ({ children }) => {
         fixtures, setFixtures,
         results, setResults,
         allPredictions, setAllPredictions,
+        userPredictions, setUserPredictions,
         allUserScores, setAllUserScores,
         round, setRound,
         token,

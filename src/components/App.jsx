@@ -13,8 +13,8 @@ import CompetitionSelection from './CompetitionSelection';
 import GameWeekSelect from '../pages/GameWeekSelect';
 
 function App() {
-  const {setCompetitions, selectedCompetition, setSelectedCompetition, setFixtures, setResults, setUsers, setAllUserScores, setAllPredictions, round, setRound} = useApp();
-
+  const {currentUser, setCompetitions, selectedCompetition, setSelectedCompetition, setFixtures, setResults, setUsers, setAllUserScores, allPredictions, setAllPredictions, userPredictions, setUserPredictions, round, setRound} = useApp();
+  const user = currentUser;
   // Fetch call to manage all external data required for the app
   // i.e. users/predictions from user database and
   // football fixtures/scores/results from football database
@@ -76,97 +76,62 @@ function App() {
       };
 
 
-      // USER DB FETCH CALLS
-      apiUrl = 'http://127.0.0.1:8005';
+    }
+    fetchData();
+  }, [setAllPredictions, setAllUserScores, setCompetitions, setFixtures, setResults, setSelectedCompetition, setUsers]);
+
+
+  // Separate effect for fetching predictions info since it is dependent upon selectedCompetition
+  // and will need to be called each time the competition changes
+  // This effect also fetches userScores for selected competition
+  useEffect(() => {
+    // USER DB FETCH CALLS
+    const fetchData = async () => {
+      console.log('App.jsx second useEffect called')
+      // const apiUrl = import.meta.env.VITE_API_URL;
+      const apiUrl = 'http://127.0.0.1:8005';
       try {
-          // const apiUrl = import.meta.env.VITE_API_URL;
-          // const apiUrl = 'http://127.0.0.1:8005';
-          const result = await fetch(`${apiUrl}/user/`, {
-              method: 'GET',
-              headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `null`
-              }
-          });
-          const users = await result.json();
-          setUsers(users);
-      } catch (error) {
-          console.error(error.message);
-      };
-      try {
-        const result = await fetch(`${apiUrl}/predictions/`, {
+        const result = await fetch(`${apiUrl}/predictions/competition/${selectedCompetition.id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `null`
         }
       });
-        const predictions = await result.json();
-        setAllPredictions(predictions);
+        const selectedCompPredictions = await result.json();
+        setAllPredictions(selectedCompPredictions);
+
+        const filterPredictions = allPredictions.filter(prediction =>{
+          prediction.user && prediction.user._id === user._id
+        });
+
+        setUserPredictions(filterPredictions);
+        console.log(`App.jsx userPredictions: ${JSON.stringify(userPredictions)}`)
       } catch (error) {
           console.error(error.message);
       };
+
       try {
-        const result = await fetch(`${apiUrl}/userscores/`, {
+        const result = await fetch(`${apiUrl}/userscores/competition/${selectedCompetition.id}`, {
           method: 'GET',
           headers: {
               'Content-Type': 'application/json',
               'Authorization': `null`
           }
         });
-        const userScores = await result.json();
-        setAllUserScores(userScores);
+        const selectedCompUserScores = await result.json();
+        setAllUserScores(selectedCompUserScores);
       } catch (error) {
           console.error(error.message);
       };
 
+    };
+    if (selectedCompetition?.id) {
+      fetchData();
+      console.log(selectedCompetition?.name)
     }
-    fetchData();
-  }, [setAllPredictions, setAllUserScores, setCompetitions, setFixtures, setResults, setSelectedCompetition, setUsers]);
+  }, [setAllPredictions, setAllUserScores, selectedCompetition.id, selectedCompetition?.name, allPredictions, setUserPredictions, user]);
 
-
-// Separate effect for fetching predictions info since it is dependent upon selectedCompetition
-// and will need to be called each time the competition changes
-// This effect also fetches userScores for selected competition
-useEffect(() => {
-  const fetchData = async () => {
-    console.log('App.jsx second useEffect called')
-    // const apiUrl = import.meta.env.VITE_API_URL;
-    const apiUrl = 'http://127.0.0.1:8005';
-    try {
-      const result = await fetch(`${apiUrl}/predictions/competition/${selectedCompetition.id}`, {
-      method: 'GET',
-      headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `null`
-      }
-    });
-      const selectedCompPredictions = await result.json();
-      setAllPredictions(selectedCompPredictions);
-    } catch (error) {
-        console.error(error.message);
-    };
-    try {
-      const result = await fetch(`${apiUrl}/userscores/competition/${selectedCompetition.id}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `null`
-        }
-      });
-      const selectedCompUserScores = await result.json();
-      setAllUserScores(selectedCompUserScores);
-    } catch (error) {
-        console.error(error.message);
-    };
-
-  };
-  if (selectedCompetition?.id) {
-    // fetchData();
-    console.log(selectedCompetition?.name)
-    // setSelectedCompetition(prevComp => )
-  }
-}, [setAllPredictions, setAllUserScores, selectedCompetition?.id, selectedCompetition?.name]);
 
 
   return (

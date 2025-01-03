@@ -13,7 +13,7 @@ function Prediction ({
     // If no prediction exists, create a new one, assuming
     // initial prediction is 0-0
     // Save to DB
-    if (prediction == null) {
+    if (prediction == 'hello') {
         currentPrediction = {
             competitionId: m.competitionId,
             round: m.round,
