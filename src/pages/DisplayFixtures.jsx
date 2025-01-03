@@ -1,9 +1,9 @@
-import { Fragment, useContext, useState, useMemo, useReducer } from 'react'
+import { Fragment, useState, useMemo, useReducer } from 'react'
 import { useNavigate } from 'react-router-dom';
 import '../css/Scores.css'
 import getDates from '../functions/getDates';
 import { dateFormatter2 } from '../functions/dateTimeFormatter'
-import { AppContext } from '../contexts/AppContext';
+import useApp from '../hooks/useApp'
 import predictionsReducer from '../common/PredictionsReducer';
 import FixtureList from '../components/FixtureList';
 import { UserTotalPoints } from '../components/UserTotalPoints'
@@ -15,7 +15,7 @@ import { UserTotalPoints } from '../components/UserTotalPoints'
 // - match status (if complete or in play)
 // - date/time (if non started)
 const DisplayFixtures = () => {
-  const { allPredictions, setPredictions, fixtures, results, round, currentUser } = useContext(AppContext);
+  const { allPredictions, setAllPredictions, fixtures, results, round, currentUser } = useApp();
   const [editMode, setEditMode] = useState(false);
   const [matchesStarted, setMatchesStarted] = useState(false);
   const [totalPoints, setTotalPoints] = useState(0);
@@ -115,7 +115,7 @@ const DisplayFixtures = () => {
           },
           body: JSON.stringify(update),
         });
-        setPredictions([...predictions, prediction]);
+        setAllPredictions([...predictions, prediction]);
         setEditMode(false);
         console.log(`Predictions updated in database: ${JSON.stringify(predictions)}`)
 
