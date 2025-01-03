@@ -1,12 +1,12 @@
-import { Fragment, useContext, useMemo } from 'react'
+import { Fragment, useMemo } from 'react'
 import '../css/Scores.css'
 import getDates from '../functions/getDates';
 import { dateFormatter2 } from '../functions/dateTimeFormatter'
 import shortName from '../functions/nameAbbreviation';
-import { AppContext } from '../contexts/AppContext';
+import useApp from '../hooks/useApp'
 
 const Fixtures = () => {
-  const { round, fixtures, results } = useContext(AppContext);
+  const { round, fixtures, results } = useApp();
 
   const currentFixtures = useMemo(() => {
     return getRoundFixtures(fixtures, round);
