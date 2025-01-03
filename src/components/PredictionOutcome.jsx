@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext, useMemo } from 'react';
-import { AppContext } from '../contexts/AppContext';
+import { useState, useMemo } from 'react';
+import useApp from '../hooks/useApp'
 import { UpdateUserScore } from '../functions/updateUserScore';
 import '../css/PredictionOutcome.css'
 
@@ -7,7 +7,7 @@ import '../css/PredictionOutcome.css'
 // award a score
 // Scoring: 3 points = correct score | 1 point = correct result | 0 points = incorrect result
 const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction  }) => {
-    const { round } = useContext(AppContext);
+    const { round } = useApp();
     const [userScore, setUserScore] = useState(null);
     const [icon, setIcon] = useState(
     <svg width="75" height="75" xmlns="http://www.w3.org/2000/svg" className='svg-icon'>
