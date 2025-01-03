@@ -1,12 +1,12 @@
-import { useContext, useCallback } from 'react';
-import { AppContext } from '../contexts/AppContext';
+import { useCallback } from 'react';
+import useApp from '../hooks/useApp'
 
 
 // Manages the selection of competition and sets this value in state
 // Parent component (Homepage) manages the selectedCompetition state
 const CompetitionSelection = () => {
-  const { competitions, selectedCompetition, setSelectedCompetition } = useContext(AppContext);
-  
+  const { competitions, selectedCompetition, setSelectedCompetition } = useApp();
+
 
   // If selectedCompetition is null:
   // Set as the first element of competitions[0]
