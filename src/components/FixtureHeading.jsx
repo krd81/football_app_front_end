@@ -1,11 +1,10 @@
-import { AppContext } from '../contexts/AppContext';
-import { useContext } from 'react'
+import useApp from '../hooks/useApp'
 import { timeFormatter } from '../functions/dateTimeFormatter'
 
 
 // Displays either the match status (if in play or finished) or the scheduled kick off time
 function FixtureHeading ({ match, updateMatchStatus }) {
-    const { results } = useContext(AppContext);
+    const { results } = useApp();
     const m = match;
     const allResults = results;
     // console.log(allResults);
