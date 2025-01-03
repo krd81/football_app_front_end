@@ -1,5 +1,4 @@
-import { useContext } from 'react'
-import { AppContext } from '../contexts/AppContext';
+import useApp from '../hooks/useApp'
 
 function Prediction ({
     match,
@@ -7,7 +6,7 @@ function Prediction ({
     updatePrediction,
     prediction
 }) {
-    const { currentUser } = useContext(AppContext);
+    const { currentUser } = useApp();
     const m = match;
     let currentPrediction;
 
