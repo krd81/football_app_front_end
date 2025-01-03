@@ -1,14 +1,12 @@
-import { Fragment, useContext, useState } from 'react';
-import { AppContext } from '../contexts/AppContext';
+import { Fragment, useState } from 'react';
+import useApp from '../hooks/useApp'
 import { FixtureContext } from '../contexts/FixtureContext';
 import FixtureHeading from './FixtureHeading';
 import Prediction from './Prediction';
 import FinalScore from './FinalScore';
 import PredictionOutcome from './PredictionOutcome';
 import shortName from '../functions/nameAbbreviation';
-import { timeFormatter } from '../functions/dateTimeFormatter';
 import '../css/MatchCard.css';
-import { use } from 'react';
 
 export default function FixtureList({
     date,
@@ -48,7 +46,7 @@ export default function FixtureList({
 
 
 function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPrediction, onDelete, matchesStarted, setMatchesStarted }) {
-    const { results, selectedCompetition, round } = useContext(AppContext);
+    const { results, selectedCompetition, round } = useApp();
     const [matchStatus, setMatchStatus] = useState('NOT STARTED');
     const m = match;
     const allResults = results;
