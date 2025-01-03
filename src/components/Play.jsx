@@ -39,7 +39,7 @@ function Play ({ children }) {
 };
 
 function GameWeekDisplay ({ comp }) {
-    const { selectedCompetition } = useContext(AppContext);
+    const { selectedCompetition } = useApp();
     const compName = selectedCompetition.name;
 
     return (
