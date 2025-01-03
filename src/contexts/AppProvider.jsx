@@ -70,6 +70,7 @@ export const AppProvider = ({ children }) => {
         allPredictions, setAllPredictions,
         allUserScores, setAllUserScores,
         round, setRound,
+        token,
         login,
         logout,
     };

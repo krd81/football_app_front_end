@@ -1,10 +1,9 @@
-import { useContext } from 'react'
 import FlashTitle from '../common/FlashTitle'
-import { AppContext } from '../contexts/AppContext';
+import useApp from '../hooks/useApp'
 
 
 const Homepage = ({ children }) => {
-  const { competitions, setSelectedCompetition, selectedCompetition, currentUser, userToken, comp } = useContext(AppContext);
+  const { competitions, setSelectedCompetition, selectedCompetition, currentUser, token } = useApp();
   // If selectedCompetition is null:
   // Set as the first element of competitions[0]
   // i.e. "Premier League" is the default competition
