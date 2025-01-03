@@ -1,8 +1,8 @@
-import { useContext, useMemo } from 'react'
-import { AppContext } from '../contexts/AppContext'
+import { useMemo } from 'react'
+import useApp from '../hooks/useApp'
 
 function CalcPoints () {
-  const { round, allUserScores, currentUser } = useContext(AppContext);
+  const { round, allUserScores, currentUser } = useApp();
   // console.log("calc points called");
   // console.log(JSON.stringify(allUserScores));
   const userScores = useMemo(() => {
