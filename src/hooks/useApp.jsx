@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { AppContext } from "../contexts/AppContext";
 
-export const useApp = () => {
+const useApp = () => {
     console.log('useApp called');
     const value = useContext(AppContext);
 
@@ -11,3 +11,5 @@ export const useApp = () => {
 
     return value;
 };
+
+export default useApp;

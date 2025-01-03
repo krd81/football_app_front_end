@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { AppContext } from "./AppContext";
-import TokenDecoder from "../utils/TokenDecoder"; // Adjust the import path as necessary
+import TokenDecoder from '../authentication/TokenDecoder'; // Adjust the import path as necessary
 
-export const AppProvider = ({ children }) => {
+const AppProvider = ({ children }) => {
     const [users, setUsers] = useState([]);
     const [currentUser, setCurrentUser] = useState(() => {
       const savedUser = sessionStorage.getItem('currentUser');
@@ -80,3 +80,5 @@ export const AppProvider = ({ children }) => {
             </AppContext.Provider>
 
 };
+
+export default AppProvider;
