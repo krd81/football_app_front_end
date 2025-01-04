@@ -1,39 +1,29 @@
 import '../css/app.css'
-import { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { AppContext } from '../contexts/AppContext';
-// import { CompRoundContext } from '../common/CompRoundContext';
+import { useEffect, useMemo } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import useApp from '../hooks/useApp'
+import TokenDecoder from '../authentication/TokenDecoder'
 import NavBar from './NavBar'
 import Login from '../pages/Login'
 import Homepage from '../pages/Homepage'
 import Play from './Play'
 import Fixtures from '../pages/Fixtures'
 import DisplayFixtures from '../pages/DisplayFixtures'
-import TokenDecoder from '../authentication/TokenDecoder'
+import CompetitionSelection from './CompetitionSelection';
+import GameWeekSelect from '../pages/GameWeekSelect';
 
-function App({ children }) {
-  const [users, setUsers] = useState([]);
-  const [currentUser, setCurrentUser] = useState(() => {
-    const savedUser = sessionStorage.getItem('currentUser');
-    return savedUser ? JSON.parse(savedUser) : {};
-  });
-  const [competitions, setCompetitions] = useState([]);
-  const [selectedCompetition, setSelectedCompetition] = useState({});
-  const [fixtures, setFixtures] = useState([]);
-  const [results, setResults] = useState([]);
-  const [allPredictions, setAllPredictions] = useState({});
-  const [allUserScores, setAllUserScores] = useState({});
-  const [token, setToken] = useState(() => sessionStorage.getItem('token'));
-  const [round, setRound] = useState('');
-  const [route, setRoute] = useState(''); // Use to store whether to display predictions or fixtures
-
-
-  // Fetch call to manage all external data required for the app
+function App() {
+  const {currentUser, setCurrentUser, setCompetitions, selectedCompetition, setSelectedCompetition, setFixtures, setResults, users, setUsers, setAllUserScores, allPredictions, setAllPredictions, userPredictions, setUserPredictions, token, round, setRound} = useApp();
+  const predictions = allPredictions;
+    console.log(typeof(predictions))
+    console.log(typeof(allPredictions))
+  // Fetch calls to manage all external data required for the app
   // i.e. users/predictions from user database and
   // football fixtures/scores/results from football database
   useEffect(() => {
+    console.log('Set Users useEffect called')
     const fetchData = async () => {
-      try {
+        try {
           // const apiUrl = import.meta.env.VITE_API_URL;
           const apiUrl = 'http://127.0.0.1:8005';
           const result = await fetch(`${apiUrl}/user/`, {
@@ -46,204 +36,175 @@ function App({ children }) {
           const users = await result.json();
           setUsers(users);
 
-      } catch (error) {
-          console.error(error.message);
-      };
-      try {
-          // const apiUrl = import.meta.env.VITE_API_URL;
-          const apiUrl = 'http://127.0.0.1:8002';
-          const result = await fetch(`${apiUrl}/competitions/`, {
-              method: 'GET',
-              headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `null`
-              }
-          });
-          const competitions = await result.json();
-          setCompetitions(competitions);
-          // Sets the first element of competitions[0]
-          // i.e. "Premier League" as the default competition
-          setSelectedCompetition(competitions['0']);
-      } catch (error) {
-          console.error(error.message);
-      };
-      try {
-        // const apiUrl = import.meta.env.VITE_API_URL;
-        const apiUrl = 'http://127.0.0.1:8002';
-        const fixtures = await fetch(`${apiUrl}/fixtures/`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `null`
-          }
-        });
-        const fixtureData = await fixtures.json();
-        setFixtures(fixtureData);
-      } catch (error) {
-        console.error(error.message);
-      };
-      try {
-        // const apiUrl = import.meta.env.VITE_API_URL;
-        const apiUrl = 'http://127.0.0.1:8002';
-        const results = await fetch(`${apiUrl}/results/`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `null`
-          }
-        });
-        const resultsData = await results.json();
-        setResults(resultsData);
-      } catch (error) {
-        console.error(error.message);
-      };
-    }
-    fetchData();
-  }, []);
-
-
-// Separate effect for fetching predictions info since it is dependent upon selectedCompetition
-// and will need to be called each time the competition changes
-// This effect also fetches userScores for selected competition
-useEffect(() => {
-  const fetchData = async () => {
-        // const apiUrl = import.meta.env.VITE_API_URL;
-        const apiUrl = 'http://127.0.0.1:8005';
-        try {
-          const result = await fetch(`${apiUrl}/predictions/competition/${selectedCompetition.id}`, {
-          method: 'GET',
-          headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `null`
-          }
-        });
-        const selectedCompPredictions = await result.json();
-        setAllPredictions(selectedCompPredictions);
-      } catch (error) {
-          console.error(error.message);
-      };
-      try {
-        const result = await fetch(`${apiUrl}/userscores/competition/${selectedCompetition.id}`, {
-          method: 'GET',
-          headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `null`
-          }
-        });
-        const selectedCompUserScores = await result.json();
-        setAllUserScores(selectedCompUserScores);
-      } catch (error) {
-          console.error(error.message);
-      };
-
+        } catch (error) {
+            console.error(error.message);
+        };
     };
-  if (selectedCompetition.id) {
     fetchData();
-  }
-}, [selectedCompetition.id]);
+  }, [setUsers]);
 
-
-
-  function showDatabaseEntries () {
-      console.log(users)
-      // console.log(currentUser)
-      console.log(competitions)
-      console.log(selectedCompetition)
-      console.log(fixtures)
-      console.log(results)
-      console.log(allPredictions)
-      console.log(allUserScores)
-      //console.log()
-
-  }
-
-  const login = (newToken) => {
-      sessionStorage.setItem('token', newToken)
-      setToken(newToken)
-      const decodedToken = TokenDecoder(newToken);
-      const user = users.find(user => user._id === decodedToken._id);
-      // console.log(user)
-      // setCurrentUser(user);
-      // user ? setCurrentUser(user) : setCurrentUser(null);
-      showDatabaseEntries()
-  }
-
-  const logout = () => {
-      sessionStorage.removeItem('token');
-      setToken(null);
-      setCurrentUser(null);
-  }
-
-  const setComp = (comp) => {
-    setSelectedCompetition(comp);
-  }
-
-  const setCompRound = (round) => {
-    setRound(round);
-    console.log(round);
-  }
-
-  const setPredictions = (predictions) => {
-    setAllPredictions(predictions);
-    console.log(allPredictions)
-  }
-
-
-  const setRoutePath = (path) => {
-    setRoute(path);
-  };
 
   useEffect(() => {
+      console.log('Predictions useEffect called')
+      const fetchData = async () => {
+          try {
+                // const apiUrl = import.meta.env.VITE_API_URL;
+                const apiUrl = 'http://127.0.0.1:8005';
+                const result = await fetch(`${apiUrl}/predictions/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `null`
+                }
+              });
+                const predictionsList = await result.json();
+                setAllPredictions(predictionsList);
+
+          } catch (error) {
+              console.error(error.message);
+          };
+      };
+      fetchData();
+  }, [setAllPredictions]);
+
+  useEffect(() => {
+      console.log('User Scores useEffect called')
+      const fetchData = async () => {
+          try {
+                // const apiUrl = import.meta.env.VITE_API_URL;
+                const apiUrl = 'http://127.0.0.1:8005';
+                const result = await fetch(`${apiUrl}/userscores/competition/${selectedCompetition.id}`, {
+                  method: 'GET',
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'Authorization': `null`
+                  }
+                });
+                const selectedCompUserScores = await result.json();
+                setAllUserScores(selectedCompUserScores);
+
+          } catch (error) {
+              console.error(error.message);
+          };
+      };
+      fetchData();
+  }, [setAllUserScores, selectedCompetition.id]);
+
+  useEffect(() => {
+      console.log('Competitions useEffect called')
+      const fetchData = async () => {
+          try {
+            // const apiUrl = import.meta.env.VITE_API_URL;
+            const apiUrl = 'http://127.0.0.1:8002';
+
+            const result = await fetch(`${apiUrl}/competitions/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `null`
+                }
+            });
+            const competitions = await result.json();
+            setCompetitions(competitions);
+            // Sets the first element of competitions[0]
+            // i.e. "Premier League" as the default competition
+            // setSelectedCompetition(competitions['0']);
+            setSelectedCompetition((prevComp) => ({...prevComp}));
+
+          } catch (error) {
+              console.error(error.message);
+          };
+      };
+      fetchData();
+  }, [setCompetitions, setSelectedCompetition]);
+
+  useEffect(() => {
+      console.log('Fixtures useEffect called')
+      const fetchData = async () => {
+          try {
+          // const apiUrl = import.meta.env.VITE_API_URL;
+          const apiUrl = 'http://127.0.0.1:8002';
+          const fixtures = await fetch(`${apiUrl}/fixtures/`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `null`
+            }
+          });
+          const fixtureData = await fixtures.json();
+          setFixtures(fixtureData);
+
+          } catch (error) {
+              console.error(error.message);
+          };
+      };
+      fetchData();
+  }, [setFixtures]);
+
+  useEffect(() => {
+      console.log('Football Results useEffect called')
+      const fetchData = async () => {
+          try {
+          // const apiUrl = import.meta.env.VITE_API_URL;
+          const apiUrl = 'http://127.0.0.1:8002';
+          const results = await fetch(`${apiUrl}/results/`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `null`
+            }
+          });
+          const resultsData = await results.json();
+          setResults(resultsData);
+          } catch (error) {
+              console.error(error.message);
+          };
+      };
+      fetchData();
+  }, [setResults]);
+
+
+  useMemo(() => {
+    console.log('Current user/predictions useMemo called')
     if (token && users) {
-      const decodedToken = TokenDecoder(token);
-      const user = users.find(user => user._id === decodedToken._id);
-      // console.log(user)
-      setCurrentUser(user);
-      sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+        const decodedToken = TokenDecoder(token);
+        const user = users.find(user => user._id === decodedToken._id);
+        setCurrentUser(user);
+        sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+        const filterPredictions = Array.isArray(predictions) ? predictions.filter(prediction => {
+          return prediction.user && prediction.user._id === user._id;
+        }) : Object.values(predictions).filter(prediction => {
+          return prediction.user && prediction.user._id === user._id;
+        });
+
+        setUserPredictions(filterPredictions);
+
     }
- }, [token, users, currentUser]);
+    }, [token, users, currentUser, setCurrentUser, setUserPredictions, predictions]);
 
 
   return (
     <>
-     <AppContext.Provider
-        value={({
-            // user: [currentUser, setCurrentUser],
-            currentUser,
-            comps: [competitions, setCompetitions],
-            userToken: [token, setToken],
-            comp: [selectedCompetition, setSelectedCompetition],
-            competitions,
-            selectedCompetition,
-            allPredictions,
-            setPredictions,
-            allUserScores,
-            setAllUserScores,
-            fixtures,
-            results,
-            round,
-            login,
-            logout,
-            setComp
-            })}
-            >
-              {children}
-      <BrowserRouter>
+       <BrowserRouter>
         <NavBar />
         <div>
           <Routes>
-            <Route path='/login' element={<Login />} />
-            <Route path='/' element={<Homepage />} />
-            <Route path='/play' element={<Play setCompRound={setCompRound} setRoutePath={() => setRoutePath('play')} route={route}/>} />
-            <Route path='/viewfixtures' element={<Play setCompRound={setCompRound} setRoutePath={() => setRoutePath('fixtures')} route={route}/>} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/' element={<Navigate to="/login" />} />
+          <Route path='/homepage' element={<Homepage> <CompetitionSelection/></Homepage>} />
+            <Route path='/play' element={
+              <Play setCompRound={setRound}>
+                <GameWeekSelect setCompRound={setRound}  />
+              </Play>}
+            />
+            <Route path='/viewfixtures' element={<Play setCompRound={setRound} />} />
             <Route path='/fixtures' element={<Fixtures round={round}/>} />
             <Route path='/predictions' element={<DisplayFixtures />} />
 
           </Routes>
         </div>
       </BrowserRouter>
-      </AppContext.Provider>
-
     </>
   )
 }

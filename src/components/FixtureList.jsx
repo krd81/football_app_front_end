@@ -1,44 +1,41 @@
-import { Fragment, useContext, useState } from 'react'
-import { AppContext } from '../contexts/AppContext';
+import { Fragment, useState } from 'react';
+import useApp from '../hooks/useApp'
 import { FixtureContext } from '../contexts/FixtureContext';
-import FixtureHeading from './FixtureHeading'
-import Prediction from './Prediction'
-import FinalScore from './FinalScore'
+import FixtureHeading from './FixtureHeading';
+import Prediction from './Prediction';
+import FinalScore from './FinalScore';
 import PredictionOutcome from './PredictionOutcome';
 import shortName from '../functions/nameAbbreviation';
-import { timeFormatter } from '../functions/dateTimeFormatter'
-import '../css/MatchCard.css'
-import { use } from 'react';
+import '../css/MatchCard.css';
 
 export default function FixtureList({
     date,
     fixtures,
-    matchResult,
     isEdit,
-    predictions,
+    // predictions,
     updatePrediction,
     addAwayPrediction,
-    onDeletePrediction
+    onDeletePrediction,
+    matchesStarted,
+    setMatchesStarted,
 }) {
-    const { round } = useContext(AppContext);
     const roundFixtures = fixtures;
 
     return (
-    <>
-
-        {roundFixtures?.map((match) => (
-            match.date === date && (
-                <Fragment key={match.fixture_id + date} >
-                    <Fixture
-                        round={round}
-                        match={match}
-                        isEdit={isEdit}
-                        predictionsList={predictions}
-                        updatePrediction={updatePrediction}
-                        awayPrediction={addAwayPrediction}
-                        onDelete={onDeletePrediction}
-                        // matchResult={matchResult}
-                    />
+        <>
+            {roundFixtures?.map((match) => (
+                match.date === date && (
+                    <Fragment key={match.fixture_id + date} >
+                        <Fixture
+                            match={match}
+                            isEdit={isEdit}
+                            // predictionsList={predictions}
+                            updatePrediction={updatePrediction}
+                            awayPrediction={addAwayPrediction}
+                            onDelete={onDeletePrediction}
+                            matchesStarted
+                            setMatchesStarted={setMatchesStarted}
+                        />
                 </Fragment>
         )
         ))}
@@ -48,12 +45,36 @@ export default function FixtureList({
 };
 
 
-function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPrediction, onDelete }) {
-    const { results } = useContext(AppContext);
+function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPrediction, onDelete, matchesStarted, setMatchesStarted }) {
+    const { results, selectedCompetition, round, userPredictions } = useApp();
     const [matchStatus, setMatchStatus] = useState('NOT STARTED');
     const m = match;
     const allResults = results;
-    const predictions = predictionsList;
+    const predictions = userPredictions;
+
+    if (!userPredictions) {
+        throw new Error('User Predictions array is null');
+    };
+
+    // Check whether any fixtures for the current round have status "FINISHED"
+    const getRoundResults = () => {
+        return results.filter(result => {
+            return result && result.competition.id === selectedCompetition.id
+                && result.round === round
+                && result.status === 'FINISHED';
+        });
+    };
+
+    const roundResults = getRoundResults();
+
+    // If roundResults has matching items, set matchesStarted
+    // state variable to "true"
+    if(roundResults.length < 1) {
+        setMatchesStarted(false);
+    } else {
+        setMatchesStarted(true);
+
+    };
 
     const updateMatchStatus = (status) => {
         setMatchStatus(status);
@@ -77,7 +98,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
     const getPrediction = (fixture) => {
         const prediction = predictions.find(pred => pred.fixture_id === fixture.fixture_id);
         if (prediction) {
-            console.log(prediction)
+            console.log(JSON.stringify(prediction))
         };
         return prediction || null;
     };
@@ -146,12 +167,12 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                         <Prediction
                             match={match}
                             isEdit={isEdit}
-                            predictionsList={predictions}
+                            // predictionsList={predictions}
                             updatePrediction={updatePrediction}
-                            awayPrediction={awayPrediction}
-                            onDelete={onDelete}
-                            home={getHomePrediction(m)}
-                            away={getAwayPrediction(m)}
+                            // awayPrediction={awayPrediction}
+                            // onDelete={onDelete}
+                            // home={getHomePrediction(m)}
+                            // away={getAwayPrediction(m)}
                             prediction={getPrediction(m)}
                         />
 

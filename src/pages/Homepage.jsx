@@ -1,16 +1,21 @@
-import { useContext } from 'react'
 import FlashTitle from '../common/FlashTitle'
-import CompetitionSelection from '../components/CompetitionSelection'
-import { AppContext } from '../contexts/AppContext';
+import useApp from '../hooks/useApp'
 
 
-const Homepage = () => {
-  const { selectedCompetition, user: currentUser, userToken, comp } = useContext(AppContext);
-
-  // console.log(`Homepage - currentUser: `+ JSON.stringify(currentUser))
-  // console.log(`Homepage - token: `+ userToken)
-  // console.log(`Homepage - selectedCompetition: ` + JSON.stringify(comp))
-
+const Homepage = ({ children }) => {
+  const { competitions, setSelectedCompetition, selectedCompetition, currentUser, token } = useApp();
+  // If selectedCompetition is null:
+  // Set as the first element of competitions[0]
+  // i.e. "Premier League" is the default competition
+  // if (selectedCompetition && selectedCompetition.length > 0) {
+  //   setSelectedCompetition(prevComp => prevComp);
+  //   console.log(JSON.stringify(selectedCompetition))
+  //   console.log(selectedCompetition?.length)
+  // } else {
+  //   setSelectedCompetition(competitions[0]);
+  //   console.log(JSON.stringify(selectedCompetition))
+  //   console.log(selectedCompetition?.length)
+  // };
 
   document.title = 'Home';
 
@@ -20,10 +25,7 @@ const Homepage = () => {
 
         <div>< FlashTitle/></div>
         <div>
-          <CompetitionSelection
-            // competition = {selectedCompetition}
-            >
-          </CompetitionSelection>
+          {children}
         </div>
         <div>
           <CompetitionPanel comp={selectedCompetition.name}>

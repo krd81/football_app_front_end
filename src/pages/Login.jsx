@@ -1,12 +1,12 @@
 import { React, useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { AppContext } from '../contexts/AppContext';
+import useApp from '../hooks/useApp'
 import FlashTitle from '../common/FlashTitle';
 import '../css/Login.css'
 
 
 const Login = () => {
-    const { login } = useContext(AppContext);
+    const { login } = useApp();
     const [userNotFound, setUserNotFound] = useState('no');
     const [username, setUsername] = useState('') // Note: username is an email
     const [password, setPassword] = useState('')
@@ -39,7 +39,7 @@ const Login = () => {
                   login(response.token);
 
                   // Redirect to homepage
-                  nav('/');
+                  nav('/homepage');
 
                   // Call fetch request to get all users and listings
               } else {

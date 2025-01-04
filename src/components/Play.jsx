@@ -1,13 +1,11 @@
 import '../css/app.css'
-import { useContext, useState, useEffect, useMemo } from "react";
-import { AppContext } from '../contexts/AppContext'
+import { useContext, useMemo } from "react";
+import useApp from '../hooks/useApp'
 import { CompRoundContext } from '../contexts/CompRoundContext';
-import GameWeekSelect from '../pages/GameWeekSelect';
 
-//'/competition/:comp_id/round/:round_id'
 
-function Play ({ children, setCompRound, setRoutePath, route }) {
-    const { fixtures, selectedCompetition } = useContext(AppContext);
+function Play ({ children }) {
+    const { fixtures, selectedCompetition } = useApp();
 
     function getRounds (fixtures) {
         const newRounds = [];
@@ -31,21 +29,24 @@ function Play ({ children, setCompRound, setRoutePath, route }) {
 
     return (
         <>
-            <CompRoundContext.Provider value={{ rounds }}
-            >
-                {children}
+            <CompRoundContext.Provider value={{ rounds }}>
                 <GameWeekDisplay comp={selectedCompetition.name}/>
-                <GameWeekSelect setCompRound={setCompRound} route={route}/>
+                    {children}
+
             </CompRoundContext.Provider>
         </>
     )
 };
 
 function GameWeekDisplay ({ comp }) {
+    const { selectedCompetition } = useApp();
+    const compName = selectedCompetition.name;
+
     return (
         <>
             <div>
                 <h1>{comp}</h1>
+                <h1>{compName}</h1>
                 <h2>Select round:</h2>
             </div>
         </>

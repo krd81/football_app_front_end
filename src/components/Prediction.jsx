@@ -1,16 +1,12 @@
-import { useContext } from 'react'
-import { AppContext } from '../contexts/AppContext';
+import useApp from '../hooks/useApp'
 
 function Prediction ({
     match,
     isEdit,
-    predictionsList,
     updatePrediction,
-    home,
-    away,
     prediction
 }) {
-    const { currentUser } = useContext(AppContext);
+    const { currentUser } = useApp();
     const m = match;
     let currentPrediction;
 
@@ -18,6 +14,7 @@ function Prediction ({
     // initial prediction is 0-0
     // Save to DB
     if (prediction == null) {
+        console.log(`Prediction for match id ${m.fixture_id} is null`)
         currentPrediction = {
             competitionId: m.competitionId,
             round: m.round,
@@ -36,13 +33,11 @@ function Prediction ({
     };
 
     async function saveNewPrediction () {
-        const apiUrl = 'http://127.0.0.1:8005/predictions';
-        const url =
-        `${apiUrl}/competition/${m.competitionId}/round/${m.round}/user/${currentUser._id}`;
+        const apiUrl = 'http://127.0.0.1:8005/predictions/';
         const method = 'POST';
 
         try {
-            await fetch(url, {
+            await fetch(apiUrl, {
                 method: method,
                 headers: {
                     'Content-Type': 'application/json',
@@ -54,7 +49,7 @@ function Prediction ({
             console.error('Failed to create new prediction:', error);
         };
     };
-
+    console.log(JSON.stringify(currentPrediction))
 
     return (
         <>
