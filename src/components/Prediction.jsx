@@ -49,7 +49,7 @@ function Prediction ({
             console.error('Failed to create new prediction:', error);
         };
     };
-
+    console.log(JSON.stringify(currentPrediction))
 
     return (
         <>

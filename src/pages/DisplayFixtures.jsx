@@ -19,8 +19,6 @@ const DisplayFixtures = () => {
   const [matchesStarted, setMatchesStarted] = useState(false);
   const [totalPoints, setTotalPoints] = useState(0);
   const nav = useNavigate();
-  console.log(`All Predictions: ${JSON.stringify(allPredictions)}`)
-  console.log(`User Predictions: ${JSON.stringify(userPredictions)}`)
 
 
   // initially filter all predictions and return those belonging to the user
@@ -131,7 +129,7 @@ const DisplayFixtures = () => {
   */
 
       const showUserPredictions = () => {
-        console.log(`User Predictions: ${predictions}`)
+        // console.log(`User Predictions: ${predictions}`)
       }
 
 

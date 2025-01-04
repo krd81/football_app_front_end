@@ -51,7 +51,6 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
     const m = match;
     const allResults = results;
     const predictions = userPredictions;
-    console.log(JSON.stringify(predictions))
 
     if (!userPredictions) {
         throw new Error('User Predictions array is null');
