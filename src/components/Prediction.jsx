@@ -13,7 +13,8 @@ function Prediction ({
     // If no prediction exists, create a new one, assuming
     // initial prediction is 0-0
     // Save to DB
-    if (prediction == 'hello') {
+    if (prediction == null) {
+        console.log(`Prediction for match id ${m.fixture_id} is null`)
         currentPrediction = {
             competitionId: m.competitionId,
             round: m.round,

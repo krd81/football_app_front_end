@@ -17,7 +17,7 @@ export default function FixtureList({
     addAwayPrediction,
     onDeletePrediction,
     matchesStarted,
-    setMatchesStarted
+    setMatchesStarted,
 }) {
     const roundFixtures = fixtures;
 
@@ -35,7 +35,7 @@ export default function FixtureList({
                             onDelete={onDeletePrediction}
                             matchesStarted
                             setMatchesStarted={setMatchesStarted}
-                    />
+                        />
                 </Fragment>
         )
         ))}
