@@ -4,6 +4,8 @@ function Prediction ({
     match,
     isEdit,
     updatePrediction,
+    home,
+    away,
     prediction
 }) {
     const { currentUser } = useApp();
@@ -68,7 +70,7 @@ function Prediction ({
                         min="0"
                         max="10"
                         // value={home >=0 ? home : '0'}
-                        value={currentPrediction.homePrediction}
+                        value={home}
                         onChange={e => {
                             // const currentPrediction = prediction || {}; // Initialize prediction if null
                             const newHomePrediction = Number(e.target.value);

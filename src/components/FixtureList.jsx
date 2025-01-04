@@ -171,8 +171,8 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
                             updatePrediction={updatePrediction}
                             // awayPrediction={awayPrediction}
                             // onDelete={onDelete}
-                            // home={getHomePrediction(m)}
-                            // away={getAwayPrediction(m)}
+                            home={getHomePrediction(m)}
+                            away={getAwayPrediction(m)}
                             prediction={getPrediction(m)}
                         />
 
