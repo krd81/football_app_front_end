@@ -21,6 +21,24 @@ function App() {
     const fetchData = async () => {
       console.log('App.jsx first useEffect called')
 
+      try {
+          // const apiUrl = import.meta.env.VITE_API_URL;
+          const apiUrl = 'http://127.0.0.1:8005';
+          const result = await fetch(`${apiUrl}/user/`, {
+              method: 'GET',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `null`
+              }
+          });
+          const users = await result.json();
+          setUsers(users);
+
+      } catch (error) {
+          console.error(error.message);
+      };
+
+
       // FOOTBALL DB FETCH CALLS
       let apiUrl = 'http://127.0.0.1:8002';
 
@@ -77,7 +95,7 @@ function App() {
 
     }
     fetchData();
-  }, [setAllPredictions, setAllUserScores, setCompetitions, setFixtures, setResults, setSelectedCompetition]);
+  }, [setUsers, setAllPredictions, setAllUserScores, setCompetitions, setFixtures, setResults, setSelectedCompetition]);
 
 
   // Separate effect for fetching predictions info since it is dependent upon selectedCompetition

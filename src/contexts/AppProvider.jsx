@@ -37,7 +37,7 @@ const AppProvider = ({ children }) => {
         setToken(newToken)
         const decodedToken = TokenDecoder(newToken);
         const user = users.find(user => user._id === decodedToken._id);
-        if (token && currentUser) {
+        if (token && user) {
             setCurrentUser(user);
         };
         // user ? setCurrentUser(user) : setCurrentUser(null);
