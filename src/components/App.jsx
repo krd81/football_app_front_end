@@ -1,5 +1,5 @@
 import '../css/app.css'
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import useApp from '../hooks/useApp'
 import TokenDecoder from '../authentication/TokenDecoder'
@@ -14,7 +14,9 @@ import GameWeekSelect from '../pages/GameWeekSelect';
 
 function App() {
   const {currentUser, setCurrentUser, setCompetitions, selectedCompetition, setSelectedCompetition, setFixtures, setResults, users, setUsers, setAllUserScores, allPredictions, setAllPredictions, userPredictions, setUserPredictions, token, round, setRound} = useApp();
-  const user = currentUser;
+  const predictions = allPredictions;
+    console.log(typeof(predictions))
+    console.log(typeof(allPredictions))
   // Fetch calls to manage all external data required for the app
   // i.e. users/predictions from user database and
   // football fixtures/scores/results from football database
@@ -162,28 +164,26 @@ function App() {
   }, [setResults]);
 
 
-
-
-  // Change to useMemo?
-  useEffect(() => {
-    console.log('Current user/predictions useEffect called')
+  useMemo(() => {
+    console.log('Current user/predictions useMemo called')
     if (token && users) {
         const decodedToken = TokenDecoder(token);
         const user = users.find(user => user._id === decodedToken._id);
-        console.log(user)
         setCurrentUser(user);
         sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
 
-        const filterPredictions = allPredictions.filter(prediction =>{
-          prediction.user && prediction.user._id === user._id
+        const filterPredictions = Array.isArray(predictions) ? predictions.filter(prediction => {
+          return prediction.user && prediction.user._id === user._id;
+        }) : Object.values(predictions).filter(prediction => {
+          return prediction.user && prediction.user._id === user._id;
         });
 
         setUserPredictions(filterPredictions);
 
     }
-    }, [token, users, currentUser, setCurrentUser, setUserPredictions, allPredictions]);
+    }, [token, users, currentUser, setCurrentUser, setUserPredictions, predictions]);
 
-    
+
   return (
     <>
        <BrowserRouter>

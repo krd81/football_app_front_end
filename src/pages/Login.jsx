@@ -39,7 +39,7 @@ const Login = () => {
                   login(response.token);
 
                   // Redirect to homepage
-                  nav('/');
+                  nav('/homepage');
 
                   // Call fetch request to get all users and listings
               } else {

@@ -12,7 +12,7 @@ export default function FixtureList({
     date,
     fixtures,
     isEdit,
-    predictions,
+    // predictions,
     updatePrediction,
     addAwayPrediction,
     onDeletePrediction,
@@ -29,7 +29,7 @@ export default function FixtureList({
                         <Fixture
                             match={match}
                             isEdit={isEdit}
-                            predictionsList={predictions}
+                            // predictionsList={predictions}
                             updatePrediction={updatePrediction}
                             awayPrediction={addAwayPrediction}
                             onDelete={onDeletePrediction}
@@ -51,6 +51,11 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
     const m = match;
     const allResults = results;
     const predictions = userPredictions;
+    console.log(JSON.stringify(predictions))
+
+    if (!userPredictions) {
+        throw new Error('User Predictions array is null');
+    };
 
     // Check whether any fixtures for the current round have status "FINISHED"
     const getRoundResults = () => {
