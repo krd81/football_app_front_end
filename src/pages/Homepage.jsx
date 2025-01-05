@@ -3,19 +3,7 @@ import useApp from '../hooks/useApp'
 
 
 const Homepage = ({ children }) => {
-  const { competitions, setSelectedCompetition, selectedCompetition, currentUser, token } = useApp();
-  // If selectedCompetition is null:
-  // Set as the first element of competitions[0]
-  // i.e. "Premier League" is the default competition
-  // if (selectedCompetition && selectedCompetition.length > 0) {
-  //   setSelectedCompetition(prevComp => prevComp);
-  //   console.log(JSON.stringify(selectedCompetition))
-  //   console.log(selectedCompetition?.length)
-  // } else {
-  //   setSelectedCompetition(competitions[0]);
-  //   console.log(JSON.stringify(selectedCompetition))
-  //   console.log(selectedCompetition?.length)
-  // };
+  const { selectedCompetition } = useApp();
 
   document.title = 'Home';
 

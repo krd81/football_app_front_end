@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom'
 import useApp from '../hooks/useApp'
 
 
@@ -6,6 +7,7 @@ import useApp from '../hooks/useApp'
 // Parent component (Homepage) manages the selectedCompetition state
 const CompetitionSelection = () => {
   const { competitions, selectedCompetition, setSelectedCompetition } = useApp();
+  const nav = useNavigate();
 
 
   // If selectedCompetition is null:
@@ -24,9 +26,15 @@ const CompetitionSelection = () => {
     )
 
     setSelectedCompetition(selectedComp)
-    console.log(selectedCompetition)
+      console.log(selectedCompetition)
+      if (selectedCompetition) {
+        nav(`/play/competition/${selectedCompetition.id}`);
+      }
 
-  }, [competitions, selectedCompetition, setSelectedCompetition]);
+    }, [competitions, selectedCompetition, setSelectedCompetition, nav]);
+
+
+
 
   return (
     <>

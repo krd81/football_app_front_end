@@ -13,8 +13,7 @@ import CompetitionSelection from './CompetitionSelection';
 import GameWeekSelect from '../pages/GameWeekSelect';
 
 function App() {
-  const {currentUser, setCurrentUser, setCompetitions, selectedCompetition, setSelectedCompetition, setFixtures, setResults, users, setUsers, setAllUserScores, allPredictions, setAllPredictions, userPredictions, setUserPredictions, token, round, setRound} = useApp();
-  const countRenders = useRef(0);
+  const {currentUser, setCurrentUser, setCompetitions, selectedCompetition, setSelectedCompetition, setFixtures, setResults, users, setUsers, setAllUserScores, allPredictions, setAllPredictions, setUserPredictions, token, round, setRound} = useApp();
   const predictions = allPredictions;
 
   // Fetch calls to manage all external data required for the app
@@ -91,10 +90,7 @@ function App() {
   }, [setAllUserScores, selectedCompetition.id]);
 
   useEffect(() => {
-      // console.log('Competitions useEffect called')
-          countRenders.current += 1;
-          console.log(`Competitions useEffect called ${(countRenders.current)} time(s)`)
-          console.log(typeof(countRenders.current))
+      console.log('Competitions useEffect called')
 
           const fetchData = async () => {
           try {
@@ -112,16 +108,9 @@ function App() {
             setCompetitions(competitions);
             // Sets the first element of competitions[0]
             // i.e. "Premier League" as the default competition
-            if (countRenders.current > 2) {
-              console.log('Count is > 2')
+            setSelectedCompetition(competitions['0']);
 
-              setSelectedCompetition((prevComp) => ({...prevComp}));
-            } else {
-              console.log('Count is <= 2')
-              setSelectedCompetition(competitions['0']);
-            };
-
-            // console.log(`Selected competition (App): ${selectedCompetition.name}`)
+            console.log(`Selected competition (App): ${selectedCompetition.name}`)
 
           } catch (error) {
               console.error(error.message);
@@ -205,6 +194,12 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/' element={<Navigate to="/login" />} />
           <Route path='/homepage' element={<Homepage> <CompetitionSelection/></Homepage>} />
+          <Route path='/play/competition/:comp_id' element={
+              <Play setCompRound={setRound}>
+                <GameWeekSelect setCompRound={setRound}  />
+              </Play>
+              }
+          />
             <Route path='/play' element={
               <Play setCompRound={setRound}>
                 <GameWeekSelect setCompRound={setRound}  />
