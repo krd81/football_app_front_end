@@ -70,7 +70,7 @@ function Prediction ({
                         min="0"
                         max="10"
                         // value={home >=0 ? home : '0'}
-                        value={home}
+                        value={currentPrediction.homePrediction}
                         onChange={e => {
                             // const currentPrediction = prediction || {}; // Initialize prediction if null
                             const newHomePrediction = Number(e.target.value);
@@ -89,7 +89,7 @@ function Prediction ({
                             // predictions away using reducer
                             updatePrediction({
                                 ...currentPrediction,
-                                homePrediction: newHomePrediction,
+                                homePrediction: Number(e.target.value),
                                 outcomePrediction: newOutcomePrediction
                             });
                         }}
@@ -122,7 +122,7 @@ function Prediction ({
                             // predictions away using reducer
                             updatePrediction({
                                 ...currentPrediction,
-                                awayPrediction: newAwayPrediction,
+                                awayPrediction: Number(e.target.value),
                                 outcomePrediction: newOutcomePrediction
                             });
                         }}
