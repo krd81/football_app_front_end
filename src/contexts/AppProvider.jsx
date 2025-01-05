@@ -9,7 +9,8 @@ const AppProvider = ({ children }) => {
       return savedUser ? JSON.parse(savedUser) : {};
     });
     const [competitions, setCompetitions] = useState([]);
-    const [selectedCompetition, setSelectedCompetition] = useState({ id: 2, tier: 1, isCup: false, isLeague: true, hasGroups: false, active: true, name: 'Premier League', nationalTeamsOnly: false });
+    // const [selectedCompetition, setSelectedCompetition] = useState({ id: 2, tier: 1, isCup: false, isLeague: true, hasGroups: false, active: true, name: 'Premier League', nationalTeamsOnly: false });
+    const [selectedCompetition, setSelectedCompetition] = useState({});
     const [fixtures, setFixtures] = useState([]);
     const [results, setResults] = useState([]);
     const [allPredictions, setAllPredictions] = useState({});

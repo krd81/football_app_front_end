@@ -1,5 +1,5 @@
 import '../css/app.css'
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import useApp from '../hooks/useApp'
 import TokenDecoder from '../authentication/TokenDecoder'
@@ -14,9 +14,9 @@ import GameWeekSelect from '../pages/GameWeekSelect';
 
 function App() {
   const {currentUser, setCurrentUser, setCompetitions, selectedCompetition, setSelectedCompetition, setFixtures, setResults, users, setUsers, setAllUserScores, allPredictions, setAllPredictions, userPredictions, setUserPredictions, token, round, setRound} = useApp();
+  const countRenders = useRef(0);
   const predictions = allPredictions;
-    console.log(typeof(predictions))
-    console.log(typeof(allPredictions))
+
   // Fetch calls to manage all external data required for the app
   // i.e. users/predictions from user database and
   // football fixtures/scores/results from football database
@@ -91,8 +91,12 @@ function App() {
   }, [setAllUserScores, selectedCompetition.id]);
 
   useEffect(() => {
-      console.log('Competitions useEffect called')
-      const fetchData = async () => {
+      // console.log('Competitions useEffect called')
+          countRenders.current += 1;
+          console.log(`Competitions useEffect called ${(countRenders.current)} time(s)`)
+          console.log(typeof(countRenders.current))
+
+          const fetchData = async () => {
           try {
             // const apiUrl = import.meta.env.VITE_API_URL;
             const apiUrl = 'http://127.0.0.1:8002';
@@ -108,15 +112,23 @@ function App() {
             setCompetitions(competitions);
             // Sets the first element of competitions[0]
             // i.e. "Premier League" as the default competition
-            // setSelectedCompetition(competitions['0']);
-            setSelectedCompetition((prevComp) => ({...prevComp}));
+            if (countRenders.current > 2) {
+              console.log('Count is > 2')
+
+              setSelectedCompetition((prevComp) => ({...prevComp}));
+            } else {
+              console.log('Count is <= 2')
+              setSelectedCompetition(competitions['0']);
+            };
+
+            // console.log(`Selected competition (App): ${selectedCompetition.name}`)
 
           } catch (error) {
               console.error(error.message);
           };
       };
       fetchData();
-  }, [setCompetitions, setSelectedCompetition]);
+  }, [setCompetitions, setSelectedCompetition, selectedCompetition.name]);
 
   useEffect(() => {
       console.log('Fixtures useEffect called')
