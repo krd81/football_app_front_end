@@ -18,21 +18,24 @@ export const UpdateUserScore = (round, fixtureId, score) => {
     4. MAKE DB CALL AND SAVE NEW DATA
     */
 
-    const matchId = allUserScores.filter(userScore => {
+    let matchId = '';
+    for (let userScore of allUserScores) {
+        if (userScore._id) {
+            matchId = userScore._id;
+        };
+    };
 
-        return userScore.user && userScore.user._id === currentUser._id
-            && userScore.competitionId == selectedCompetition.id
-            && userScore.round == round
-            && userScore.fixture_id === fixtureId;
 
-        }).map(scores => scores._id);
 
         console.log("Outputs from updateUserScore")
 
         console.log(`Filtered score._id: ${matchId}`)
 
+        // console.log(JSON.stringify(matchId));
 
-    if (matchId) {
+
+
+    if (matchId && matchId.length > 10) {
         // Match found, update the score
         const updatedScores = allUserScores.map(userScore => {
             if (matchId.includes(userScore._id)) {
@@ -48,7 +51,6 @@ export const UpdateUserScore = (round, fixtureId, score) => {
         saveNewScore();
     };
 
-    console.log(JSON.stringify(allUserScores))
 
 
     async function saveNewScore () {
@@ -68,7 +70,7 @@ export const UpdateUserScore = (round, fixtureId, score) => {
                 body: JSON.stringify(userScoreObject),
             });
         } catch (error) {
-            console.error('Failed to create/update score:', error);
+            console.error('Failed to create score:', error);
         };
     };
 
@@ -92,7 +94,7 @@ export const UpdateUserScore = (round, fixtureId, score) => {
             body: JSON.stringify(update),
           });
         } catch (error) {
-            console.error('Failed to create/update score:', error);
+            console.error('Failed to update score:', error);
           };
 
     };
