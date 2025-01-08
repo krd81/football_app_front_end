@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import useApp from '../hooks/useApp'
 
 function Prediction ({
@@ -9,6 +10,7 @@ function Prediction ({
     prediction
 }) {
     const { currentUser } = useApp();
+    const [isLocked, setIsLocked] = useState(false);
     const m = match;
     let currentPrediction;
 
@@ -51,7 +53,16 @@ function Prediction ({
             console.error('Failed to create new prediction:', error);
         };
     };
-    console.log(JSON.stringify(currentPrediction))
+    console.log(JSON.stringify(currentPrediction));
+
+    const currentTime = Date.now();
+    const matchStartTime = new Date(`${m.date}T${m.time}Z`);
+
+    // Locks prediction 5 mins before match scheduled start time
+    if ((currentTime - matchStartTime) > 300000) {
+        setIsLocked(true);
+    };
+
 
     return (
         <>
@@ -72,6 +83,7 @@ function Prediction ({
                         // value={home >=0 ? home : '0'}
                         value={currentPrediction.homePrediction}
                         onChange={e => {
+                            if (isLocked) return; // Prevent changes if isLocked is true
                             // const currentPrediction = prediction || {}; // Initialize prediction if null
                             const newHomePrediction = Number(e.target.value);
                             // Check whether the new prediction means predicted outcome is
@@ -105,6 +117,7 @@ function Prediction ({
                         max="10"
                         value={currentPrediction.awayPrediction}
                         onChange={e => {
+                            if (isLocked) return; // Prevent changes if isLocked is true
                             // const currentPrediction = prediction || {}; // Initialize prediction if null
                             const newAwayPrediction = Number(e.target.value);
                             // Check whether the new prediction means predicted outcome is
