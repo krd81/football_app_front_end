@@ -30,6 +30,57 @@ const shortName = (teamName) => {
         case 'Wolverhampton Wanderers':
             updatedName = 'Wolves';
             break;
+        case 'Sheffield United':
+            updatedName = 'Sheffield Utd';
+            break;
+        case 'Peterborough United':
+            updatedName = 'Peterborough';
+            break;
+        case 'Wycombe Wanderers':
+            updatedName = 'Wycombe';
+            break;
+        case 'Birmingham City':
+            updatedName = 'Birmingham';
+            break;
+        case 'Lincoln City':
+            updatedName = 'Lincoln';
+            break;
+        case 'Blackburn Rovers':
+            updatedName = 'Blackburn';
+            break;
+        case 'Accrington Stanley':
+            updatedName = 'Accrington';
+            break;
+        case 'Queens Park Rangers':
+            updatedName = 'QPR';
+            break;
+        case 'West Bromwich Albion':
+            updatedName = 'West Brom';
+            break;
+        case 'Plymouth Argyle':
+            updatedName = 'Plymouth';
+            break;
+        case 'Preston North End':
+            updatedName = 'Preston';
+            break;
+        case 'Charlton Athletic':
+            updatedName = 'Charlton';
+            break;
+        case 'Harrogate Town':
+            updatedName = 'Harrogate';
+            break;
+        case 'Sheffield Wednesday':
+            updatedName = 'Sheffield Wed';
+            break;
+        case 'Doncaster Rovers':
+            updatedName = 'Doncaster';
+            break;
+        case 'Stockport County':
+            updatedName = 'Stockport';
+            break;
+        case 'Dagenham & Redbridge':
+            updatedName = 'Dagenham';
+            break;
         default:
             updatedName = teamName;
     }
