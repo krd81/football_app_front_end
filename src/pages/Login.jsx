@@ -21,7 +21,7 @@ const Login = () => {
 
           if (username && password) {
             e.preventDefault();
-            // const apiUrl = import.meta.env.VITE_API_URL;
+            // const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
             const apiUrl = 'http://127.0.0.1:8005';
                 let res = await fetch(`${apiUrl}/login/`, {
                 method: 'POST',
