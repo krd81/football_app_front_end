@@ -108,8 +108,9 @@ function App() {
             setCompetitions(competitions);
             // Sets the first element of competitions[0]
             // i.e. "Premier League" as the default competition
-            setSelectedCompetition(competitions['0']);
-
+            if (!selectedCompetition.name) {
+              setSelectedCompetition(competitions['0']);
+            };
             console.log(`Selected competition (App): ${selectedCompetition.name}`)
 
           } catch (error) {

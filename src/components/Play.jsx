@@ -10,6 +10,7 @@ function Play ({ children }) {
 
 
     const rounds = useMemo(() => {
+        console.log('Play useMemo called')
         const compFixtures = [];
         for (let fixture in fixtures) {
             for (let matchElement in fixtures[fixture]) {
