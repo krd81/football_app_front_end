@@ -149,7 +149,6 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
 
     return (
         <>
-        {console.log(predictions)}
         <FixtureContext.Provider>
             <div className='match-card'>
                 <div className='card-content'>
