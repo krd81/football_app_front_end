@@ -80,10 +80,9 @@ function Prediction ({
                         size="1"
                         min="0"
                         max="10"
-                        // value={home >=0 ? home : '0'}
                         value={currentPrediction.homePrediction}
                         onChange={e => {
-                            if (isLocked) return; // Prevent changes if isLocked is true
+                            //if (isLocked) return; // Prevent changes if isLocked is true
                             // const currentPrediction = prediction || {}; // Initialize prediction if null
                             const newHomePrediction = Number(e.target.value);
                             // Check whether the new prediction means predicted outcome is
