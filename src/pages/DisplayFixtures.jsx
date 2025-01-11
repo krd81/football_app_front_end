@@ -14,10 +14,11 @@ import { UserTotalPoints } from '../components/UserTotalPoints'
 // - match status (if complete or in play)
 // - date/time (if non started)
 const DisplayFixtures = () => {
-  const { allPredictions, setAllPredictions, fixtures, results, round, currentUser, userPredictions } = useApp();
+  const { allPredictions, setAllPredictions, fixtures, selectedCompetition, results, round, currentUser, userPredictions } = useApp();
   const [editMode, setEditMode] = useState(false);
   const [matchesStarted, setMatchesStarted] = useState(false);
   const [totalPoints, setTotalPoints] = useState(0);
+  const comp = selectedCompetition;
   const nav = useNavigate();
 
 
@@ -61,27 +62,34 @@ const DisplayFixtures = () => {
 
 
   const currentFixtures = useMemo(() => {
-    return getRoundFixtures(fixtures, round)
-  }, [fixtures, round]);
+    /*
+    getRoundFixtures filters the entire list of fixtures set when the app
+    was intially launched, retaining only those that match the selected competition
+    and round
+    */
+    function getRoundFixtures (fixtures, round) {
+      const newFixtures = [];
+      for (let fixture of fixtures) {
+        for (let matchElement_1 in fixture) {
+          for (let matchElement_2 in fixture) {
+            if (matchElement_1 === 'competitionId' &&
+                  matchElement_2 === 'round' &&
+                  fixture[matchElement_1] === comp.id &&
+                    fixture[matchElement_2] === round &&
+                      !newFixtures.includes(fixture)) {
+                      newFixtures.push(fixture);
+              };
+          };
+        };
+      };
+      return newFixtures;
+    };
 
-
-  function getRoundFixtures (fixtures, round) {
-    const newFixtures = [];
-    for (let fixture in fixtures) {
-        for (let matchElement in fixtures[fixture]) {
-            if (matchElement === 'round' &&
-                  fixtures[fixture][matchElement] === round &&
-                !newFixtures.includes(fixtures[fixture])) {
-                    newFixtures.push(fixtures[fixture]);
-            }
-        }
-    }
-    return newFixtures;
-  };
+    return getRoundFixtures(fixtures, round);
+  }, [fixtures, round, comp.id]);
 
 
   const fixtureDates = getDates(currentFixtures);
-
 
 
   const handleEditButton = () => {
