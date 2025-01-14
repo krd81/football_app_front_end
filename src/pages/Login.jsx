@@ -18,11 +18,10 @@ const Login = () => {
               username: username,
               password: password
           };
-
+          console.log(import.meta.env.VITE_API_URL_FB_DB)
           if (username && password) {
             e.preventDefault();
-            // const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
-            const apiUrl = 'http://127.0.0.1:8005';
+            const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
                 let res = await fetch(`${apiUrl}/login/`, {
                 method: 'POST',
                 headers: {

@@ -23,8 +23,7 @@ function App() {
     console.log('Set Users useEffect called')
     const fetchData = async () => {
         try {
-          // const apiUrl = import.meta.env.VITE_API_URL;
-          const apiUrl = 'http://127.0.0.1:8005';
+          const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
           const result = await fetch(`${apiUrl}/user/`, {
               method: 'GET',
               headers: {
@@ -47,8 +46,7 @@ function App() {
       console.log('Predictions useEffect called')
       const fetchData = async () => {
           try {
-                // const apiUrl = import.meta.env.VITE_API_URL;
-                const apiUrl = 'http://127.0.0.1:8005';
+                const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
                 const result = await fetch(`${apiUrl}/predictions/`, {
                 method: 'GET',
                 headers: {
@@ -70,8 +68,7 @@ function App() {
       console.log('User Scores useEffect called')
       const fetchData = async () => {
           try {
-                // const apiUrl = import.meta.env.VITE_API_URL;
-                const apiUrl = 'http://127.0.0.1:8005';
+                const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
                 const result = await fetch(`${apiUrl}/userscores/competition/${selectedCompetition.id}`, {
                   method: 'GET',
                   headers: {
@@ -94,8 +91,7 @@ function App() {
 
           const fetchData = async () => {
           try {
-            // const apiUrl = import.meta.env.VITE_API_URL;
-            const apiUrl = 'http://127.0.0.1:8002';
+            const apiUrl = import.meta.env.VITE_API_URL_FB_DB;
 
             const result = await fetch(`${apiUrl}/competitions/`, {
                 method: 'GET',
@@ -124,8 +120,7 @@ function App() {
       console.log('Fixtures useEffect called')
       const fetchData = async () => {
           try {
-          // const apiUrl = import.meta.env.VITE_API_URL;
-          const apiUrl = 'http://127.0.0.1:8002';
+          const apiUrl = import.meta.env.VITE_API_URL_FB_DB;
           const fixtures = await fetch(`${apiUrl}/fixtures/`, {
             method: 'GET',
             headers: {
@@ -147,8 +142,7 @@ function App() {
       console.log('Football Results useEffect called')
       const fetchData = async () => {
           try {
-          // const apiUrl = import.meta.env.VITE_API_URL;
-          const apiUrl = 'http://127.0.0.1:8002';
+          const apiUrl = import.meta.env.VITE_API_URL_FB_DB;
           const results = await fetch(`${apiUrl}/results/`, {
             method: 'GET',
             headers: {

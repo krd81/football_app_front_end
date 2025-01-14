@@ -101,10 +101,10 @@ const DisplayFixtures = () => {
     event.preventDefault();
 
     // const apiUrl = import.meta.env.VITE_API_URL;
-    const apiUrl = 'http://127.0.0.1:8005/predictions';
+    const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
 
     for (const prediction of predictions) {
-      const url = `${apiUrl}/${prediction._id}`;
+      const url = `${apiUrl}/predictions/${prediction._id}`;
       const update = {
         homePrediction: prediction.homePrediction,
         awayPrediction: prediction.awayPrediction,

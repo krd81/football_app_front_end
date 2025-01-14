@@ -37,11 +37,12 @@ function Prediction ({
     };
 
     async function saveNewPrediction () {
-        const apiUrl = 'http://127.0.0.1:8005/predictions/';
+        const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
+        const url = `${apiUrl}/predictions`
         const method = 'POST';
 
         try {
-            await fetch(apiUrl, {
+            await fetch(url, {
                 method: method,
                 headers: {
                     'Content-Type': 'application/json',

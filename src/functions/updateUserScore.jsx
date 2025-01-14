@@ -54,10 +54,10 @@ export const UpdateUserScore = (round, fixtureId, score) => {
 
 
     async function saveNewScore () {
-    const apiUrl = 'http://127.0.0.1:8005/userscores';
+    const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
 
         const url =
-            `${apiUrl}/competition/${selectedCompetition.id}/round/${round}/user/${currentUser._id}`;
+            `${apiUrl}/userscores/competition/${selectedCompetition.id}/round/${round}/user/${currentUser._id}`;
         const method = 'POST';
 
         try {
@@ -77,8 +77,8 @@ export const UpdateUserScore = (round, fixtureId, score) => {
 
     async function updateScore () {
         // const apiUrl = import.meta.env.VITE_API_URL;
-    const apiUrl = 'http://127.0.0.1:8005/userscores';
-        const url = `${apiUrl}/${matchId}`;
+    const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
+        const url = `${apiUrl}/userscores/${matchId}`;
         const update = {
             score: score
         };
