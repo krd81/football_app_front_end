@@ -1,4 +1,4 @@
-import '../css/app.css'
+import '../css/App.css'
 import { useMemo } from "react";
 import useApp from '../hooks/useApp'
 import { CompRoundContext } from '../contexts/CompRoundContext';

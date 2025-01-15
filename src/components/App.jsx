@@ -1,4 +1,4 @@
-import '../css/app.css'
+import '../css/App.css'
 import { useEffect, useMemo, useRef } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import useApp from '../hooks/useApp'
