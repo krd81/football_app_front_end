@@ -117,7 +117,7 @@ function Prediction ({
                         max="10"
                         value={currentPrediction.awayPrediction}
                         onChange={e => {
-                            if (isLocked) return; // Prevent changes if isLocked is true
+                            //if (isLocked) return; // Prevent changes if isLocked is true
                             // const currentPrediction = prediction || {}; // Initialize prediction if null
                             const newAwayPrediction = Number(e.target.value);
                             // Check whether the new prediction means predicted outcome is

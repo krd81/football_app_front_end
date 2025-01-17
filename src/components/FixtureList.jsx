@@ -97,9 +97,9 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPredic
     // Returns the prediction object for the specific match or null if no prediction is found
     const getPrediction = (fixture) => {
         const prediction = predictions.find(pred => pred.fixture_id === fixture.fixture_id);
-        if (prediction) {
-            console.log(JSON.stringify(prediction))
-        };
+        // if (prediction) {
+        //     console.log(JSON.stringify(prediction))
+        // };
         return prediction || null;
     };
 
