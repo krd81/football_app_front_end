@@ -54,7 +54,7 @@ function Prediction ({
             console.error('Failed to create new prediction:', error);
         };
     };
-    console.log(JSON.stringify(currentPrediction));
+    // console.log(JSON.stringify(currentPrediction));
 
     const currentTime = Date.now();
     const matchStartTime = new Date(`${m.date}T${m.time}Z`);

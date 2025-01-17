@@ -44,10 +44,12 @@ export const UpdateUserScore = (round, fixtureId, score) => {
             return userScore;
         });
         setAllUserScores(updatedScores);
+        // console.log(`All User Scores: ${JSON.stringify(allUserScores)}`)
         updateScore();
     } else {
         // No match found, add new score object
         setAllUserScores([...allUserScores, userScoreObject]);
+        // console.log(`All User Scores: ${JSON.stringify(allUserScores)}`)
         saveNewScore();
     };
 

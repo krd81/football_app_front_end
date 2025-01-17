@@ -124,7 +124,7 @@ const DisplayFixtures = () => {
         });
         setAllPredictions([...predictions, prediction]);
         setEditMode(false);
-        console.log(`Predictions updated in database: ${JSON.stringify(predictions)}`)
+        // console.log(`Predictions updated in database: ${JSON.stringify(predictions)}`)
 
       } catch (error) {
         console.error('Failed to create/update listing:', error);

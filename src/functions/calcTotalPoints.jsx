@@ -16,6 +16,8 @@ function CalcPoints () {
   const totalRoundScore = userScores.reduce((total, userScore) => {
     return total + (userScore.score || 0)
   }, 0);
+  console.log(`Points for round: ${totalRoundScore}`)
+  console.log(`userScores object: ${JSON.stringify(userScores)}`)
 
   return totalRoundScore;
 
