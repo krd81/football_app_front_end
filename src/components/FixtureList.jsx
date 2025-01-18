@@ -14,8 +14,6 @@ export default function FixtureList({
     isEdit,
     // predictions,
     updatePrediction,
-    addAwayPrediction,
-    onDeletePrediction,
     matchesStarted,
     setMatchesStarted,
 }) {
@@ -31,21 +29,18 @@ export default function FixtureList({
                             isEdit={isEdit}
                             // predictionsList={predictions}
                             updatePrediction={updatePrediction}
-                            awayPrediction={addAwayPrediction}
-                            onDelete={onDeletePrediction}
                             matchesStarted
                             setMatchesStarted={setMatchesStarted}
                         />
-                </Fragment>
-        )
-        ))}
-
-    </>
-  )
+                    </Fragment>
+                )
+            ))}
+        </>
+    )
 };
 
 
-function Fixture ({ match, isEdit, predictionsList, updatePrediction, awayPrediction, onDelete, matchesStarted, setMatchesStarted }) {
+function Fixture ({ match, isEdit, predictionsList, updatePrediction, matchesStarted, setMatchesStarted }) {
     const { results, selectedCompetition, round, userPredictions } = useApp();
     const [matchStatus, setMatchStatus] = useState('NOT STARTED');
     const m = match;
