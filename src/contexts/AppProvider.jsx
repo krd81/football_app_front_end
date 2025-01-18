@@ -6,7 +6,7 @@ const AppProvider = ({ children }) => {
     const [users, setUsers] = useState([]);
     const [currentUser, setCurrentUser] = useState(() => {
       const savedUser = sessionStorage.getItem('currentUser');
-      return savedUser ? JSON.parse(savedUser) : {};
+      return savedUser === "undefined" ? {} : JSON.parse(savedUser);
     });
     const [competitions, setCompetitions] = useState([]);
     // const [selectedCompetition, setSelectedCompetition] = useState({ id: 2, tier: 1, isCup: false, isLeague: true, hasGroups: false, active: true, name: 'Premier League', nationalTeamsOnly: false });
