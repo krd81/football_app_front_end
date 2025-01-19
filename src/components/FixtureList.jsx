@@ -153,6 +153,10 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, matchesSta
                         updateMatchStatus={updateMatchStatus}
                     />
                 </div>
+                <div>
+                    {/* [DEBUG] - DISPLAY FIXTURE_ID */}
+                    {`${m.fixture_id}`}
+                </div>
                 <div className='predictions-text'>
                     <div className='grid-container'>
                         <div className='grid-item1'>
