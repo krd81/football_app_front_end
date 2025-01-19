@@ -23,25 +23,18 @@ const AppProvider = ({ children }) => {
     function showDatabaseEntries () {
         console.log('App variables - login display')
         console.log(users)
-        console.log(currentUser)
         console.log(competitions)
         console.log(selectedCompetition)
         console.log(fixtures)
         console.log(results)
         console.log(allPredictions)
         console.log(allUserScores)
-        //console.log()
     };
 
+    // Login function stores token. The current user is set in App.jsx
     const login = (newToken) => {
         sessionStorage.setItem('token', newToken)
         setToken(newToken)
-        const decodedToken = TokenDecoder(newToken);
-        const user = users.find(user => user._id === decodedToken._id);
-        if (token && user) {
-            setCurrentUser(user);
-        };
-        // user ? setCurrentUser(user) : setCurrentUser(null);
         showDatabaseEntries()
     };
 

@@ -1,5 +1,5 @@
 import '../css/App.css'
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import useApp from '../hooks/useApp'
 import TokenDecoder from '../authentication/TokenDecoder'
@@ -11,11 +11,10 @@ import Fixtures from '../pages/Fixtures'
 import DisplayFixtures from '../pages/DisplayFixtures'
 import CompetitionSelection from './CompetitionSelection';
 import GameWeekSelect from '../pages/GameWeekSelect';
-import { getPredictions } from '../functions/getPredictions.jsx';
+import { getPredictions, getUserPredictions } from '../functions/getPredictions.jsx';
 
 function App() {
   const {currentUser, setCurrentUser, setCompetitions, selectedCompetition, setSelectedCompetition, setFixtures, setResults, users, setUsers, setAllUserScores, allPredictions, setAllPredictions, setUserPredictions, token, round, setRound} = useApp();
-  const predictions = allPredictions;
 
   // Fetch calls to manage all external data required for the app
   // i.e. users/predictions from user database and
@@ -51,6 +50,23 @@ function App() {
     }
     updateAllPredictions();
   }, [setAllPredictions]);
+
+  useEffect(() => {
+    console.log('Current user/predictions useEffect called')
+    if (token && users) {
+      const decodedToken = TokenDecoder(token);
+      const user = users.find(user => user._id === decodedToken._id);
+      setCurrentUser(user);
+      sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+      console.log(JSON.stringify(user))
+
+    async function updateUserPredictions(userId) {
+      const fetchedPredictions = await getUserPredictions(userId);
+      setUserPredictions(fetchedPredictions);
+    }
+    updateUserPredictions(user._id);
+   }
+  }, [users, token, currentUser, setCurrentUser, setUserPredictions]);
 
   useEffect(() => {
       console.log('User Scores useEffect called')
@@ -148,6 +164,7 @@ function App() {
   }, [setResults]);
 
 
+  /*
   useMemo(() => {
     console.log('Current user/predictions useMemo called')
     if (token && users) {
@@ -165,7 +182,7 @@ function App() {
         setUserPredictions(filterPredictions);
     }
   }, [token, users, currentUser, setCurrentUser, setUserPredictions, allPredictions]);
-
+*/
 
   return (
     <>
