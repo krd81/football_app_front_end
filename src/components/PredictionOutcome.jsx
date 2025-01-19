@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import useApp from '../hooks/useApp'
+// import useApp from '../hooks/useApp'
 import { UpdateUserScore } from '../functions/updateUserScore';
 import '../css/PredictionOutcome.css'
 
@@ -7,15 +7,15 @@ import '../css/PredictionOutcome.css'
 // award a score
 // Scoring: 3 points = correct score | 1 point = correct result | 0 points = incorrect result
 const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction  }) => {
-    const { round } = useApp();
+    // const { round } = useApp();
     const [userScore, setUserScore] = useState(null);
-    const [icon, setIcon] = useState(
-    <svg width="75" height="75" xmlns="http://www.w3.org/2000/svg" className='svg-icon'>
-      <circle cx="37.5" cy="37.5" r="30" fill="red"/>
-      <line x1="20" y1="20" x2="55" y2="55" stroke="white" strokeWidth="10"/>
-      <line x1="20" y1="55" x2="55" y2="20" stroke="white" strokeWidth="10"/>
-    </svg>
-  );
+    const [icon, setIcon] = useState('');
+  //   <svg width="75" height="75" xmlns="http://www.w3.org/2000/svg" className='svg-icon'>
+  //     <circle cx="37.5" cy="37.5" r="30" fill="red"/>
+  //     <line x1="20" y1="20" x2="55" y2="55" stroke="white" strokeWidth="10"/>
+  //     <line x1="20" y1="55" x2="55" y2="20" stroke="white" strokeWidth="10"/>
+  //   </svg>
+  // );
 
 
 
@@ -24,7 +24,7 @@ const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction
   // Once calculated it dispatches the action of updating the user's score
   // in the predictions array
 
-  useMemo(() => {
+  // useMemo(() => {
 
     const userPrediction = prediction;
     const matchScore = finalScore; // type string e.g. '2 - 3'
@@ -37,7 +37,7 @@ const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction
 
 
     let n = 0;
-    let iconColour;
+    let iconColour = 'red';
 
     if (matchResult && matchResult === predictedResult()) {
       n += 1;
@@ -49,21 +49,32 @@ const PredictionOutcome = ({ finalScore, predictedScore, finalResult, prediction
       iconColour = 'green';
     };
 
-    if (n > 0) {
-      setIcon(
-        <svg width="75" height="75" xmlns="http://www.w3.org/2000/svg" className='svg-icon'>
-          <circle cx="37.5" cy="37.5" r="30" fill={iconColour} />
-          <path d="M22.5 37.5 L33.75 48.75 L52.5 26.25" stroke="white" strokeWidth="10" fill="none" />
+    useMemo(() => {
+      if (n > 0) {
+        setIcon(
+          <svg width="75" height="75" xmlns="http://www.w3.org/2000/svg" className='svg-icon'>
+            <circle cx="37.5" cy="37.5" r="30" fill={iconColour} />
+            <path d="M22.5 37.5 L33.75 48.75 L52.5 26.25" stroke="white" strokeWidth="10" fill="none" />
+          </svg>
+        );
+      } else {
+        setIcon(
+          <svg width="75" height="75" xmlns="http://www.w3.org/2000/svg" className='svg-icon'>
+          <circle cx="37.5" cy="37.5" r="30" fill={iconColour}/>
+          <line x1="20" y1="20" x2="55" y2="55" stroke="white" strokeWidth="10"/>
+          <line x1="20" y1="55" x2="55" y2="20" stroke="white" strokeWidth="10"/>
         </svg>
-      );
-    }
+        );
+      }
+    }, [n, iconColour])
 
-    if (matchScore && userPrediction) {
+    useMemo(() => {
+      if (matchScore && userPrediction) {
       setUserScore(n);
-      // UpdateUserScore(round, userPrediction.fixture_id, n);
-      // make call to DB to offically update score for user/fixture
-    };
-  }, [round, finalScore, predictedScore, finalResult, prediction]);
+      UpdateUserScore(userPrediction, n)
+      };
+    }, [matchScore, userPrediction, n]);
+  // }, [finalScore, predictedScore, finalResult, prediction]);
 
 
 

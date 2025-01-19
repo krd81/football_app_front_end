@@ -1,39 +1,61 @@
 import useApp from '../hooks/useApp'
 
-export const UpdateUserScore = (round, fixtureId, score) => {
-    const { selectedCompetition, allUserScores, setAllUserScores, currentUser } = useApp();
+export const UpdateUserScore = (prediction, score) => {
+    const { allUserScores, setAllUserScores } = useApp();
 
     const userScoreObject = {
-        'competitionId': selectedCompetition.id,
-        'round': round,
-        'fixture_id': fixtureId,
+        'competitionId': prediction.competitionId,
+        'round': prediction.round,
+        'fixture_id': prediction.fixture_id,
         'score': score,
-        'user': currentUser
+        'user': prediction.user
     };
     /*
     PROCESS
-    1. SEARCH 'ALLUSERSCORES' TO SEE IF A MATCH EXISTS
+    1. SEARCH 'ALLUSERSCORES' TO SEE IF THERE IS A MATCH WITH
+        THE SAME FIXTURE_ID AS THE PREDICTION PASSED AS AN ARGUMENT
     2. IF TRUE, OVER-WRITE SCORE WITH NEW SCORE
     3. IF FALSE, ADD OBJECT TO 'ALLUSERSCORES'
     4. MAKE DB CALL AND SAVE NEW DATA
     */
 
+    let matchFound = false;
+    let userScoreId = '';
+    const updatedScores = allUserScores.map(userScore => {
+        if(prediction.fixture_id === userScore.fixture_id) {
+            matchFound = true;
+            userScoreId = userScore._id;
+            return { ...userScore, score: score };
+        } else {
+            return userScore;
+        }
+
+    });
+
+    if (!matchFound) {
+        // No match found, add new score object
+        setAllUserScores([...allUserScores, userScoreObject]);
+        saveNewScore();
+        displayUserScores();
+    } else {
+        setAllUserScores(updatedScores);
+        updateScore();
+        displayUserScores();
+    };
+
+    function displayUserScores () {
+        console.log(`All User Scores: ${JSON.stringify(allUserScores)}`)
+    }
+
+/*
     let matchId = '';
     for (let userScore of allUserScores) {
         if (userScore._id) {
             matchId = userScore._id;
         };
     };
-
-
-
         console.log("Outputs from updateUserScore")
-
         console.log(`Filtered score._id: ${matchId}`)
-
-        // console.log(JSON.stringify(matchId));
-
-
 
     if (matchId && matchId.length > 10) {
         // Match found, update the score
@@ -52,14 +74,15 @@ export const UpdateUserScore = (round, fixtureId, score) => {
         // console.log(`All User Scores: ${JSON.stringify(allUserScores)}`)
         saveNewScore();
     };
-
+*/
 
 
     async function saveNewScore () {
-    const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
-
+        const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
+        console.log('saveNewScore() function called')
         const url =
-            `${apiUrl}/userscores/competition/${selectedCompetition.id}/round/${round}/user/${currentUser._id}`;
+            // `${apiUrl}/userscores/competition/${selectedCompetition.id}/round/${round}/user/${currentUser._id}`;
+            `${apiUrl}/userscores`;
         const method = 'POST';
 
         try {
@@ -78,9 +101,9 @@ export const UpdateUserScore = (round, fixtureId, score) => {
 
 
     async function updateScore () {
-        // const apiUrl = import.meta.env.VITE_API_URL;
-    const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
-        const url = `${apiUrl}/userscores/${matchId}`;
+        console.log('updateScore() function called')
+        const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
+        const url = `${apiUrl}/userscores/${userScoreId}`;
         const update = {
             score: score
         };

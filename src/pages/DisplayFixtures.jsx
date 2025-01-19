@@ -50,6 +50,10 @@ const DisplayFixtures = () => {
     setTotalPoints(pointsTotal);
   };
 
+  useMemo(() => {
+    console.log(`Total points updated - now: ${totalPoints}`);
+  }, [totalPoints])
+
   const currentFixtures = useMemo(() => {
     /*
     getRoundFixtures filters the entire list of fixtures set when the app

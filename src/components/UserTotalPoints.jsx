@@ -11,7 +11,8 @@ export const UserTotalPoints = ({ totalPoints, updatePointsTotal }) => {
     <>
         <div className='total-score'>
           <div className='score-bg'>
-            <h3 className='total-score-text'>{`${totalPoints} points`}</h3>
+            <span className='total-score-text'>{totalPoints}&nbsp;</span>
+            <span className='total-score-text'>{totalPoints === 1 ? 'point' : 'points'}</span>
           </div>
         </div>
     </>
