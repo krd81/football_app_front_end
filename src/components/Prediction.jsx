@@ -9,10 +9,22 @@ function Prediction ({
     away,
     prediction
 }) {
-    const { currentUser } = useApp();
+    const { allPredictions, userPredictions, currentUser } = useApp();
     const [isLocked, setIsLocked] = useState(false);
     const m = match;
     let currentPrediction;
+
+    function hasPredictionsLoaded(predictions) {
+        if (Array.isArray(predictions)) {
+            return predictions.length > 0;
+        } else {
+            return Object.keys(predictions).length > 0;
+        }
+    }
+
+    if (!hasPredictionsLoaded(allPredictions) || !hasPredictionsLoaded(userPredictions)) {
+        return <div>Loading...</div>
+    }
 
     // If no prediction exists, create a new one, assuming
     // initial prediction is 0-0
@@ -64,7 +76,6 @@ function Prediction ({
         setIsLocked(true);
     };
 
-
     return (
         <>
             <div className='grid-item2'>
@@ -101,7 +112,7 @@ function Prediction ({
                             // predictions away using reducer
                             updatePrediction({
                                 ...currentPrediction,
-                                homePrediction: Number(e.target.value),
+                                homePrediction: newHomePrediction,
                                 outcomePrediction: newOutcomePrediction
                             });
                         }}

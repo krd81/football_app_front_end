@@ -2,22 +2,23 @@ import { useMemo } from 'react'
 import useApp from '../hooks/useApp'
 
 function CalcPoints () {
-  const { round, allUserScores, currentUser } = useApp();
-  // console.log("calc points called");
-  // console.log(JSON.stringify(allUserScores));
-  const userScores = useMemo(() => {
-    return allUserScores.filter(scores => {
-        return scores.user && scores.user._id === currentUser._id
-            && scores.round === round
+  const { round, userScores, currentUser } = useApp();
+
+  const filteredScores = useMemo(() => {
+    console.log('CalcTotal points useMemo called')
+    if (!(Array.isArray(userScores) && currentUser)) return [];
+
+    return userScores.filter(scores => {
+        return scores.round && scores.round === round
     });
+  }, [userScores, currentUser, round]);
 
-  }, [allUserScores, currentUser._id, round]);
-
-  const totalRoundScore = userScores.reduce((total, userScore) => {
+  const totalRoundScore = filteredScores.reduce((total, userScore) => {
     return total + (userScore.score || 0)
   }, 0);
+
   console.log(`Points for round: ${totalRoundScore}`)
-  console.log(`userScores object: ${JSON.stringify(userScores)}`)
+  console.log(`allUserScores object: ${JSON.stringify(userScores)}`)
 
   return totalRoundScore;
 

@@ -1,12 +1,12 @@
-import { Fragment, useState, useMemo, useReducer } from 'react'
+import { Fragment, useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom';
 import '../css/Scores.css'
 import getDates from '../functions/getDates';
 import { dateFormatter2 } from '../functions/dateTimeFormatter'
 import useApp from '../hooks/useApp'
-import predictionsReducer from '../common/PredictionsReducer';
 import FixtureList from '../components/FixtureList';
-import { UserTotalPoints } from '../components/UserTotalPoints'
+import { UserTotalPoints } from '../components/UserTotalPoints';
+import { getUserPredictions } from '../functions/getPredictions.jsx';
 
 // This component sets up the fixtures and determines which elements are shown
 // At this point, the user has selected the competition and round
@@ -14,52 +14,45 @@ import { UserTotalPoints } from '../components/UserTotalPoints'
 // - match status (if complete or in play)
 // - date/time (if non started)
 const DisplayFixtures = () => {
-  const { allPredictions, setAllPredictions, fixtures, selectedCompetition, results, round, currentUser, userPredictions } = useApp();
+  const { fixtures, selectedCompetition, round, currentUser, userPredictions, setUserPredictions } = useApp();
   const [editMode, setEditMode] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [matchesStarted, setMatchesStarted] = useState(false);
   const [totalPoints, setTotalPoints] = useState(0);
+  const [changedPredictions, setChangedPredictions] = useState([]);
   const comp = selectedCompetition;
   const nav = useNavigate();
 
-
   // initially filter all predictions and return those belonging to the user
-  const deleteFunc = useMemo(() => {
-    return allPredictions.filter(prediction => {
-      return prediction.user && prediction.user._id === currentUser._id;
-    });
-  }, [allPredictions, currentUser._id]);
+  // useMemo(() => {
+  //   if (!(Array.isArray(allPredictions) && currentUser)) return [];
 
-
-  const [predictions, dispatch] = useReducer(predictionsReducer, userPredictions);
-
+  //   return allPredictions.filter(prediction => {
+  //     return prediction.user?._id === currentUser._id;
+  //   });
+  // }, [allPredictions, currentUser]);
 
   function handleUpdatePrediction(prediction) {
-    dispatch({
-      type: 'updatedPrediction',
-      prediction: prediction
-    })
+    const newUserPredictions = userPredictions.map((p) => {
+      if (p.fixture_id === prediction.fixture_id) {
+        // console.log(`Updated prediction: ` + JSON.stringify(prediction))
+        const unrelatedChangedPredictions = changedPredictions.filter(pred => pred._id !== prediction._id);
+        setChangedPredictions([...unrelatedChangedPredictions, prediction]);
+        return prediction;
+      } else {
+        return p;
+      }
+    });
+    setUserPredictions(newUserPredictions);
   };
 
   function setPoints (pointsTotal) {
     setTotalPoints(pointsTotal);
   };
 
-  function handleAwayPrediction(fixtureId, predictedScore) {
-    dispatch({
-      type: 'addedAway',
-      fixtureId: fixtureId,
-      awayPrediction: predictedScore
-    })
-  };
-
-  function handleDeletePrediction(fixtureId) {
-    dispatch({
-      type: 'deleted',
-      fixtureId: fixtureId
-    })
-  };
-
-
+  useMemo(() => {
+    console.log(`Total points updated - now: ${totalPoints}`);
+  }, [totalPoints])
 
   const currentFixtures = useMemo(() => {
     /*
@@ -99,11 +92,13 @@ const DisplayFixtures = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsSaving(true);
 
-    // const apiUrl = import.meta.env.VITE_API_URL;
+
     const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
+    const user = currentUser;
 
-    for (const prediction of predictions) {
+    for (const prediction of changedPredictions) {
       const url = `${apiUrl}/predictions/${prediction._id}`;
       const update = {
         homePrediction: prediction.homePrediction,
@@ -122,14 +117,16 @@ const DisplayFixtures = () => {
           },
           body: JSON.stringify(update),
         });
-        setAllPredictions([...predictions, prediction]);
-        setEditMode(false);
         // console.log(`Predictions updated in database: ${JSON.stringify(predictions)}`)
-
       } catch (error) {
         console.error('Failed to create/update listing:', error);
       };
     };
+    const fetchedPredictions = await getUserPredictions(user._id);
+    setUserPredictions(fetchedPredictions);
+    setChangedPredictions([]);
+    setIsSaving(false);
+    setEditMode(false);
   };
 
   /*  Once match status is 'FINISHED' trigger update of user
@@ -146,7 +143,7 @@ const DisplayFixtures = () => {
       <div className='title-div'>
         <h1>Predictions  - Matchweek {round}:</h1>
         <div className='edit-button-div'>
-          <button className='edit-mode-btn' onClick={handleEditButton}>{editMode ? `View Mode` : `Edit Mode`}</button>
+          <button className='edit-mode-btn' onClick={handleEditButton} disabled={isSaving}>{editMode ? `View Mode` : `Edit Mode`}</button>
         </div>
         </div>
       <div className='match-list-parent'>
@@ -166,8 +163,6 @@ const DisplayFixtures = () => {
                   isEdit={editMode}
                   // predictions={predictions}
                   updatePrediction={handleUpdatePrediction}
-                  addAwayPrediction={handleAwayPrediction}
-                  onDeletePrediction={handleDeletePrediction}
                   matchesStarted
                   setMatchesStarted={setMatchesStarted}
                 />
@@ -185,7 +180,7 @@ const DisplayFixtures = () => {
           (
             <>
               <div className='save-back-button-div'>
-                <input className='save-back-button' type="submit" value='Save Changes'></input>
+                <button className='save-back-button' type="submit" disabled={isSaving}>{isSaving ? "Saving changes..." : 'Save Changes'}</button>
               </div>
             </>
           )

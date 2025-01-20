@@ -1,5 +1,5 @@
 import '../css/App.css'
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import useApp from '../hooks/useApp'
 import TokenDecoder from '../authentication/TokenDecoder'
@@ -11,10 +11,11 @@ import Fixtures from '../pages/Fixtures'
 import DisplayFixtures from '../pages/DisplayFixtures'
 import CompetitionSelection from './CompetitionSelection';
 import GameWeekSelect from '../pages/GameWeekSelect';
+import { getPredictions, getUserPredictions } from '../functions/getPredictions.jsx';
+import { getScores, getUserScores } from '../functions/getScores.jsx';
 
 function App() {
-  const {currentUser, setCurrentUser, setCompetitions, selectedCompetition, setSelectedCompetition, setFixtures, setResults, users, setUsers, setAllUserScores, allPredictions, setAllPredictions, setUserPredictions, token, round, setRound} = useApp();
-  const predictions = allPredictions;
+  const {currentUser, setCurrentUser, setCompetitions, selectedCompetition, setSelectedCompetition, setFixtures, setResults, users, setUsers, setAllPredictions, setUserPredictions, setUserScores, token, round, setRound} = useApp();
 
   // Fetch calls to manage all external data required for the app
   // i.e. users/predictions from user database and
@@ -43,48 +44,35 @@ function App() {
 
 
   useEffect(() => {
+    async function updateAllPredictions() {
       console.log('Predictions useEffect called')
-      const fetchData = async () => {
-          try {
-                const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
-                const result = await fetch(`${apiUrl}/predictions/`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `null`
-                }
-              });
-                const predictionsList = await result.json();
-                setAllPredictions(predictionsList);
-
-          } catch (error) {
-              console.error(error.message);
-          };
-      };
-      fetchData();
+      const fetchedPredictions = await getPredictions();
+      setAllPredictions(fetchedPredictions);
+    }
+    updateAllPredictions();
   }, [setAllPredictions]);
 
-  useEffect(() => {
-      console.log('User Scores useEffect called')
-      const fetchData = async () => {
-          try {
-                const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
-                const result = await fetch(`${apiUrl}/userscores/competition/${selectedCompetition.id}`, {
-                  method: 'GET',
-                  headers: {
-                      'Content-Type': 'application/json',
-                      'Authorization': `null`
-                  }
-                });
-                const selectedCompUserScores = await result.json();
-                setAllUserScores(selectedCompUserScores);
 
-          } catch (error) {
-              console.error(error.message);
-          };
-      };
-      fetchData();
-  }, [setAllUserScores, selectedCompetition.id]);
+  useEffect(() => {
+    console.log('Current user/predictions/scores useEffect called')
+    if (token && users) {
+      const decodedToken = TokenDecoder(token);
+      const user = users.find(user => user._id === decodedToken._id);
+      setCurrentUser(user);
+      sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+      console.log(JSON.stringify(user))
+
+    async function updateUserData(userId) {
+      const fetchedPredictions = await getUserPredictions(userId);
+      const fetchedScores = await getUserScores(userId);
+      setUserPredictions(fetchedPredictions);
+      setUserScores(fetchedScores);
+    }
+    updateUserData(user._id);
+   }
+  }, [users, token, currentUser, setCurrentUser, setUserPredictions, setUserScores]);
+
+
 
   useEffect(() => {
       console.log('Competitions useEffect called')
@@ -160,6 +148,7 @@ function App() {
   }, [setResults]);
 
 
+  /*
   useMemo(() => {
     console.log('Current user/predictions useMemo called')
     if (token && users) {
@@ -168,17 +157,16 @@ function App() {
         setCurrentUser(user);
         sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
 
-        const filterPredictions = Array.isArray(predictions) ? predictions.filter(prediction => {
+        const filterPredictions = Array.isArray(allPredictions) ? allPredictions.filter(prediction => {
           return prediction.user && prediction.user._id === user._id;
-        }) : Object.values(predictions).filter(prediction => {
+        }) : Object.values(allPredictions).filter(prediction => {
           return prediction.user && prediction.user._id === user._id;
         });
 
         setUserPredictions(filterPredictions);
-
     }
-    }, [token, users, currentUser, setCurrentUser, setUserPredictions, predictions]);
-
+  }, [token, users, currentUser, setCurrentUser, setUserPredictions, allPredictions]);
+*/
 
   return (
     <>

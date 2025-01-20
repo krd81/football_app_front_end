@@ -6,7 +6,7 @@ const AppProvider = ({ children }) => {
     const [users, setUsers] = useState([]);
     const [currentUser, setCurrentUser] = useState(() => {
       const savedUser = sessionStorage.getItem('currentUser');
-      return savedUser ? JSON.parse(savedUser) : {};
+      return savedUser === "undefined" ? {} : JSON.parse(savedUser);
     });
     const [competitions, setCompetitions] = useState([]);
     // const [selectedCompetition, setSelectedCompetition] = useState({ id: 2, tier: 1, isCup: false, isLeague: true, hasGroups: false, active: true, name: 'Premier League', nationalTeamsOnly: false });
@@ -15,6 +15,7 @@ const AppProvider = ({ children }) => {
     const [results, setResults] = useState([]);
     const [allPredictions, setAllPredictions] = useState({});
     const [userPredictions, setUserPredictions] = useState({});
+    const [userScores, setUserScores] = useState({});
     const [allUserScores, setAllUserScores] = useState({});
     const [token, setToken] = useState(() => sessionStorage.getItem('token'));
     const [round, setRound] = useState('');
@@ -23,25 +24,18 @@ const AppProvider = ({ children }) => {
     function showDatabaseEntries () {
         console.log('App variables - login display')
         console.log(users)
-        console.log(currentUser)
         console.log(competitions)
         console.log(selectedCompetition)
         console.log(fixtures)
         console.log(results)
-        console.log(allPredictions)
-        console.log(allUserScores)
-        //console.log()
+        console.log(userPredictions)
+        console.log(userScores)
     };
 
+    // Login function stores token. The current user is set in App.jsx
     const login = (newToken) => {
         sessionStorage.setItem('token', newToken)
         setToken(newToken)
-        const decodedToken = TokenDecoder(newToken);
-        const user = users.find(user => user._id === decodedToken._id);
-        if (token && user) {
-            setCurrentUser(user);
-        };
-        // user ? setCurrentUser(user) : setCurrentUser(null);
         showDatabaseEntries()
     };
 
@@ -62,6 +56,7 @@ const AppProvider = ({ children }) => {
         results, setResults,
         allPredictions, setAllPredictions,
         userPredictions, setUserPredictions,
+        userScores, setUserScores,
         allUserScores, setAllUserScores,
         round, setRound,
         token,
