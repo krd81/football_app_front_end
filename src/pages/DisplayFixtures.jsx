@@ -6,7 +6,7 @@ import { dateFormatter2 } from '../functions/dateTimeFormatter'
 import useApp from '../hooks/useApp'
 import FixtureList from '../components/FixtureList';
 import { UserTotalPoints } from '../components/UserTotalPoints';
-import { getPredictions } from '../functions/getPredictions.jsx';
+import { getUserPredictions } from '../functions/getPredictions.jsx';
 
 // This component sets up the fixtures and determines which elements are shown
 // At this point, the user has selected the competition and round
@@ -14,7 +14,7 @@ import { getPredictions } from '../functions/getPredictions.jsx';
 // - match status (if complete or in play)
 // - date/time (if non started)
 const DisplayFixtures = () => {
-  const { allPredictions, setAllPredictions, fixtures, selectedCompetition, round, currentUser, userPredictions, setUserPredictions } = useApp();
+  const { fixtures, selectedCompetition, round, currentUser, userPredictions, setUserPredictions } = useApp();
   const [editMode, setEditMode] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [matchesStarted, setMatchesStarted] = useState(false);
@@ -24,13 +24,13 @@ const DisplayFixtures = () => {
   const nav = useNavigate();
 
   // initially filter all predictions and return those belonging to the user
-  useMemo(() => {
-    if (!(Array.isArray(allPredictions) && currentUser)) return [];
+  // useMemo(() => {
+  //   if (!(Array.isArray(allPredictions) && currentUser)) return [];
 
-    return allPredictions.filter(prediction => {
-      return prediction.user?._id === currentUser._id;
-    });
-  }, [allPredictions, currentUser]);
+  //   return allPredictions.filter(prediction => {
+  //     return prediction.user?._id === currentUser._id;
+  //   });
+  // }, [allPredictions, currentUser]);
 
   function handleUpdatePrediction(prediction) {
     const newUserPredictions = userPredictions.map((p) => {
@@ -94,8 +94,9 @@ const DisplayFixtures = () => {
     event.preventDefault();
     setIsSaving(true);
 
-    // const apiUrl = import.meta.env.VITE_API_URL;
+
     const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
+    const user = currentUser;
 
     for (const prediction of changedPredictions) {
       const url = `${apiUrl}/predictions/${prediction._id}`;
@@ -121,8 +122,8 @@ const DisplayFixtures = () => {
         console.error('Failed to create/update listing:', error);
       };
     };
-    const fetchedPredictions = await getPredictions();
-    setAllPredictions(fetchedPredictions);
+    const fetchedPredictions = await getUserPredictions(user._id);
+    setUserPredictions(fetchedPredictions);
     setChangedPredictions([]);
     setIsSaving(false);
     setEditMode(false);

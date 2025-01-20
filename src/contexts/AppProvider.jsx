@@ -15,6 +15,7 @@ const AppProvider = ({ children }) => {
     const [results, setResults] = useState([]);
     const [allPredictions, setAllPredictions] = useState({});
     const [userPredictions, setUserPredictions] = useState({});
+    const [userScores, setUserScores] = useState({});
     const [allUserScores, setAllUserScores] = useState({});
     const [token, setToken] = useState(() => sessionStorage.getItem('token'));
     const [round, setRound] = useState('');
@@ -27,8 +28,8 @@ const AppProvider = ({ children }) => {
         console.log(selectedCompetition)
         console.log(fixtures)
         console.log(results)
-        console.log(allPredictions)
-        console.log(allUserScores)
+        console.log(userPredictions)
+        console.log(userScores)
     };
 
     // Login function stores token. The current user is set in App.jsx
@@ -55,6 +56,7 @@ const AppProvider = ({ children }) => {
         results, setResults,
         allPredictions, setAllPredictions,
         userPredictions, setUserPredictions,
+        userScores, setUserScores,
         allUserScores, setAllUserScores,
         round, setRound,
         token,

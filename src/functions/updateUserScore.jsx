@@ -1,7 +1,7 @@
 import useApp from '../hooks/useApp'
 
 export const UpdateUserScore = (prediction, score) => {
-    const { allUserScores, setAllUserScores } = useApp();
+    const { userScores, setUserScores } = useApp();
 
     const userScoreObject = {
         'competitionId': prediction.competitionId,
@@ -21,7 +21,7 @@ export const UpdateUserScore = (prediction, score) => {
 
     let matchFound = false;
     let userScoreId = '';
-    const updatedScores = allUserScores.map(userScore => {
+    const updatedScores = userScores.map(userScore => {
         if(prediction.fixture_id === userScore.fixture_id) {
             matchFound = true;
             userScoreId = userScore._id;
@@ -34,17 +34,17 @@ export const UpdateUserScore = (prediction, score) => {
 
     if (!matchFound) {
         // No match found, add new score object
-        setAllUserScores([...allUserScores, userScoreObject]);
+        setUserScores([...userScores, userScoreObject]);
         saveNewScore();
         displayUserScores();
     } else {
-        setAllUserScores(updatedScores);
+        setUserScores(updatedScores);
         updateScore();
         displayUserScores();
     };
 
     function displayUserScores () {
-        console.log(`All User Scores: ${JSON.stringify(allUserScores)}`)
+        console.log(`All User Scores: ${JSON.stringify(userScores)}`)
     }
 
 /*
