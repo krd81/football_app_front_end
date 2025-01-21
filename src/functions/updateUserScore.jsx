@@ -47,41 +47,11 @@ export const UpdateUserScore = (prediction, score) => {
         console.log(`All User Scores: ${JSON.stringify(userScores)}`)
     }
 
-/*
-    let matchId = '';
-    for (let userScore of allUserScores) {
-        if (userScore._id) {
-            matchId = userScore._id;
-        };
-    };
-        console.log("Outputs from updateUserScore")
-        console.log(`Filtered score._id: ${matchId}`)
-
-    if (matchId && matchId.length > 10) {
-        // Match found, update the score
-        const updatedScores = allUserScores.map(userScore => {
-            if (matchId.includes(userScore._id)) {
-                return { ...userScore, score: score };
-            };
-            return userScore;
-        });
-        setAllUserScores(updatedScores);
-        // console.log(`All User Scores: ${JSON.stringify(allUserScores)}`)
-        updateScore();
-    } else {
-        // No match found, add new score object
-        setAllUserScores([...allUserScores, userScoreObject]);
-        // console.log(`All User Scores: ${JSON.stringify(allUserScores)}`)
-        saveNewScore();
-    };
-*/
-
 
     async function saveNewScore () {
         const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
         console.log('saveNewScore() function called')
         const url =
-            // `${apiUrl}/userscores/competition/${selectedCompetition.id}/round/${round}/user/${currentUser._id}`;
             `${apiUrl}/userscores`;
         const method = 'POST';
 
