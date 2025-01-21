@@ -1,7 +1,5 @@
-import useApp from '../hooks/useApp'
+export const updateUserScore = (userScores, setUserScores, prediction, score) => {
 
-export const UpdateUserScore = (prediction, score) => {
-    const { userScores, setUserScores } = useApp();
 
     const userScoreObject = {
         'competitionId': prediction.competitionId,
