@@ -44,8 +44,8 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, matchesSta
     const { results, selectedCompetition, round, userPredictions } = useApp();
     const [matchStatus, setMatchStatus] = useState('NOT STARTED');
     const m = match;
-    const allResults = results;
-    const predictions = userPredictions;
+    const allResults = Array.isArray(results) ? results : [];;
+    const predictions = Array.isArray(userPredictions) ? userPredictions : [];;
 
     if (!userPredictions) {
         throw new Error('User Predictions array is null');

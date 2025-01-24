@@ -14,7 +14,8 @@ import { getUserPredictions } from '../functions/getPredictions.jsx';
 // - match status (if complete or in play)
 // - date/time (if non started)
 const DisplayFixtures = () => {
-  const { fixtures, selectedCompetition, round, currentUser, userPredictions, setUserPredictions } = useApp();
+  let { fixtures, selectedCompetition, round, currentUser, userPredictions, setUserPredictions } = useApp();
+  userPredictions = Array.isArray(userPredictions) ? userPredictions : [];
   const [editMode, setEditMode] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [matchesStarted, setMatchesStarted] = useState(false);

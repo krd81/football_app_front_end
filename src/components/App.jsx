@@ -68,7 +68,7 @@ function App() {
       setUserPredictions(fetchedPredictions);
       setUserScores(fetchedScores);
     }
-    updateUserData(user._id);
+    currentUser ? updateUserData(currentUser._id) : null;
    }
   }, [users, token, currentUser, setCurrentUser, setUserPredictions, setUserScores]);
 
