@@ -19,6 +19,7 @@ function CalcPoints () {
 
   console.log(`Points for round: ${totalRoundScore}`)
   console.log(`allUserScores object: ${JSON.stringify(userScores)}`)
+  console.log(`filtered scores: ${JSON.stringify(filteredScores)}`)
 
   return totalRoundScore;
 
