@@ -9,10 +9,11 @@ function Prediction ({
     away,
     prediction
 }) {
-    const { allPredictions, userPredictions, currentUser } = useApp();
+    let { allPredictions, userPredictions, setUserPredictions, currentUser } = useApp();
+    userPredictions = Array.isArray(userPredictions) ? userPredictions : [];
     const [isLocked, setIsLocked] = useState(false);
     const m = match;
-    let currentPrediction;
+    let currentPrediction = null;
 
     function hasPredictionsLoaded(predictions) {
         if (Array.isArray(predictions)) {
@@ -20,16 +21,25 @@ function Prediction ({
         } else {
             return Object.keys(predictions).length > 0;
         }
-    }
+    };
 
-    if (!hasPredictionsLoaded(allPredictions) || !hasPredictionsLoaded(userPredictions)) {
+    // if (!hasPredictionsLoaded(allPredictions) || !hasPredictionsLoaded(userPredictions)) {
+    if (!hasPredictionsLoaded(userPredictions)) {
         return <div>Loading...</div>
-    }
+    };
+
+
 
     // If no prediction exists, create a new one, assuming
     // initial prediction is 0-0
     // Save to DB
-    if (prediction == null) {
+    userPredictions.map((p) => {
+        if (p.fixture_id === m.fixture_id) {
+            currentPrediction = p;
+        }
+    });
+
+    if (currentPrediction == null) {
         console.log(`Prediction for match id ${m.fixture_id} is null`)
         currentPrediction = {
             competitionId: m.competitionId,
@@ -43,10 +53,25 @@ function Prediction ({
             outcomePrediction: 'X',
             user: currentUser
         };
-        saveNewPrediction();
-    } else {
-        currentPrediction = prediction;
+        getPrediction();
+        setUserPredictions(...userPredictions, currentPrediction);
     };
+
+    async function getPrediction () {
+        try {
+            const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
+            await fetch(`${apiUrl}/predictions/user/${currentUser._id}/fixture/${m.fixture_id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `null`
+                }
+            });
+        } catch {
+            saveNewPrediction();
+        };
+
+    }
 
     async function saveNewPrediction () {
         const apiUrl = import.meta.env.VITE_API_URL_USER_DB;

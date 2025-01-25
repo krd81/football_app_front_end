@@ -193,9 +193,10 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, matchesSta
                     </div>
                     <div className='outcome-div'>
                         <PredictionOutcome
-                            finalScore={getFinalScore(m) || null}
+                            match={m}
+                            finalScore={getFinalScore(m) || null} // e.g. 0-0
                             predictedScore={`${getHomePrediction(m) || '0'} - ${getAwayPrediction(m) || '0'}`}
-                            finalResult={getFinalResult(m) || null}
+                            finalResult={getFinalResult(m) || null} // e.g. 'X' - draw
                             prediction={getPrediction(m) || null}
                         />
                     </div>

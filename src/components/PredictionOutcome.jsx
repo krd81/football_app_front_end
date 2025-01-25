@@ -7,23 +7,33 @@ import '../css/PredictionOutcome.css';
 // award a score
 // Scoring: 3 points = correct score | 1 point = correct result | 0 points = incorrect result
 const PredictionOutcome = ({
+    match,
     finalScore,
-    predictedScore,
     finalResult,
-    prediction,
 }) => {
-    const { userScores, setUserScores } = useApp();
-    const [userScore, setUserScore] = useState(null);
+    let { userScores, setUserScores, userPredictions } = useApp();
+    userPredictions = Array.isArray(userPredictions) ? userPredictions : [];
+    const [userScore, setUserScore] = useState(0);
     const [icon, setIcon] = useState('');
 
-    const userPrediction = prediction;
     const matchScore = finalScore; // type string e.g. '2 - 3'
     const matchResult = finalResult; // 1, 2, X
-    const predScore = predictedScore;
+    const m = match;
+    let userPrediction = null;
+
+    userPredictions.map((p) => {
+        if (p.fixture_id === m.fixture_id) {
+            userPrediction = p;
+        }
+    });
 
     const predictedResult = () => {
         return userPrediction?.outcomePrediction; // 1, 2, X
     };
+
+    const predictedScore = () => {
+        return `${userPrediction?.homePrediction} - ${userPrediction?.awayPrediction}`
+    }
 
     let score = 0;
     let iconColour = 'red';
@@ -33,7 +43,7 @@ const PredictionOutcome = ({
         iconColour = 'orange';
     }
 
-    if (matchScore && matchScore === predScore) {
+    if (matchScore && matchScore === predictedScore()) {
         score += 2;
         iconColour = 'green';
     }
@@ -86,6 +96,7 @@ const PredictionOutcome = ({
         }
     }, [score, iconColour]);
 
+    // userScores and setUserScores are not included as dependencies to avoid infinite loop
     useMemo(() => {
         if (matchScore && userPrediction) {
             setUserScore(score);

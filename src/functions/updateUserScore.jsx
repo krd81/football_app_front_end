@@ -10,7 +10,7 @@ export const updateUserScore = (userScores, setUserScores, prediction, score) =>
     };
     /*
     PROCESS
-    1. SEARCH 'ALLUSERSCORES' TO SEE IF THERE IS A MATCH WITH
+    1. SEARCH 'USERSCORES' TO SEE IF THERE IS A MATCH WITH
         THE SAME FIXTURE_ID AS THE PREDICTION PASSED AS AN ARGUMENT
     2. IF TRUE, OVER-WRITE SCORE WITH NEW SCORE
     3. IF FALSE, ADD OBJECT TO 'ALLUSERSCORES'
@@ -22,7 +22,10 @@ export const updateUserScore = (userScores, setUserScores, prediction, score) =>
     const updatedScores = userScores.map(userScore => {
         if(prediction.fixture_id === userScore.fixture_id) {
             matchFound = true;
+            console.log(`match found is true`);
             userScoreId = userScore._id;
+            console.log(`Matching fixture is: ${JSON.stringify(userScore)}`);
+            console.log(`Matching fixture id is: ${userScore._id}`);
             return { ...userScore, score: score };
         } else {
             return userScore;
