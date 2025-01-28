@@ -16,6 +16,7 @@ export const getPredictions = async () => {
 };
 
 export const getUserPredictions = async (userId) => {
+  console.log(`getUserPredictions called for ${userId}`)
   try {
     const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
     const result = await fetch(`${apiUrl}/predictions/user/${userId}`, {
@@ -26,6 +27,7 @@ export const getUserPredictions = async (userId) => {
       }
     });
     const predictionsList = await result.json();
+    console.log(`getUserPredictions result: ${JSON.stringify(predictionsList)}`)
     return predictionsList;
   } catch (error) {
     console.error(error.message);

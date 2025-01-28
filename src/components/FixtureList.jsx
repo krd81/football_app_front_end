@@ -6,6 +6,7 @@ import Prediction from './Prediction';
 import FinalScore from './FinalScore';
 import PredictionOutcome from './PredictionOutcome';
 import shortName from '../functions/nameAbbreviation';
+import { savePrediction } from '../functions/postPredictions';
 import '../css/MatchCard.css';
 
 export default function FixtureList({
@@ -41,11 +42,11 @@ export default function FixtureList({
 
 
 function Fixture ({ match, isEdit, predictionsList, updatePrediction, matchesStarted, setMatchesStarted }) {
-    const { results, selectedCompetition, round, userPredictions } = useApp();
+    let { results, selectedCompetition, round, userPredictions, setUserPredictions, currentUser } = useApp();
     const [matchStatus, setMatchStatus] = useState('NOT STARTED');
     const m = match;
     const allResults = Array.isArray(results) ? results : [];;
-    const predictions = Array.isArray(userPredictions) ? userPredictions : [];;
+    userPredictions = Array.isArray(userPredictions) ? userPredictions : [];;
 
     if (!userPredictions) {
         throw new Error('User Predictions array is null');
@@ -78,24 +79,38 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, matchesSta
     // Returns the number of goals predicted for the home team
     // Returns null if no prediction is found
     const getHomePrediction = (fixture) => {
-        const prediction = predictions.find(pred => pred.fixture_id === fixture.fixture_id);
-        return prediction ? prediction.homePrediction : '';
+        const prediction = userPredictions.find(pred => pred.fixture_id === fixture.fixture_id);
+        return prediction ? prediction.homePrediction : 0;
     };
 
     // Returns the number of goals predicted for the away team
     // Returns null if no prediction is found
     const getAwayPrediction = (fixture) => {
-        const prediction = predictions.find(pred => pred.fixture_id === fixture.fixture_id);
-        return prediction ? prediction.awayPrediction : '';
+        const prediction = userPredictions.find(pred => pred.fixture_id === fixture.fixture_id);
+        return prediction ? prediction.awayPrediction : 0;
     };
 
     // Returns the prediction object for the specific match or null if no prediction is found
     const getPrediction = (fixture) => {
-        const prediction = predictions.find(pred => pred.fixture_id === fixture.fixture_id);
-        // if (prediction) {
-        //     console.log(JSON.stringify(prediction))
-        // };
-        return prediction || null;
+        let prediction = userPredictions.find(pred => pred.fixture_id === fixture.fixture_id);
+        if (!prediction) {
+            prediction = {
+                competitionId: fixture.competitionId,
+                round: fixture.round,
+                groupId: fixture.groupId,
+                fixture_id: fixture.fixture_id,
+                homeName: fixture.homeName,
+                awayName: fixture.awayName,
+                homePrediction: 0,
+                awayPrediction: 0,
+                outcomePrediction: 'X',
+                user: currentUser
+            };
+            // setUserPredictions(...userPredictions, prediction);
+            savePrediction(prediction);
+        };
+        // return prediction || null;
+        return prediction;
     };
 
     // Returns the actual score (string e.g. '3 - 2') or null if not found

@@ -13,7 +13,7 @@ function Prediction ({
     userPredictions = Array.isArray(userPredictions) ? userPredictions : [];
     const [isLocked, setIsLocked] = useState(false);
     const m = match;
-    let currentPrediction = null;
+    let currentPrediction = prediction;
 
     function hasPredictionsLoaded(predictions) {
         if (Array.isArray(predictions)) {
@@ -28,70 +28,6 @@ function Prediction ({
         return <div>Loading...</div>
     };
 
-
-
-    // If no prediction exists, create a new one, assuming
-    // initial prediction is 0-0
-    // Save to DB
-    userPredictions.map((p) => {
-        if (p.fixture_id === m.fixture_id) {
-            currentPrediction = p;
-        }
-    });
-
-    if (currentPrediction == null) {
-        console.log(`Prediction for match id ${m.fixture_id} is null`)
-        currentPrediction = {
-            competitionId: m.competitionId,
-            round: m.round,
-            groupId: m.groupId,
-            fixture_id: m.fixture_id,
-            homeName: m.homeName,
-            awayName: m.awayName,
-            homePrediction: 0,
-            awayPrediction: 0,
-            outcomePrediction: 'X',
-            user: currentUser
-        };
-        getPrediction();
-        setUserPredictions(...userPredictions, currentPrediction);
-    };
-
-    async function getPrediction () {
-        try {
-            const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
-            await fetch(`${apiUrl}/predictions/user/${currentUser._id}/fixture/${m.fixture_id}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `null`
-                }
-            });
-        } catch {
-            saveNewPrediction();
-        };
-
-    }
-
-    async function saveNewPrediction () {
-        const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
-        const url = `${apiUrl}/predictions`
-        const method = 'POST';
-
-        try {
-            await fetch(url, {
-                method: method,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-                },
-                body: JSON.stringify(currentPrediction),
-            });
-        } catch (error) {
-            console.error('Failed to create new prediction:', error);
-        };
-    };
-    // console.log(JSON.stringify(currentPrediction));
 
     const currentTime = Date.now();
     const matchStartTime = new Date(`${m.date}T${m.time}Z`);
