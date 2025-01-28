@@ -1,5 +1,6 @@
 import '../css/App.css'
 import { useEffect } from "react";
+import { useQuery } from 'react-query';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import useApp from '../hooks/useApp'
 import TokenDecoder from '../authentication/TokenDecoder'
@@ -11,162 +12,197 @@ import Fixtures from '../pages/Fixtures'
 import DisplayFixtures from '../pages/DisplayFixtures'
 import CompetitionSelection from './CompetitionSelection';
 import GameWeekSelect from '../pages/GameWeekSelect';
-import { getPredictions, getUserPredictions } from '../functions/getPredictions.jsx';
-import { getScores, getUserScores } from '../functions/getScores.jsx';
+import { getUserPredictions } from '../functions/getPredictions.jsx';
+import { getUserScores } from '../functions/getScores.jsx';
 
 function App() {
-  const {currentUser, setCurrentUser, setCompetitions, selectedCompetition, setSelectedCompetition, setFixtures, setResults, users, setUsers, setAllPredictions, setUserPredictions, setUserScores, token, round, setRound} = useApp();
+  const {currentUser, setCurrentUser, setCompetitions, selectedCompetition, setSelectedCompetition, setFixtures, setResults, setUsers, setUserPredictions, setUserScores, token, round, setRound} = useApp();
 
   // Fetch calls to manage all external data required for the app
   // i.e. users/predictions from user database and
   // football fixtures/scores/results from football database
-  useEffect(() => {
-    console.log('Set Users useEffect called')
-    const fetchData = async () => {
-        try {
-          const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
-          const result = await fetch(`${apiUrl}/user/`, {
-              method: 'GET',
-              headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `null`
-              }
-          });
-          const users = await result.json();
-          setUsers(users);
 
-        } catch (error) {
-            console.error(error.message);
-        };
+  const fetchUsers = async () => {
+    console.log('Fetch All Users called')
+    const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
+    const response = await fetch(`${apiUrl}/user/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `null`
+        }
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
     };
-    fetchData();
-  }, [setUsers]);
 
+    return response.json();
+  };
+
+  const fetchUserData = async (userId) => {
+    console.log('Fetch UserData called')
+    const [predictions, scores] = await Promise.all([
+      getUserPredictions(userId),
+      getUserScores(userId),
+    ]);
+    return { predictions, scores };
+  };
+
+  const fetchCompetitions = async () => {
+    console.log('Fetch Competitions called')
+    const apiUrl = import.meta.env.VITE_API_URL_FB_DB;
+    const response = await fetch(`${apiUrl}/competitions/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `null`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    };
+    return response.json();
+  };
+
+
+  const fetchFixtureData = async () => {
+    console.log('Fetch FixtureData called')
+    const apiUrl = import.meta.env.VITE_API_URL_FB_DB;
+    const response = await fetch(`${apiUrl}/fixtures/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `null`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    };
+    return response.json();
+
+  };
+
+
+  const fetchResultsData = async () => {
+    console.log('Fetch ResultsData called')
+    const apiUrl = import.meta.env.VITE_API_URL_FB_DB;
+    const response = await fetch(`${apiUrl}/results/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `null`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    };
+    return response.json();
+  };
+
+
+
+  const { data: allUsers, isLoading: isUsersLoading } = useQuery(
+    'users',
+    fetchUsers
+  );
 
   useEffect(() => {
-    async function updateAllPredictions() {
-      console.log('Predictions useEffect called')
-      const fetchedPredictions = await getPredictions();
-      setAllPredictions(fetchedPredictions);
+    console.log('All users useEffect called');
+    if (allUsers) {
+      setUsers(allUsers);
+    };
+  }, [allUsers, setUsers]);
+
+
+
+  const { data: userData, isLoading: isUserDataLoading } = useQuery(
+    ['userData', currentUser?._id],
+    () => fetchUserData(currentUser._id),
+    { enabled: !!currentUser }
+  );
+
+  useEffect(() => {
+    console.log('User data useEffect called');
+    if (userData) {
+      setUserPredictions(userData.predictions);
+      setUserScores(userData.scores);
     }
-    updateAllPredictions();
-  }, [setAllPredictions]);
+  }, [userData, setUserPredictions, setUserScores]);
+
+
+
+  const { data: competitions, isLoading: isCompetitionsLoading } = useQuery(
+    'competitions',
+    fetchCompetitions
+  );
+
+  useEffect(() => {
+    if (competitions) {
+      setCompetitions(competitions);
+
+      const premierLeague = competitions.find(comp => comp.name === 'Premier League');
+
+      // Sets the first element of competitions[0]
+      // i.e. "Premier League" as the default competition
+      if (!selectedCompetition.name) {
+        setSelectedCompetition(premierLeague);
+      };
+    };
+    console.log(`Selected competition (App): ${selectedCompetition.name}`)
+
+  }, [competitions, setCompetitions, setSelectedCompetition, selectedCompetition.name]);
+
+
+
+  const { data: fixtures, isLoading: isFixturesLoading } = useQuery(
+    'fixtureData',
+    fetchFixtureData
+  );
+
+  useEffect(() => {
+    console.log('Fixtures useEffect called');
+    if(fixtures) {
+      setFixtures(fixtures);
+    };
+  }, [fixtures, setFixtures]);
+
+
+
+  const { data: results, isLoading: isResultsLoading } = useQuery(
+    'resultsData',
+    fetchResultsData
+  );
+
+  useEffect(() => {
+    console.log(' useEffect called');
+    if(results) {
+      setResults(results);
+    };
+
+  }, [results, setResults]);
 
 
   useEffect(() => {
-    console.log('Current user/predictions/scores useEffect called')
-    if (token && users) {
+    console.log('Current user/predictions/scores useEffect called');
+
+    if (token && allUsers) {
       const decodedToken = TokenDecoder(token);
-      const user = users.find(user => user._id === decodedToken._id);
+
+      const user = allUsers.find(user => user._id === decodedToken._id);
       setCurrentUser(user);
-      sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
-      console.log(JSON.stringify(user))
-
-    async function updateUserData(userId) {
-      const fetchedPredictions = await getUserPredictions(userId);
-      const fetchedScores = await getUserScores(userId);
-      setUserPredictions(fetchedPredictions);
-      setUserScores(fetchedScores);
-    }
-    currentUser ? updateUserData(currentUser._id) : null;
-   }
-  }, [users, token, currentUser, setCurrentUser, setUserPredictions, setUserScores]);
+      sessionStorage.setItem('currentUser', JSON.stringify(user));
+      console.log(JSON.stringify(user));
+    };
+  }, [allUsers, token, setCurrentUser]);
 
 
 
-  useEffect(() => {
-      console.log('Competitions useEffect called')
 
-          const fetchData = async () => {
-          try {
-            const apiUrl = import.meta.env.VITE_API_URL_FB_DB;
-
-            const result = await fetch(`${apiUrl}/competitions/`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `null`
-                }
-            });
-            const competitions = await result.json();
-            setCompetitions(competitions);
-            // Sets the first element of competitions[0]
-            // i.e. "Premier League" as the default competition
-            if (!selectedCompetition.name) {
-              setSelectedCompetition(competitions['0']);
-            };
-            console.log(`Selected competition (App): ${selectedCompetition.name}`)
-
-          } catch (error) {
-              console.error(error.message);
-          };
-      };
-      fetchData();
-  }, [setCompetitions, setSelectedCompetition, selectedCompetition.name]);
-
-  useEffect(() => {
-      console.log('Fixtures useEffect called')
-      const fetchData = async () => {
-          try {
-          const apiUrl = import.meta.env.VITE_API_URL_FB_DB;
-          const fixtures = await fetch(`${apiUrl}/fixtures/`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `null`
-            }
-          });
-          const fixtureData = await fixtures.json();
-          setFixtures(fixtureData);
-
-          } catch (error) {
-              console.error(error.message);
-          };
-      };
-      fetchData();
-  }, [setFixtures]);
-
-  useEffect(() => {
-      console.log('Football Results useEffect called')
-      const fetchData = async () => {
-          try {
-          const apiUrl = import.meta.env.VITE_API_URL_FB_DB;
-          const results = await fetch(`${apiUrl}/results/`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `null`
-            }
-          });
-          const resultsData = await results.json();
-          setResults(resultsData);
-          } catch (error) {
-              console.error(error.message);
-          };
-      };
-      fetchData();
-  }, [setResults]);
+  if (isUserDataLoading || isCompetitionsLoading || isUsersLoading || isFixturesLoading || isResultsLoading) {
+    return <div>Loading...</div>;
+  }
 
 
-  /*
-  useMemo(() => {
-    console.log('Current user/predictions useMemo called')
-    if (token && users) {
-        const decodedToken = TokenDecoder(token);
-        const user = users.find(user => user._id === decodedToken._id);
-        setCurrentUser(user);
-        sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
-
-        const filterPredictions = Array.isArray(allPredictions) ? allPredictions.filter(prediction => {
-          return prediction.user && prediction.user._id === user._id;
-        }) : Object.values(allPredictions).filter(prediction => {
-          return prediction.user && prediction.user._id === user._id;
-        });
-
-        setUserPredictions(filterPredictions);
-    }
-  }, [token, users, currentUser, setCurrentUser, setUserPredictions, allPredictions]);
-*/
 
   return (
     <>
