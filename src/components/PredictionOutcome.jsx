@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState, useMemo } from 'react';
 import useApp from '../hooks/useApp';
 import { updateUserScore } from '../functions/updateUserScore';
@@ -102,6 +103,7 @@ const PredictionOutcome = ({
             setUserScore(score);
             updateUserScore(userScores, setUserScores, userPrediction, score);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [matchScore, userPrediction, score]);
 
     return (
