@@ -17,16 +17,15 @@ export const UserTotalPoints = ({ totalPoints, updatePointsTotal }) => {
   }, [userScores, currentUser, round]);
 
   const totalRoundScore = filteredScores.reduce((total, userScore) => {
-    return total + (userScore.score || 0)
+    total = 0; // Reset total before performing the sum
+    return total + (userScore.score || 0);
   }, 0);
 
-  console.log(`Points for round: ${totalRoundScore}`)
-  console.log(`allUserScores object: ${JSON.stringify(userScores)}`)
-  console.log(`filtered scores: ${JSON.stringify(filteredScores)}`)
+  console.log(`Points for round: ${totalRoundScore}`);
+  console.log(`allUserScores object: ${JSON.stringify(userScores)}`);
+  console.log(`filtered scores: ${JSON.stringify(filteredScores)}`);
 
   updatePointsTotal(totalRoundScore);
-
-
 
 
   return (
