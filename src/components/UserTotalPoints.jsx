@@ -17,7 +17,6 @@ export const UserTotalPoints = ({ totalPoints, updatePointsTotal }) => {
   }, [userScores, currentUser, round]);
 
   const totalRoundScore = filteredScores.reduce((total, userScore) => {
-    total = 0; // Reset total before performing the sum
     return total + (userScore.score || 0);
   }, 0);
 
