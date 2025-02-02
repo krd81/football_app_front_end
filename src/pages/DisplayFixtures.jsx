@@ -24,14 +24,6 @@ const DisplayFixtures = () => {
   const comp = selectedCompetition;
   const nav = useNavigate();
 
-  // initially filter all predictions and return those belonging to the user
-  // useMemo(() => {
-  //   if (!(Array.isArray(allPredictions) && currentUser)) return [];
-
-  //   return allPredictions.filter(prediction => {
-  //     return prediction.user?._id === currentUser._id;
-  //   });
-  // }, [allPredictions, currentUser]);
 
   function handleUpdatePrediction(prediction) {
     const newUserPredictions = userPredictions.map((p) => {
