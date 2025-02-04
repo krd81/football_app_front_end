@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Fragment, useState } from 'react';
 import useApp from '../hooks/useApp'
 import { FixtureContext } from '../contexts/FixtureContext';
