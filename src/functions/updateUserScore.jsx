@@ -18,35 +18,27 @@ export const updateUserScore = (userScores, setUserScores, prediction, score) =>
     */
 
     let matchFound = false;
-    let userScoreId = '';
     const updatedScores = userScores.map(userScore => {
         if(prediction.fixture_id === userScore.fixture_id) {
             matchFound = true;
             console.log(`match found is true`);
-            userScoreId = userScore._id;
+            const userScoreId = userScore._id;
             console.log(`Matching fixture is: ${JSON.stringify(userScore)}`);
             console.log(`Matching fixture id is: ${userScore._id}`);
+            updateScore(userScoreId);
             return { ...userScore, score: score };
         } else {
             return userScore;
         }
-
     });
+    setUserScores(updatedScores);
+
 
     if (!matchFound) {
         // No match found, add new score object
         setUserScores([...userScores, userScoreObject]);
         saveNewScore();
-        displayUserScores();
-    } else {
-        setUserScores(updatedScores);
-        updateScore();
-        displayUserScores();
     };
-
-    function displayUserScores () {
-        console.log(`All User Scores: ${JSON.stringify(userScores)}`)
-    }
 
 
     async function saveNewScore () {
@@ -71,10 +63,10 @@ export const updateUserScore = (userScores, setUserScores, prediction, score) =>
     };
 
 
-    async function updateScore () {
+    async function updateScore (id) {
         console.log('updateScore() function called')
         const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
-        const url = `${apiUrl}/userscores/${userScoreId}`;
+        const url = `${apiUrl}/userscores/${id}`;
         const update = {
             score: score
         };

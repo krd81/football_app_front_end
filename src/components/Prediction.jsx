@@ -25,7 +25,7 @@ function Prediction ({
     };
 
     // if (!hasPredictionsLoaded(allPredictions) || !hasPredictionsLoaded(userPredictions)) {
-    if (!hasPredictionsLoaded(userPredictions)) {
+    if (!hasPredictionsLoaded(userPredictions)|| !hasPredictionsLoaded(prediction)) {
         return <div>Loading...</div>
     };
 
@@ -119,11 +119,11 @@ function Prediction ({
                     <>
                     <div className='score-display'>
                         <span className='prediction-disc'>
-                            <span className='numeric-value'>{`${currentPrediction.homePrediction}`}</span>
+                            <span className='numeric-value'>{`${currentPrediction.homePrediction ?? 0}`}</span>
                         </span>
                         <span className='dash'>&ensp;&mdash;&ensp;</span>
                         <span className='prediction-disc'>
-                            <span className='numeric-value'>{`${currentPrediction.awayPrediction}`}</span>
+                            <span className='numeric-value'>{`${currentPrediction.awayPrediction ?? 0}`}</span>
                         </span>
                     </div>
                     </>

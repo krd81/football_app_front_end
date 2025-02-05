@@ -15,3 +15,22 @@ export const savePrediction = async (prediction) => {
       console.error('Failed to create new prediction:', error.message);
     };
   };
+
+export const updatePrediction = async (prediction) => {
+  const id = prediction._id;
+  const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
+  const url = `${apiUrl}/predictions/${id}`;
+  const method = 'PUT';
+  try {
+      await fetch(url, {
+          method: method,
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `null`
+          },
+          body: JSON.stringify(prediction)
+      });
+  } catch (error) {
+    console.error('Failed to update prediction:', error.message);
+  };
+};

@@ -45,9 +45,10 @@ export default function FixtureList({
 function Fixture ({ match, isEdit, predictionsList, updatePrediction, matchesStarted, setMatchesStarted }) {
     let { results, selectedCompetition, round, userPredictions, setUserPredictions, currentUser } = useApp();
     const [matchStatus, setMatchStatus] = useState('NOT STARTED');
+    let [newPredictions, setNewPredictions] = useState([]);
     const m = match;
-    const allResults = Array.isArray(results) ? results : [];;
-    userPredictions = Array.isArray(userPredictions) ? userPredictions : [];;
+    const allResults = Array.isArray(results) ? results : [];
+    userPredictions = Array.isArray(userPredictions) ? userPredictions : [];
 
     if (!userPredictions) {
         throw new Error('User Predictions array is null');
@@ -94,7 +95,9 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, matchesSta
     // Returns the prediction object for the specific match or null if no prediction is found
     const getPrediction = (fixture) => {
         let prediction = userPredictions.find(pred => pred.fixture_id === fixture.fixture_id);
-        if (!prediction) {
+        newPredictions = Array.isArray(newPredictions) ? newPredictions : [];
+        let localPrediction = newPredictions.find(pred => pred.fixture_id === fixture.fixture_id);
+        if (!prediction && !localPrediction) {
             prediction = {
                 competitionId: fixture.competitionId,
                 round: fixture.round,
@@ -107,11 +110,18 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, matchesSta
                 outcomePrediction: 'X',
                 user: currentUser
             };
-            // setUserPredictions(...userPredictions, prediction);
+            updateLocalPredictions(prediction);
             savePrediction(prediction);
         };
         // return prediction || null;
         return prediction;
+    };
+
+    const updateLocalPredictions = (newPrediction) => {
+        let prediction = userPredictions.find(pred => pred.fixture_id === newPrediction.fixture_id);
+        if (!prediction) {
+            setNewPredictions([...newPredictions, newPrediction]);
+        };
     };
 
     // Returns the actual score (string e.g. '3 - 2') or null if not found
