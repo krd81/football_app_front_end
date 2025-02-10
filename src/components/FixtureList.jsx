@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Fragment, useState } from 'react';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
+import axios from 'axios';
 import useApp from '../hooks/useApp'
 import { FixtureContext } from '../contexts/FixtureContext';
 import FixtureHeading from './FixtureHeading';
@@ -7,7 +9,6 @@ import Prediction from './Prediction';
 import FinalScore from './FinalScore';
 import PredictionOutcome from './PredictionOutcome';
 import shortName from '../functions/nameAbbreviation';
-import { savePrediction } from '../functions/postPredictions';
 import '../css/MatchCard.css';
 
 export default function FixtureList({
@@ -43,16 +44,38 @@ export default function FixtureList({
 
 
 function Fixture ({ match, isEdit, predictionsList, updatePrediction, matchesStarted, setMatchesStarted }) {
-    let { results, selectedCompetition, round, userPredictions, setUserPredictions, currentUser } = useApp();
+    let { results, selectedCompetition, round, setUserPredictions, currentUser } = useApp();
     const [matchStatus, setMatchStatus] = useState('NOT STARTED');
     let [newPredictions, setNewPredictions] = useState([]);
     const m = match;
     const allResults = Array.isArray(results) ? results : [];
-    userPredictions = Array.isArray(userPredictions) ? userPredictions : [];
+    const apiUrl = import.meta.env.VITE_API_URL_FB_DB;
 
-    if (!userPredictions) {
-        throw new Error('User Predictions array is null');
+    // userPredictions = Array.isArray(userPredictions) ? userPredictions : [];
+
+    const fetchPredictions = async () => {
+        const id = currentUser._id;
+        const { data } = await axios.get(`${apiUrl}/predictions/${id}`);
+        return data;
     };
+
+    const savePrediction = async (prediction) => {
+    const { data } = await axios.post(`${apiUrl}/predictions`, prediction);
+    return data;
+    };
+
+    // if (!userPredictions) {
+    //     throw new Error('User Predictions array is null');
+    // };
+
+    const queryClient = useQueryClient();
+    let { data: userPredictions, isLoading } = useQuery('predictions', fetchPredictions);
+    const mutation = useMutation(savePrediction, {
+      onSuccess: () => {
+        queryClient.invalidateQueries('predictions');
+      },
+    });
+
 
     // Check whether any fixtures for the current round have status "FINISHED"
     const getRoundResults = () => {
@@ -81,7 +104,9 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, matchesSta
     // Returns the number of goals predicted for the home team
     // Returns null if no prediction is found
     const getHomePrediction = (fixture) => {
+        userPredictions = Array.isArray(userPredictions) ? userPredictions : [];
         const prediction = userPredictions.find(pred => pred.fixture_id === fixture.fixture_id);
+
         return prediction ? prediction.homePrediction : 0;
     };
 
@@ -111,7 +136,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, matchesSta
                 user: currentUser
             };
             updateLocalPredictions(prediction);
-            savePrediction(prediction);
+            mutation.mutate(prediction);
         };
         // return prediction || null;
         return prediction;
@@ -165,6 +190,9 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, matchesSta
             }
         };
 
+    if (isLoading) {
+        return <div>Kelly...</div>;
+        };
 
 
 
