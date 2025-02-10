@@ -11,6 +11,21 @@ import PredictionOutcome from './PredictionOutcome';
 import shortName from '../functions/nameAbbreviation';
 import '../css/MatchCard.css';
 
+const apiUrl = import.meta.env.VITE_API_URL_USER_DB;
+console.log('API URL:', apiUrl);
+
+const fetchPredictions = async ({ queryKey }) => {
+    const [, userId] = queryKey;
+    const { data } = await axios.get(`${apiUrl}/predictions/user/${userId}`);
+    return data;
+  };
+
+  const savePrediction = async (prediction) => {
+    const { data } = await axios.post(`${apiUrl}/predictions`, prediction);
+    return data;
+  };
+
+
 export default function FixtureList({
     date,
     fixtures,
@@ -49,27 +64,16 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, matchesSta
     let [newPredictions, setNewPredictions] = useState([]);
     const m = match;
     const allResults = Array.isArray(results) ? results : [];
-    const apiUrl = import.meta.env.VITE_API_URL_FB_DB;
+
 
     // userPredictions = Array.isArray(userPredictions) ? userPredictions : [];
-
-    const fetchPredictions = async () => {
-        const id = currentUser._id;
-        const { data } = await axios.get(`${apiUrl}/predictions/${id}`);
-        return data;
-    };
-
-    const savePrediction = async (prediction) => {
-    const { data } = await axios.post(`${apiUrl}/predictions`, prediction);
-    return data;
-    };
 
     // if (!userPredictions) {
     //     throw new Error('User Predictions array is null');
     // };
-
     const queryClient = useQueryClient();
-    let { data: userPredictions, isLoading } = useQuery('predictions', fetchPredictions);
+    const id = currentUser._id;
+    let { data: userPredictions, isLoading } = useQuery(['predictions', id], fetchPredictions);
     const mutation = useMutation(savePrediction, {
       onSuccess: () => {
         queryClient.invalidateQueries('predictions');
@@ -191,7 +195,7 @@ function Fixture ({ match, isEdit, predictionsList, updatePrediction, matchesSta
         };
 
     if (isLoading) {
-        return <div>Kelly...</div>;
+        return <div>Loading...</div>;
         };
 
 
